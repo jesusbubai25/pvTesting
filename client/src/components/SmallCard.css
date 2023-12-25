@@ -1,0 +1,13 @@
+.small-card-style {
+  background-color: #edeaea;
+  border-radius: 5px;
+  /*  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  width: 80%;
+  height: 100%;
+  -webkit-box-shadow: 16px 15px 5px 0px rgba(135, 135, 97, 0.7);
+  -moz-box-shadow: 16px 15px 5px 0px rgba(135, 135, 97, 0.7);
+  box-shadow: 16px 15px 5px 0px rgba(135, 135, 97, 0.7);
+}

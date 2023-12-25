@@ -1,0 +1,9 @@
+
+.links_div a{
+    transition: .2s ease-in-out;
+    text-decoration: none;
+}
+.links_div a:hover{
+    color: red;
+    scale: 1.1;
+}
