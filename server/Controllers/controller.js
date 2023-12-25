@@ -144,7 +144,6 @@ exports.NormalizedEnergyDetails = async (req, res) => {
 
 
 //To get GHI-GTI-data like pvsyst_GHI, pvsyst_GTI, Actual_GTI, Actual_GHI in monthly and yearly
-
 exports.GHI_GTI_Data = async (req, res) => {
   let connection;
   try {
