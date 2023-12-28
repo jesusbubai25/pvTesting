@@ -17,7 +17,7 @@ const SpeedChart = (props) => {
         ringWidth={70}
         // fluidWidth={true} // For Responsive. It will take parent div height,width
       />
-      <h3 style={{ textAlign: "center", fontFamily: "cursive" }}>
+      <h3 style={{ textAlign: "center" }}>
         {props?.title}
       </h3>
     </div>

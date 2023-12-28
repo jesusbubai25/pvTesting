@@ -10,16 +10,17 @@ export const all_scbsmb_request="all_scbsmb_request"
 export const all_scbsmb_sucess="all_scbsmb_sucess"
 export const all_scbsmb_fail="all_scbsmb_fail"
 
-
 export const energy_monthly_request="net_energy_monthly_request"
 export const energy_monthly_sucess="net_energy_monthly_sucess"
 export const energy_monthly_fail="net_energy_monthly_fail"
-
 
 export const GHI_GTI_data_request="net_GHI_GTI_data_request"
 export const GHI_GTI_data_sucess="net_GHI_GTI_data_sucess"
 export const GHI_GTI_data_fail="net_GHI_GTI_data_fail"
 
+export const powerplant_details_request="net_powerplant_details_request"
+export const powerplant_details_sucess="net_powerplant_details_sucess"
+export const powerplant_details_fail="net_powerplant_details_fail"
 
 export const user_signup_request="user_signup_request"
 export const user_signup_sucess="user_signup_sucess"

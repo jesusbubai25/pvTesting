@@ -7,6 +7,7 @@ import InverterEfficiency from "./InverterEfficiency";
 import SCBSMB from "./SCBSMB";
 import LossFlow from "./LossFlow";
 import Detailed from "./Detailed";
+import Detailed2 from "./Detailed2";
 
 const Diagonistic = () => {
   const location = useLocation();
@@ -16,7 +17,7 @@ const Diagonistic = () => {
       <div className="country-header">
         <CountryHeader />
       </div>
-      {location?.pathname == PageURL.INDIA_DIAGONISTIC_DETAILED && <Detailed />}
+      {location?.pathname == PageURL.INDIA_DIAGONISTIC_DETAILED && <Detailed2 />}
       {location?.pathname == PageURL.INDIA_LOSS_FLOW && <LossFlow />}
       {location?.pathname == PageURL.INDIA_INVERTER_EFFICIENCY && <InverterEfficiency />}
       {location?.pathname == PageURL.INDIA_INVERTER1_SCB_SMB1 && <SCBSMB />}

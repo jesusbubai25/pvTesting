@@ -30,8 +30,9 @@ export default function PieChartComp(props) {
   );
 } */
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { PieChart, Pie, Sector } from "recharts";
+import { colors1 } from "../colors/color";
 
 const data = [
   { name: "Group A", value: 400 },
@@ -40,7 +41,7 @@ const data = [
   { name: "Group D", value: 200 },
 ];
 
-const renderActiveShape = (props) => {
+const RenderActiveShape = (prop) => {
   const RADIAN = Math.PI / 180;
   const {
     cx,
@@ -54,7 +55,7 @@ const renderActiveShape = (props) => {
     payload,
     percent,
     value,
-  } = props;
+  } = prop;
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
   const sx = cx + (outerRadius + 10) * cos;
@@ -64,9 +65,10 @@ const renderActiveShape = (props) => {
   const ex = mx + (cos >= 0 ? 1 : -1) * 22;
   const ey = my;
   const textAnchor = cos >= 0 ? "start" : "end";
+  prop?.setRate((percent * 100).toFixed(2))
   return (
     <g>
-      <text style={{color:"black",fontWeight:"700",fontSize:"0.9rem"}} x={cx} y={cy} dy={8} textAnchor="middle" >
+      <text style={{ color: "black", fontWeight: "700", fontSize: "0.9rem" }} x={cx} y={cy} dy={8} textAnchor="middle" >
         {payload.name}
       </text>
       <Sector
@@ -113,26 +115,33 @@ const renderActiveShape = (props) => {
 };
 
 export default function PieChartComp(props) {
+  const [Rate, setRate] = useState(0)
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
     (_, index) => {
-      console.log(_,index)
+      props.setPercentage((_?.percent * 100).toFixed(2))
       setActiveIndex(index);
     },
-    [setActiveIndex]
+    [setActiveIndex, props]
   );
+
+  props?.setname(props?.data[activeIndex].name)
+  props?.setValue(props?.data[activeIndex].value)
+  props?.setPercentage(Rate)
+
 
   return (
     <PieChart width={props?.width} height={props?.height}>
       <Pie
         activeIndex={activeIndex}
-        activeShape={renderActiveShape}
+        activeShape={<RenderActiveShape setRate={setRate} />}
         data={props?.data}
         cx={450}
         cy={200}
         innerRadius={100}
         outerRadius={170}
-        fill="#ed7d31"
+        // fill="#ed7d31"
+        fill={colors1[1]}
         dataKey="value"
         onMouseEnter={onPieEnter}
       />

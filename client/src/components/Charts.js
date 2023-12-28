@@ -12,9 +12,11 @@ import Printer from "./Printer";
 import { CSVLink } from 'react-csv'
 import ReactDOM from 'react-dom'
 import { saveAs } from 'file-saver';
+import html2canvas from "html2canvas";
+import { colors1 } from "../colors/color";
 
-
-const colours = ["#122b4f", "#ed7d31", "#047e7ef7", "rgb(32, 148, 243)"];
+// const colours = ["#122b4f", "#ed7d31", "#047e7ef7", "rgb(32, 148, 243)"];
+const colours =colors1;
 
 
 const Charts = (props) => {
@@ -25,12 +27,12 @@ const Charts = (props) => {
     keys = Object.keys(props?.data[0])?.filter((i) => i != "name");
   }
   const downloadRef = useRef(null)
-  const chartRef=useRef(null)
+  const chartRef = useRef(null)
   const [storeElement, setstoreElement] = useState(null)
   useEffect(() => {
     setData(props?.data);
 
-  }, [props?.data,chartRef]);
+  }, [props?.data, chartRef]);
 
   if (!props.data && props.data.length < 1) return;
 
@@ -77,8 +79,7 @@ const Charts = (props) => {
 
 
 
-
-  const svgToPng = (svg, width, height) => {
+  const svgToJpg = (svg, width, height) => {
     return new Promise((resolve, reject) => {
 
       let canvas = document.createElement('canvas');
@@ -88,15 +89,15 @@ const Charts = (props) => {
 
       // Set background to white
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, props?.width, props?.height);
+      ctx.fillRect(0, 0, width, height);
 
       let xml = new XMLSerializer().serializeToString(svg);
       let dataUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(xml);
-      let img = new Image(props?.width, props?.height);
+      let img = new Image(width, height);
 
       img.onload = () => {
         ctx.drawImage(img, 0, 0);
-        let imageData = canvas.toDataURL('image/svg', 1.0);
+        let imageData = canvas.toDataURL('image/jpg', 1.0);
         resolve(imageData)
       }
       img.onerror = () => reject();
@@ -107,20 +108,21 @@ const Charts = (props) => {
   // JPG Download
   const jpgDownload = async () => {
     let chartSVG = ReactDOM.findDOMNode(storeElement).children[0]
-    const pngData = await svgToPng(chartSVG, props?.width, props?.height)
-    saveAs(pngData, 'test.svg')
+    // let chartSVG = ReactDOM.findDOMNode(storeElement).children[3]
+    console.log(chartSVG)
+    const pngData = await svgToJpg(chartSVG, props?.width, props?.height)
+    saveAs(pngData, 'test.jpg')
   }
   // SVG Download
+
   const svgDownload = () => {
     const base64SVG = chartRef.current.chartInstance.toBase64Image();
-
     // const base64SVG = chart.toBase64Image();
     const link = document.createElement('a');
     link.href = base64SVG;
     link.download = 'chart.svg';
     link.click();
   }
-
   return (
     <div
       style={{
@@ -131,9 +133,10 @@ const Charts = (props) => {
         borderWidth: "3px",
         borderRadius: "5px",
         padding: "0.8rem 0"
+
       }}
     >
-      <Printer clickhandler={clickhandler} jpgDownload={jpgDownload}/>
+      <Printer clickhandler={clickhandler} jpgDownload={jpgDownload} />
 
       <CSVLink
         data={data}
@@ -150,9 +153,7 @@ const Charts = (props) => {
         <span style={{ fontFamily: "cursive" }}>{props?.title}</span>
       </h3>
       <BarChart
-        ref={(chart)=>setstoreElement(chart)}
-        // ref={(reference) => (this.chartInstance = reference)}
-        // ref={chartRef}
+        ref={(chart) => setstoreElement(chart)}
         width={props?.width}
         height={props?.height}
         data={data}
@@ -212,7 +213,7 @@ const Charts = (props) => {
             }
           }
           else {
-            return <Bar key={index} dataKey={item} fill={getColourPicker(index)} />;
+            return <Bar key={index} dataKey={item} fill={colors1[1]} />;
           }
         })}
       </BarChart>

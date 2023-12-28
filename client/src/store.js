@@ -1,7 +1,7 @@
 import {createStore,combineReducers, applyMiddleware } from 'redux' 
 import thunk from 'redux-thunk'
 import { composeWithDevTools} from 'redux-devtools-extension'
-import {  GHI_GTI_data, all_scbsmb, efficiency, monthly_inverter_efficiency, normalizedEnergyDetails } from './reducers/inverterReducers'
+import {  GHI_GTI_data, all_scbsmb, efficiency, monthly_inverter_efficiency, normalizedEnergyDetails, plantDetail } from './reducers/inverterReducers'
 import {  allow_user, registred_users, user } from './reducers/userReducers'
 
 const reducer=combineReducers({
@@ -12,7 +12,8 @@ const reducer=combineReducers({
     GHI_GTI_data:GHI_GTI_data,
     user:user,
     registred_users:registred_users,
-    allow_user:allow_user
+    allow_user:allow_user,
+    plantDetail:plantDetail
 })
 
 const rootReducer = (state, action) => {

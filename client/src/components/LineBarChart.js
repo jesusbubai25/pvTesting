@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { colors1 } from "../colors/color";
 
 export default function LineBarChart(props) {
   if (!props?.data) return null;
@@ -19,7 +20,8 @@ export default function LineBarChart(props) {
         width: "max-content",
       }}
     >
-      <h3 style={{ textAlign: "center", fontFamily: "cursive" }}>
+      
+      <h3 style={{ textAlign: "center" }}>
         {props?.title}
       </h3>
       <ComposedChart
@@ -32,21 +34,22 @@ export default function LineBarChart(props) {
           bottom: 20,
           left: 20,
         }}
-        
+
       >
         <CartesianGrid stroke="#f5f5f5" />
-
         <XAxis
           dataKey="name"
-          label={{ value: "Pages", position: "insideBottomRight", offset: 0 }}
-          scale="band"
+          fontSize={12} fontWeight={600}
+          // label={{ value: "Pages", position: "insideBottomRight", offset: 0 }}
+          // scale="band"
         />
-        <YAxis yAxisId="left-axis"  label={{ value: "Energy",angle:-90,position: "insideBottomLeft" }} />
+
+        <YAxis yAxisId="left-axis" label={{ value: `${props?.y_axis_label_value1 || ""}`, angle: -90, position: "insideBottomLeft" }} />
         <YAxis
           yAxisId="right-axis"
           orientation="right"
           label={{
-            value: "Excess/ Shortfall",
+            value: `${props?.y_axis_label_value2 || ""}`,
             angle: -90,
             position: "insideTopRight",
             color: "yellow"
@@ -55,27 +58,31 @@ export default function LineBarChart(props) {
 
         <Tooltip />
         <Legend />
-        {!props?.hideNetEnergy && (
+        {props?.value1 && (
           <Bar
-            dataKey="netEnergy"
+            dataKey={props?.dataKey1}
             barSize={20}
-            fill="#122b4f"
+            // fill="#122b4f"
+            fill={`${colors1[3]}`}
             yAxisId="left-axis"
           />
         )}
-        {!props?.hideNormalisedEnergy && (
+        {props?.value2 && (
           <Bar
-            dataKey="normalisedEnergy"
+            dataKey={props?.dataKey2}
             barSize={20}
-            fill="#ed7d31"
+            // fill="#ed7d31"
+            fill={`${colors1[2]}`}
             yAxisId="left-axis"
           />
         )}
-        {!props?.hideShortFall && (
+        {props?.value3 && (
           <Line
             type="monotone"
-            dataKey="shortfall"
-            stroke="#047e7ef7"
+            dataKey={props?.dataKey3}
+            strokeWidth={3}
+            // stroke="#047e7ef7"
+            stroke={`${colors1[4]}`}
             yAxisId="right-axis"
           />
         )}

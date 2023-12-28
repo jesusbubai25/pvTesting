@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import Charts from "../../../../components/Charts";
 import LineChartComp from "../../../../components/LineChartComp";
 import { useDispatch, useSelector } from 'react-redux'
-import { GHI_GTI_data_action } from "../../../../actions/inverterActions";
+import { GHI_GTI_data_action, normalizedEnergyDetails } from "../../../../actions/inverterActions";
 import SpinLoader from "../../../../components/SpinLoader";
 import Printer from "../../../../components/Printer";
-import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import LineBarChart from "../../../../components/LineBarChart";
 
 const data = [
   {
@@ -116,361 +117,85 @@ const data1 = [
   },
 ];
 
-const Detailed = () => {
+const Detailed2 = () => {
   const dispatch = useDispatch();
   const { GHI_GTI_data, loading, error } = useSelector(state => state.GHI_GTI_data)
+  const { energy } = useSelector(state => state.energy)
+
   const [Ghi_Gti_data, setGHI_GTI_data] = useState({
     pvsyst_GHI: true,
     pvsyst_GTI: true,
     actual_GHI: true,
-    actual_GTI: true
+    actual_GTI: true,
+    pvsyst_GTI_vs_Actual_GTI: true,
+    pvsyst_GHI_vs_Actual_GHI: true,
+    NetEnergy: true,
+    NormalisedEnergy: true,
+    ShortFall: true
+
+  })
+  const [showNormalisedData, setShowNormalizedData] = useState({
+    NetEnergy: true,
+    contractual_energy: true,
+    ShortFall: true
   })
 
-  const onchangeHandler1 = () => {
+  const [Actual_pr, setActual_pr] = useState(true)
+  const [checkBox, setcheckBox] = useState({
+    pvsyst_Energy: true,
+    contractual_energy: true
+  })
 
-  }
   useEffect(() => {
     dispatch(GHI_GTI_data_action())
+    if (!energy) {
+      dispatch(normalizedEnergyDetails())
+    }
   }, [dispatch])
   return (
     <>
       {
         loading ? <SpinLoader /> :
-          GHI_GTI_data &&
-          <Grid container spacing={2} paddingBottom={3} paddingTop={6} >
-
-            <Grid container lg={12} spacing={2} >
-
+          GHI_GTI_data?.data &&
+          <Grid container spacing={2} paddingBottom={3}   >
+            <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
               <Grid
                 item
-                lg={6} >
-
-                <ComposedChart
-                  width={800}
-                  height={400}
-                  data={GHI_GTI_data}
-                // style={{border:"2px solid red"}}
-                // margin={{
-                //   top: 20,
-                //   right: 20,
-                //   bottom: 20,
-                //   left: 20,
-                // }}
-                >
-                  <CartesianGrid stroke="#f5f5f5" />
-                  <XAxis
-                    dataKey="name"
-                    interval={0} fontSize={12} fontWeight={600}
-                  // label={{ value: "Pages", position: "insideBottomRight", offset: 0 }}
-                  // scale="band"
-                  />
-                  <YAxis yAxisId="left-axis" style={{ paddingLeft: "1rem" }}
-                  //  label={{ value: "pvsyst_GTI", angle: -90, position: "insideBottomLeft" }}
-                  />
-                  <YAxis
-                    yAxisId="right-axis"
-                    orientation="right"
-                  // label={{
-                  //   value: "Actual_GTI",
-                  //   angle: -90,
-                  //   position: "insideTopRight",
-                  //   color: "yellow"
-                  // }}
-                  />
-
-
-                  <Tooltip />
-                  <Legend />
-                  {/* {!props?.hideNetEnergy && ( */}
-                  <Bar
-                    dataKey="pvsyst_GTI"
-                    barSize={20}
-                    fill="#122b4f"
-                    yAxisId="left-axis"
-                  />
-                  {/* )} */}
-                  {/* {!props?.hideNormalisedEnergy && ( */}
-                  <Bar
-                    dataKey="Actual_GTI"
-                    barSize={20}
-                    fill="#ed7d31"
-                    yAxisId="left-axis"
-                  />
-                  {/* )} */}
-                  {/* {!props?.hideShortFall && ( */}
-                  <Line
-                    type="monotone"
-                    dataKey="pvsyst_GTI_vs_Actual_GTI"
-                    stroke="#047e7ef7"
-                    yAxisId="right-axis"
-                    strokeWidth={3}
-                  />
-                  {/* )} */}
-                </ComposedChart>
-
-                {/* <Charts
-                data={GHI_GTI_data.pvsyst_actual_GHI}
-                width={700}
-                height={300}
-                title="PVSYST GHI (kwH) Vs Actual GHI (kwH)"
-                xdataKey="name"
-                Ghi_Gti_data={Ghi_Gti_data}
+                lg={10}
+                border={3}
+                paddingTop={4}
+                paddingBottom={4}
+                borderColor={"#ed7d31"}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              // border={3}
+              // borderColor={"#ed7d31"}
               >
-
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingTop: "0.2rem"
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
-                    }}
-                  >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                pvsyst_GHI: !Ghi_Gti_data.pvsyst_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Pvyst_GHI"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                actual_GHI: !Ghi_Gti_data.actual_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Actual_GHI"
-                      />
-                    </FormGroup>
-                  </div>
+                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                  <Printer />
                 </div>
-              </Charts> */}
+                <LineBarChart
+                  data={GHI_GTI_data?.data}
+                  height={300}
+                  width={1000}
+                  value1={Ghi_Gti_data?.pvsyst_GTI}
+                  value2={Ghi_Gti_data.actual_GTI}
+                  value3={Ghi_Gti_data.pvsyst_GTI_vs_Actual_GTI}
+                  dataKey1="pvsyst_GTI"
+                  dataKey2="Actual_GTI"
+                  dataKey3="pvsyst_GTI_vs_Actual_GTI"
+                  y_axis_label_value1="pvsyst_GTI & Acutal_GTI"
+                  y_axis_label_value2="pvsyst_GTI_vs_Acutal_GTI"
+                />
                 <div
                   style={{
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
-                    paddingTop: "0.2rem"
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
-                    }}
-                  >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                pvsyst_GHI: !Ghi_Gti_data.pvsyst_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Pvyst_GTI"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                actual_GHI: !Ghi_Gti_data.actual_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Actual_GTI"
-                      />
-                    </FormGroup>
-                  </div>
-                </div>
-
-              </Grid>
-              <Grid
-                item
-                lg={6}
-                // style={{
-                //   display: "flex",
-                //   justifyContent: "center",
-                // }}
-              >
-
-
-                <ComposedChart
-                  width={800}
-                  height={400}
-                  data={GHI_GTI_data}
-                // style={{border:"2px solid red"}}
-                // margin={{
-                //   top: 20,
-                //   right: 20,
-                //   bottom: 20,
-                //   left: 20,
-                // }}
-                >
-                  <CartesianGrid stroke="#f5f5f5" />
-                  <XAxis
-                    dataKey="name"
-                    interval={0} fontSize={12} fontWeight={600}
-                  // label={{ value: "Pages", position: "insideBottomRight", offset: 0 }}
-                  // scale="band"
-                  />
-                  <YAxis yAxisId="left-axis" style={{ paddingLeft: "1rem" }}
-                  //  label={{ value: "pvsyst_GTI", angle: -90, position: "insideBottomLeft" }}
-                  />
-                  <YAxis
-                    yAxisId="right-axis"
-                    orientation="right"
-                  // label={{
-                  //   value: "Actual_GTI",
-                  //   angle: -90,
-                  //   position: "insideTopRight",
-                  //   color: "yellow"
-                  // }}
-                  />
-                  <Tooltip />
-                  <Legend />
-                  {/* {!props?.hideNetEnergy && ( */}
-                  <Bar
-                    dataKey="pvsyst_GHI"
-                    barSize={20}
-                    fill="#122b4f"
-                    yAxisId="left-axis"
-                  />
-                  {/* )} */}
-                  {/* {!props?.hideNormalisedEnergy && ( */}
-                  <Bar
-                    dataKey="Actual_GHI"
-                    barSize={20}
-                    fill="#ed7d31"
-                    yAxisId="left-axis"
-                  />
-                  {/* )} */}
-                  {/* {!props?.hideShortFall && ( */}
-                  <Line
-                    type="monotone"
-                    dataKey="pvsyst_GHI_vs_Actual_GHI"
-                    stroke="#047e7ef7"
-                    yAxisId="right-axis"
-                    strokeWidth={3}
-                  />
-                  {/* )} */}
-                </ComposedChart>
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingTop: "0.2rem"
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
-                    }}
-                  >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                pvsyst_GHI: !Ghi_Gti_data.pvsyst_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Pvyst_GTI"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                actual_GHI: !Ghi_Gti_data.actual_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Actual_GTI"
-                      />
-                    </FormGroup>
-                  </div>
-                </div>
-
-                
-
-
-
-
-
-                {/* <Charts
-                data={GHI_GTI_data.pvsyst_actual_GTI}
-                width={700}
-                height={300}
-                title="PVSYST GTI (kwH) Vs Actual GTI (kwH)"
-                xdataKey="name"
-                Ghi_Gti_data={Ghi_Gti_data}
-              >
-              
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingTop: "0.2rem"
+                    paddingBottom: "0.7rem",
+                    paddingTop: "0.5rem"
                   }}
                 >
                   <div
@@ -515,153 +240,16 @@ const Detailed = () => {
                         }
                         label="Actual_GTI"
                       />
-                    </FormGroup>
-                  </div>
-                </div>
-
-              </Charts> */}
-              
-
-
-              </Grid>
-            </Grid>
-
-            <Grid container lg={12} display={"flex"} alignItems={"center"} justifyContent={"center"}
-            >
-              <Grid
-                item
-                lg={10}
-                marginTop={6} marginBottom={6}
-                paddingBottom={6}
-                paddingTop={6}
-                paddingLeft={6}
-                paddingRight={6}
-                border={3}
-                borderColor={"#ed7d31"}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-              // border={3}
-              // borderColor={"#ed7d31"}
-              >
-
-                <ComposedChart
-                  width={1000}
-                  height={400}
-                  data={GHI_GTI_data}
-                // style={{border:"2px solid red"}}
-                // margin={{
-                //   top: 20,
-                //   right: 20,
-                //   bottom: 20,
-                //   left: 20,
-                // }}
-                >
-                  <CartesianGrid stroke="#f5f5f5" />
-                  <XAxis
-                    dataKey="name"
-                    interval={0} fontSize={12} fontWeight={600}
-                  // scale="band"
-                  />
-                  <YAxis yAxisId="left-axis"
-
-                    label={{ value: "pvsyst_GTI & Acutal_GTI", angle: -90, position: "insideBottomLeft",fontSize:"1rem",
-                    fontWeight:"600" }}
-                  />
-                  <YAxis
-                    yAxisId="right-axis"
-                    orientation="right"
-                    label={{
-                      value: "pvsyst_GTI_vs_Actual_GTI",
-                      angle: -90,
-                      position:"insideRight",
-                      fontSize:"1rem",
-                      fontWeight:"600"
-                    }}
-                  />
-
-
-                  <Tooltip />
-                  <Legend />
-                  {/* {!props?.hideNetEnergy && ( */}
-                  <Bar
-                    dataKey="pvsyst_GTI"
-                    barSize={20}
-                    fill="#122b4f"
-                    yAxisId="left-axis"
-                  />
-                  {/* )} */}
-                  {/* {!props?.hideNormalisedEnergy && ( */}
-                  <Bar
-                    dataKey="Actual_GTI"
-                    barSize={20}
-                    fill="#ed7d31"
-                    yAxisId="left-axis"
-                  />
-                  {/* )} */}
-                  {/* {!props?.hideShortFall && ( */}
-                  <Line
-                    type="monotone"
-                    dataKey="pvsyst_GTI_vs_Actual_GTI"
-                    stroke="#047e7ef7"
-                    yAxisId="right-axis"
-                    strokeWidth={3}
-                  />
-                  {/* )} */}
-                </ComposedChart>
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingBottom: "0.7rem",
-                    paddingTop:"0.5rem"
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
-                    }}
-                  >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
                       <FormControlLabel
                         control={
                           <Checkbox
                             defaultChecked
                             color="success"
                             onChange={(e) => {
-                              onchangeHandler1("Pvyst_GHI");
-                            }}
-                          />
-                        }
-                        label="Pvyst_GTI"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-
-                            onChange={(e) => {
-                              onchangeHandler1("Actual_GHI");
-                            }}
-                          />
-                        }
-                        label="Actual_GTI"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              onchangeHandler1("Pvyst_GHI");
+                              setGHI_GTI_data({
+                                ...Ghi_Gti_data,
+                                pvsyst_GTI_vs_Actual_GTI: !Ghi_Gti_data.pvsyst_GTI_vs_Actual_GTI
+                              })
                             }}
                           />
                         }
@@ -671,21 +259,47 @@ const Detailed = () => {
                   </div>
                 </div>
 
-                {/* <Charts
-                data={GHI_GTI_data.pvsyst_actual_GHI}
-                width={700}
-                height={300}
-                title="PVSYST GHI (kwH) Vs Actual GHI (kwH)"
-                xdataKey="name"
-                Ghi_Gti_data={Ghi_Gti_data}
-              >
+              </Grid>
 
+            </Grid>
+            <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
+              <Grid
+                item
+                lg={10}
+                paddingBottom={4}
+                paddingTop={4}
+                border={3}
+                borderColor={"#ed7d31"}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              // border={3}
+              // borderColor={"#ed7d31"}
+              >
+                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                  <Printer />
+                </div>
+                <LineBarChart
+                  data={GHI_GTI_data?.data}
+                  height={300}
+                  width={1000}
+                  value1={Ghi_Gti_data?.pvsyst_GHI}
+                  value2={Ghi_Gti_data.actual_GHI}
+                  value3={Ghi_Gti_data.pvsyst_GHI_vs_Actual_GHI}
+                  dataKey1="pvsyst_GHI"
+                  dataKey2="Actual_GHI"
+                  dataKey3="pvsyst_GHI_vs_Actual_GHI"
+                  y_axis_label_value1="pvsyst_GHI & Acutal_GHI"
+                  y_axis_label_value2="pvsyst_GHI_vs_Acutal_GHI"
+                />
                 <div
                   style={{
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
-                    paddingTop: "0.2rem"
+                    paddingBottom: "0.7rem",
+                    paddingTop: "0.5rem"
                   }}
                 >
                   <div
@@ -712,7 +326,7 @@ const Detailed = () => {
                             }}
                           />
                         }
-                        label="Pvyst_GHI"
+                        label="Pvyst_GTI"
                       />
                       <FormControlLabel
                         control={
@@ -728,40 +342,70 @@ const Detailed = () => {
                             }}
                           />
                         }
-                        label="Actual_GHI"
+                        label="Actual_GTI"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            defaultChecked
+                            color="success"
+                            onChange={(e) => {
+                              setGHI_GTI_data({
+                                ...Ghi_Gti_data,
+                                pvsyst_GHI_vs_Actual_GHI: !Ghi_Gti_data.pvsyst_GHI_vs_Actual_GHI
+                              })
+                            }}
+                          />
+                        }
+                        label="pvsyst_GTI_vs_Actual_GTI"
                       />
                     </FormGroup>
                   </div>
                 </div>
-              </Charts> */}
-
 
               </Grid>
 
             </Grid>
-            <Grid
-              item
-              lg={6}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <LineChartComp
-                data={GHI_GTI_data}
-                width={700}
-                height={300}
-                title="PVSYST GTI (kwH) Vs Actual GTI(kwH)"
-                xdataKey="name"
-                value="pvsyst_GTI_vs_Actual_GTI"
-              >
 
+
+            <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
+              <Grid
+                item
+                lg={10}
+                paddingBottom={4}
+                paddingTop={4}
+                border={3}
+                borderColor={"#ed7d31"}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              // border={3}
+              // borderColor={"#ed7d31"}
+              >
+                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                  <Printer />
+                </div>
+                <LineBarChart
+                  data={energy?.data2}
+                  height={300}
+                  width={1000}
+                  value1={Ghi_Gti_data?.NetEnergy}
+                  value2={Ghi_Gti_data?.NormalisedEnergy}
+                  value3={Ghi_Gti_data?.ShortFall}
+                  dataKey1="netEnergy"
+                  dataKey2="normalisedEnergy"
+                  dataKey3="shortfall"
+                  y_axis_label_value1="Energy"
+                  y_axis_label_value2="Excess/Shortfall"
+                />
                 <div
                   style={{
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
-                    paddingBottom: "0.7rem"
+                    paddingBottom: "0.7rem",
+                    paddingTop: "0.5rem"
                   }}
                 >
                   <div
@@ -781,11 +425,14 @@ const Detailed = () => {
                             defaultChecked
                             color="success"
                             onChange={(e) => {
-                              onchangeHandler1("Pvyst_GHI");
+                              setGHI_GTI_data({
+                                ...Ghi_Gti_data,
+                                NetEnergy: !Ghi_Gti_data.NetEnergy
+                              })
                             }}
                           />
                         }
-                        label="Pvyst_GTI"
+                        label="NetEnergy"
                       />
                       <FormControlLabel
                         control={
@@ -794,43 +441,77 @@ const Detailed = () => {
                             color="success"
 
                             onChange={(e) => {
-                              onchangeHandler1("Actual_GHI");
+                              setGHI_GTI_data({
+                                ...Ghi_Gti_data,
+                                NormalisedEnergy: !Ghi_Gti_data.NormalisedEnergy
+                              })
                             }}
                           />
                         }
-                        label="Actual_GTI"
+                        label="NormalisedEnergy"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            defaultChecked
+                            color="success"
+                            onChange={(e) => {
+                              setGHI_GTI_data({
+                                ...Ghi_Gti_data,
+                                ShortFall: !Ghi_Gti_data.ShortFall
+                              })
+                            }}
+                          />
+                        }
+                        label="ShortFall"
                       />
                     </FormGroup>
                   </div>
                 </div>
 
-              </LineChartComp>
-
+              </Grid>
 
             </Grid>
 
-            <Grid
-              item
-              lg={6}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <LineChartComp
-                data={GHI_GTI_data}
-                width={700}
-                height={300}
-                title="PVSYST GHI (kwH) Vs Actual GTI(kwH)"
-                xdataKey="name"
-                value="pvsyst_GHI_vs_Actual_GHI"
+
+            <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
+              <Grid
+                item
+                lg={10}
+                paddingBottom={4}
+                paddingTop={4}
+                border={3}
+                borderColor={"#ed7d31"}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              // border={3}
+              // borderColor={"#ed7d31"}
               >
+                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                  <Printer />
+                </div>
+                <LineBarChart
+                  data={energy?.data3}
+                  height={300}
+                  width={1000}
+                  value1={showNormalisedData?.NetEnergy}
+                  value2={showNormalisedData?.contractual_energy}
+                  value3={showNormalisedData?.ShortFall}
+                  dataKey1="netEnergy"
+                  dataKey2="contructual_energy"
+                  dataKey3="ExcessORShortfallNormalised_Percentage"
+                  y_axis_label_value1="Energy"
+                  y_axis_label_value2="Excess/Shortfall"
+                />
                 <div
                   style={{
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
-                    paddingBottom: "0.7rem"
+                    paddingBottom: "0.7rem",
+                    paddingTop: "0.5rem"
                   }}
                 >
                   <div
@@ -850,11 +531,14 @@ const Detailed = () => {
                             defaultChecked
                             color="success"
                             onChange={(e) => {
-                              onchangeHandler1("Pvyst_GHI");
+                              setShowNormalizedData({
+                                ...showNormalisedData,
+                                NetEnergy: !showNormalisedData.NetEnergy
+                              })
                             }}
                           />
                         }
-                        label="Pvyst_GHI"
+                        label="NetEnergy"
                       />
                       <FormControlLabel
                         control={
@@ -863,19 +547,189 @@ const Detailed = () => {
                             color="success"
 
                             onChange={(e) => {
-                              onchangeHandler1("Actual_GHI");
+                              setShowNormalizedData({
+                                ...showNormalisedData,
+                                contractual_energy: !showNormalisedData.contractual_energy
+                              })
                             }}
                           />
                         }
-                        label="Actual_GHI"
+                        label="NormalisedEnergy"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            defaultChecked
+                            color="success"
+                            onChange={(e) => {
+                              setShowNormalizedData({
+                                ...showNormalisedData,
+                                ShortFall: !showNormalisedData.ShortFall
+                              })
+                            }}
+                          />
+                        }
+                        label="ShortFall"
                       />
                     </FormGroup>
                   </div>
                 </div>
 
-              </LineChartComp>
+              </Grid>
+
+            </Grid>
 
 
+            <Grid container
+              border={3}
+              borderColor={"#ed7d31"}
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"} lg={12}
+              margin={"auto"}
+              marginTop={5}
+              marginLeft={4}
+            >
+              <Grid
+                item
+                lg={6}
+              >
+                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                  <Printer />
+                </div> */}
+                <LineBarChart
+                  data={energy?.data3}
+                  height={300}
+                  width={850}
+                  value1={checkBox?.pvsyst_Energy}
+                  value2={checkBox?.contractual_energy}
+                  dataKey1="pvsyst_Energy"
+                  dataKey2="contructual_energy"
+                // dataKey3="Actual_pr"
+                // y_axis_label_value1="Energy"
+                // y_axis_label_value2="Excess/Shortfall"
+                />
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    paddingBottom: "0.7rem",
+                    paddingTop: "0.5rem"
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: "#edeaea",
+                      borderStyle: "solid",
+                      borderColor: "#ed7d31",
+                      borderWidth: "3px",
+                      borderRadius: "5px",
+                      paddingLeft: "1rem"
+                    }}
+                  >
+                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            defaultChecked
+                            color="success"
+                            onChange={(e) => {
+                              setcheckBox({
+                                ...checkBox,
+                                pvsyst_Energy: !checkBox.pvsyst_Energy
+                              })
+                            }}
+                          />
+                        }
+                        label="Pvsyst_Energy"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            defaultChecked
+                            color="success"
+
+                            onChange={(e) => {
+                              setcheckBox({
+                                ...checkBox,
+                                contractual_energy: !checkBox.contractual_energy
+                              })
+                            }}
+                          />
+                        }
+                        label="contractual_energy"
+                      />
+
+                    </FormGroup>
+                  </div>
+                </div>
+
+
+              </Grid>
+              <Grid lg={6} marginTop={4.5} paddingLeft={3}>
+              <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                  <Printer />
+                </div>
+                <LineChart
+                  width={680}
+                  height={280}
+                  margin={{
+                    bottom:20
+                  }}
+                  data={energy?.data3}
+                 
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis interval={0} dataKey="name" fontSize={"0.8rem"} fontWeight={600}  />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                {Actual_pr &&  <Line
+                    type="monotone"
+                    dataKey="Actual_pr"
+                    stroke="#8884d8"
+                    strokeWidth={3}
+                    activeDot={{ r: 8 }}
+                  />
+                }
+                </LineChart>
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    paddingBottom: "0.7rem",
+                    paddingTop: "0.5rem"
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: "#edeaea",
+                      borderStyle: "solid",
+                      borderColor: "#ed7d31",
+                      borderWidth: "3px",
+                      borderRadius: "5px",
+                      paddingLeft: "1rem"
+                    }}
+                  >
+                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            defaultChecked
+                            color="success"
+                            onChange={(e) => {
+                              setActual_pr(!Actual_pr)
+                            }}
+                          />
+                        }
+                        label="Actual_pr"
+                      />                 
+                    </FormGroup>
+                  </div>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
       }
@@ -883,4 +737,6 @@ const Detailed = () => {
   );
 };
 
-export default Detailed;
+export default Detailed2;
+
+

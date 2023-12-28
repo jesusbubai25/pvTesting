@@ -5,8 +5,7 @@ const cors = require("cors");
 const handleRoutes=require("./route")
 const cookieparser=require("cookie-parser")
 require('dotenv').config({path:"./config.env"})
-const bcryptjs=require("bcryptjs")
-
+const bcryptjs=require("bcryptjs");
 
 
 // const corsOptions = {

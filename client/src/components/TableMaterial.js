@@ -7,21 +7,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-];
 
 
-console.log(rows)
-
-export default function TableMaterial() {
+export default function TableMaterial(props) {
   return (
     <TableContainer component={Paper}>
       <h1 style={{ textAlign: "center" }}>Inverter Specification</h1>
@@ -46,7 +34,7 @@ export default function TableMaterial() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {props?.data?.map((row) => (
             <TableRow
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

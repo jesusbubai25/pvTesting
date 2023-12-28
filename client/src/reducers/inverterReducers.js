@@ -6,6 +6,9 @@ import {
     all_inverter_efficiency_sucess, all_scbsmb_fail, all_scbsmb_request, all_scbsmb_sucess, energy_monthly_fail,
     energy_monthly_request, energy_monthly_sucess, inverter_efficiency_fail, inverter_efficiency_request,
     inverter_efficiency_sucess,
+    powerplant_details_fail,
+    powerplant_details_request,
+    powerplant_details_sucess,
 
 } from "../constants/dataConstants";
 
@@ -133,6 +136,30 @@ export const GHI_GTI_data = (state = { GHI_GTI_data: null }, action) => {
                 GHI_GTI_data: action.payload
             };
         case GHI_GTI_data_fail:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        default:
+            return state;
+    }
+}
+export const plantDetail = (state = { plantDetail: null }, action) => {
+
+    switch (action.type) {
+        case powerplant_details_request:
+            return {
+                ...state,
+                loading: true
+            };
+        case powerplant_details_sucess:
+            return {
+                ...state,
+                loading: false,
+                plantDetail: action.payload
+            };
+        case powerplant_details_fail:
             return {
                 ...state,
                 loading: false,

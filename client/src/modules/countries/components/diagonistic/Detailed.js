@@ -426,3 +426,126 @@ const Detailed = () => {
 };
 
 export default Detailed;
+
+
+                {/* <ComposedChart
+                  width={1000}
+                  height={300}
+                  data={GHI_GTI_data.data}
+                // style={{border:"2px solid red"}}
+                // margin={{
+                //   top: 20,
+                //   right: 20,
+                //   bottom: 20,
+                //   left: 20,
+                // }}
+                >
+                  <CartesianGrid stroke="#f5f5f5" />
+
+                  <XAxis
+                    dataKey="name"
+                    interval={0} fontSize={12} fontWeight={600}
+                  // scale="band"
+                  />
+                  <YAxis yAxisId="left-axis"
+                    label={{
+                      value: "pvsyst_GHI & Acutal_GHI", angle: -90, position: "insideBottomLeft", fontSize: "1rem",
+                      fontWeight: "600"
+                    }}
+                  /> */}
+                  {/* <YAxis
+                    yAxisId="right-axis"
+                    orientation="right"
+                    label={{
+                      value: "pvsyst_GHI_vs_Actual_GHI",
+                      angle: -90,
+                      position: "insideRight",
+                      fontSize: "1rem",
+                      fontWeight: "600"
+                    }}
+                  /> */}
+                  {/* <YAxis yAxisId="right-axis"
+                    orientation="right"
+                    label={{
+                      value: "pvsyst_GHI & Acutal_GHI", angle: -90, position: "insideRight", fontSize: "1rem",
+                      fontWeight: "600"
+                    }}
+                  />
+                  <Tooltip />
+                  <Legend />
+                  <Bar
+                    dataKey="pvsyst_GHI"
+                    barSize={20}
+                    fill="#122b4f"
+                    yAxisId="left-axis"
+                  />
+                  <Bar
+                    dataKey="Actual_GHI"
+                    barSize={20}
+                    fill="#ed7d31"
+                    yAxisId="left-axis"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="pvsyst_GHI_vs_Actual_GHI"
+                    stroke="#047e7ef7"
+                    yAxisId="right-axis"
+                    strokeWidth={3}
+                  />
+                </ComposedChart> */}
+
+
+                               {/* <ComposedChart
+                  width={1000}
+                  height={300}
+                  data={GHI_GTI_data.data}
+                // style={{border:"2px solid red"}}
+                // margin={{
+                //   top: 20,
+                //   right: 20,
+                //   bottom: 20,
+                //   left: 20,
+                // }}
+                >
+                  <CartesianGrid stroke="#f5f5f5" />
+                  <XAxis
+                    dataKey="name"
+                    interval={0} fontSize={12} fontWeight={600}
+                  // scale="band"
+                  />
+                  <YAxis yAxisId="left-axis"
+                    orientation="left"
+                    label={{
+                      value: "pvsyst_GTI & Acutal_GTI", angle: -90, position: "insideBottomLeft", fontSize: "1rem",
+                      fontWeight: "600"
+                    }}
+                  />
+                  <YAxis yAxisId="right-axis"
+                    orientation="right"
+                    label={{
+                      value: "pvsyst_GTI & Acutal_GTI", angle: -90, position: "insideRight", fontSize: "1rem",
+                      fontWeight: "600"
+                    }}
+                  />
+                  <Tooltip />
+                  <Legend />
+                  {Ghi_Gti_data.pvsyst_GTI && <Bar
+                    dataKey="pvsyst_GTI"
+                    barSize={20}
+                    fill="#122b4f"
+                    yAxisId="left-axis"
+                  />}
+                  {Ghi_Gti_data.actual_GTI &&<Bar
+                    dataKey="Actual_GTI"
+                    barSize={20}
+                    fill="#ed7d31"
+                    yAxisId="left-axis"
+                  />}
+                  {Ghi_Gti_data.pvsyst_GTI_vs_Actual_GTI &&<Line
+                    type="monotone"
+                    dataKey="pvsyst_GTI_vs_Actual_GTI"
+                    stroke="#047e7ef7"
+                    yAxisId="right-axis"
+                    strokeWidth={3}
+                  />}
+                </ComposedChart> */}

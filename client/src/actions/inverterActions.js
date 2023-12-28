@@ -2,7 +2,7 @@ import { GHI_GTI_data_fail, GHI_GTI_data_request, GHI_GTI_data_sucess,
      all_inverter_efficiency_fail, all_inverter_efficiency_request,
       all_inverter_efficiency_sucess, all_scbsmb_fail, all_scbsmb_request, all_scbsmb_sucess,
        energy_monthly_fail, energy_monthly_request, energy_monthly_sucess, inverter_efficiency_fail,
-        inverter_efficiency_request, inverter_efficiency_sucess } from "../constants/dataConstants"
+        inverter_efficiency_request, inverter_efficiency_sucess, powerplant_details_fail, powerplant_details_request, powerplant_details_sucess } from "../constants/dataConstants"
 import axios from "axios"
 
 axios.create({
@@ -89,6 +89,18 @@ export const GHI_GTI_data_action = () => async (dispatch) => {
 
     } catch (error) {
         dispatch({ type: GHI_GTI_data_fail, payload: error.response.data.error })
+    }
+}
+
+export const powerPlantDetail = () => async (dispatch) => {
+    try {
+        dispatch({ type: powerplant_details_request })
+
+            const { data } = await axios.get("/powerPlantDetails");
+        dispatch({ type:powerplant_details_sucess, payload: {data1:data.result,data2:data.result2} })
+
+    } catch (error) {
+        dispatch({ type: powerplant_details_fail, payload: error.response.data.error })
     }
 }
 

@@ -18,9 +18,19 @@ const Printer = ({ clickhandler, jpgDownload }) => {
                     <Link><i class="fa-solid fa-download"></i> In png</Link>
                     <Link><i class="fa-solid fa-download"></i> In Csv</Link> */}
 
-                    <Link onClick={() => jpgDownload && jpgDownload()}>Download JPG</Link>
+                    <Link onClick={() => {
+                        setOpen(false)
+                        jpgDownload && jpgDownload();
+                    }
+                    }
+
+                    >Download JPG</Link>
                     <Link  >Download SVG</Link>
-                    <Link onClick={() => clickhandler && clickhandler()}>Download Csv</Link>
+                    <Link onClick={() => {
+                        setOpen(false);
+                        clickhandler && clickhandler();
+                    }
+                    }>Download CSV</Link>
 
                 </div>
                 <div className='print_icon_div'>
