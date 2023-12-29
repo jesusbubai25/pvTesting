@@ -30,7 +30,7 @@ process.on("uncaughtException", err => {
   })
 })
 
-const server = application.listen(8433, () => {
+const server = application.listen(8000, () => {
   console.log("Server is running at port " + server.address().port);
 });
 
