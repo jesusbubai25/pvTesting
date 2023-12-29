@@ -24,25 +24,40 @@ const promisePool2 = pool2.promise();
 
 
 exports.Test2 = async (req, res) => {
+  let connection;
+  try {
+    connection= await promisePool.getConnection()
+    await connection.beginTransaction();
+    const [result,fields]=await connection.query("select * from inverterDetails")
+    await connection.commit();
+    return res.status(200).json({ result: result, sucess: true });
+    
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ error: error.message, sucess: false });
+    
+  }finally{
+    connection?.release();
+  }
 
-  getConnectiontring(req, res, () => {
-    const pool = req.pool;
-    pool.query("select * from testingTbl", (err,result) => {
-      if (err) {
-        console.log(err.sqlMessage, " here error ")
-        return res.json({ error:err.sqlMessage })
-      } else {
-        console.log("result ", result)
-        return res.status(200).json({ result, sucess: true });
-      }
-    })
-  })
+  // getConnectiontring(req, res, () => {
+  //   const pool = req.pool;
+  //   pool.query("select * from testingTbl", (err,result) => {
+  //     if (err) {
+  //       console.log(err.sqlMessage, " here error ")
+  //       return res.json({ error:err.sqlMessage })
+  //     } else {
+  //       console.log("result ", result)
+  //       return res.status(200).json({ result, sucess: true });
+  //     }
+  //   })
+  // })
 }
 
 exports.Test3 = async (req, res) => {
   let connection;
   try {
-    connection = await promisePool2.getConnection()
+    connection = await promisePool.getConnection()
     await connection.beginTransaction();
     // const [rows, fields] = await connection.query("select * from registrationGreenEnco;select * from Persons")
     // await connection.commit();
@@ -248,9 +263,11 @@ exports.powerPlantTableDetails = async (req, res) => {
     await connection2.beginTransaction();
     const [rows, fields] = await connection.query("select * from powerPlantDetailsTbl")
     const [rows2, fields2] = await connection2.query("select * from solarPowerPlantDetails")
+    const [rows3, fields3] = await connection.query("select * from inverterDetails")
+
     await connection.commit();
     await connection2.commit();
-    return res.status(200).json({ result: rows,result2:rows2[0], sucess: true });
+    return res.status(200).json({ result: rows,result2:rows2[0],result3:rows3, sucess: true });
   } catch (error) {
     console.log(error.message);
     await connection.rollback()

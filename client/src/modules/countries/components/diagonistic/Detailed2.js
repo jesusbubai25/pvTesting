@@ -186,8 +186,8 @@ const Detailed2 = () => {
                   dataKey1="pvsyst_GTI"
                   dataKey2="Actual_GTI"
                   dataKey3="pvsyst_GTI_vs_Actual_GTI"
-                  y_axis_label_value1="pvsyst_GTI & Acutal_GTI"
-                  y_axis_label_value2="pvsyst_GTI_vs_Acutal_GTI"
+                  y_axis_label_value1="Pvsyst GTI & Acutal GTI"
+                  y_axis_label_value2="Pvsyst GTI vs Acutal GTI"
                 />
                 <div
                   style={{
@@ -222,7 +222,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Pvyst_GTI"
+                        label="Pvyst GTI"
                       />
                       <FormControlLabel
                         control={
@@ -238,7 +238,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Actual_GTI"
+                        label="Actual GTI"
                       />
                       <FormControlLabel
                         control={
@@ -253,7 +253,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="pvsyst_GTI_vs_Actual_GTI"
+                        label="Pvsyst GTI vs Actual_GTI"
                       />
                     </FormGroup>
                   </div>
@@ -290,8 +290,8 @@ const Detailed2 = () => {
                   dataKey1="pvsyst_GHI"
                   dataKey2="Actual_GHI"
                   dataKey3="pvsyst_GHI_vs_Actual_GHI"
-                  y_axis_label_value1="pvsyst_GHI & Acutal_GHI"
-                  y_axis_label_value2="pvsyst_GHI_vs_Acutal_GHI"
+                  y_axis_label_value1="Pvsyst_GHI & Acutal_GHI"
+                  y_axis_label_value2="Pvsyst GHI vs Acutal_GHI"
                 />
                 <div
                   style={{
@@ -326,7 +326,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Pvyst_GTI"
+                        label="Pvyst GTI"
                       />
                       <FormControlLabel
                         control={
@@ -342,7 +342,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Actual_GTI"
+                        label="Actual GTI"
                       />
                       <FormControlLabel
                         control={
@@ -357,7 +357,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="pvsyst_GTI_vs_Actual_GTI"
+                        label="Pvsyst GTI vs Actual GTI"
                       />
                     </FormGroup>
                   </div>
@@ -397,7 +397,7 @@ const Detailed2 = () => {
                   dataKey2="normalisedEnergy"
                   dataKey3="shortfall"
                   y_axis_label_value1="Energy"
-                  y_axis_label_value2="Excess/Shortfall"
+                  y_axis_label_value2="Excess/Shortfall In %"
                 />
                 <div
                   style={{
@@ -432,7 +432,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="NetEnergy"
+                        label="Net Energy"
                       />
                       <FormControlLabel
                         control={
@@ -448,7 +448,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="NormalisedEnergy"
+                        label="Normalised Energy"
                       />
                       <FormControlLabel
                         control={
@@ -503,7 +503,7 @@ const Detailed2 = () => {
                   dataKey2="contructual_energy"
                   dataKey3="ExcessORShortfallNormalised_Percentage"
                   y_axis_label_value1="Energy"
-                  y_axis_label_value2="Excess/Shortfall"
+                  y_axis_label_value2="Excess/Shortfall In %"
                 />
                 <div
                   style={{
@@ -538,7 +538,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="NetEnergy"
+                        label="Net Energy"
                       />
                       <FormControlLabel
                         control={
@@ -554,7 +554,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="NormalisedEnergy"
+                        label="Normalised Energy"
                       />
                       <FormControlLabel
                         control={
@@ -642,7 +642,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Pvsyst_Energy"
+                        label="Pvsyst Energy"
                       />
                       <FormControlLabel
                         control={
@@ -658,7 +658,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="contractual_energy"
+                        label="Contractual Energy"
                       />
 
                     </FormGroup>
@@ -724,7 +724,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Actual_pr"
+                        label="Actual Pr"
                       />                 
                     </FormGroup>
                   </div>

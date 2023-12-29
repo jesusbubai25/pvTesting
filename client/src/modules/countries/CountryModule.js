@@ -11,7 +11,7 @@ import ProjOverView from "./components/projectOverView/ProjOverView";
 import PresCripModel from "./components/prescriptiveModel/PresCripModel";
 import DiagonisticGuard from "./guard/DiagonisticGuard";
 import Diagonistic from "./components/diagonistic/Diagonistic";
-import ProjectDetails from "./components/ProjectDetails/ProjectDetails";
+import ProjectDetails from "./components/ProjectDetails/ProjectDetailsHeader";
 
 const CountryModule = () => {
 

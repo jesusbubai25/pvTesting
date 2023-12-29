@@ -97,7 +97,7 @@ export const powerPlantDetail = () => async (dispatch) => {
         dispatch({ type: powerplant_details_request })
 
             const { data } = await axios.get("/powerPlantDetails");
-        dispatch({ type:powerplant_details_sucess, payload: {data1:data.result,data2:data.result2} })
+        dispatch({ type:powerplant_details_sucess, payload: {data1:data.result,data2:data.result2,inverter_details:data.result3} })
 
     } catch (error) {
         dispatch({ type: powerplant_details_fail, payload: error.response.data.error })

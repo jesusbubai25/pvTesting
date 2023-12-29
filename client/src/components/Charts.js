@@ -129,7 +129,8 @@ const Charts = (props) => {
         height: "max-content",
         width: "max-content",
         borderStyle: "solid",
-        borderColor: "#ed7d31",
+        // borderColor: "#ed7d31",
+        borderColor: colours[3],
         borderWidth: "3px",
         borderRadius: "5px",
         padding: "0.8rem 0"
@@ -213,7 +214,7 @@ const Charts = (props) => {
             }
           }
           else {
-            return <Bar key={index} dataKey={item} fill={colors1[1]} />;
+            return <Bar key={index} dataKey={item} fill={colors1[2]} />;
           }
         })}
       </BarChart>

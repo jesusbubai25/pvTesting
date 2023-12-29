@@ -32,7 +32,7 @@ const CountryHeader1 = (props) => {
 
   return (
     <div className="header" >
-      <div className="logo" style={{border:"2px solid red"}}>
+      <div className="logo" >
         <img onClick={()=>navigate(PageURL.COUNTRYDEFAULT)}
           src={GreenLogo}
           style={{ width: "100%", height: "100%", objectFit: "cover",cursor:"pointer" }}

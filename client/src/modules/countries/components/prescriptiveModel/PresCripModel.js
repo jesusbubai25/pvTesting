@@ -6,6 +6,7 @@ import Charts from "../../../../components/Charts";
 import LineBarChart from "../../../../components/LineBarChart";
 import { Grid } from "@mui/material";
 import Printer from "../../../../components/Printer";
+import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailsHeader";
 
 const data = [
   {
@@ -62,7 +63,8 @@ const PresCripModel = () => {
   return (
     <div>
       <div className="country-header">
-        <CountryHeader />
+        <ProjectDetailsHeader/>
+        {/* <CountryHeader /> */}
       </div>
       <div>
         <Grid
@@ -110,7 +112,6 @@ const PresCripModel = () => {
                   />
                   :
                   <h3>Select an option to view Graph</h3>
-
               }
             </div>
           </Grid>

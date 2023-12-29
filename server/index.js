@@ -22,8 +22,6 @@ application.use(cookieparser())
 application.use(handleRoutes)
 
 
-
-
 process.on("uncaughtException", err => {
   console.log("Server is closing due to uncaughtException occured!")
   console.log("Error :", err.message)
@@ -32,8 +30,7 @@ process.on("uncaughtException", err => {
   })
 })
 
-
-const server = application.listen(8000, () => {
+const server = application.listen(8433, () => {
   console.log("Server is running at port " + server.address().port);
 });
 

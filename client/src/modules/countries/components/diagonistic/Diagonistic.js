@@ -8,6 +8,9 @@ import SCBSMB from "./SCBSMB";
 import LossFlow from "./LossFlow";
 import Detailed from "./Detailed";
 import Detailed2 from "./Detailed2";
+import CountryHeader1 from "../CounterHeader1";
+import ProjectDetails from "../ProjectDetails/ProjectDetailsHeader";
+import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailsHeader";
 
 const Diagonistic = () => {
   const location = useLocation();
@@ -15,7 +18,9 @@ const Diagonistic = () => {
   return (
     <div style={{height:"100%"}} >
       <div className="country-header">
-        <CountryHeader />
+        {/* <ProjectDetails /> */}
+        {/* <CountryHeader/> */}
+        <ProjectDetailsHeader/>
       </div>
       {location?.pathname == PageURL.INDIA_DIAGONISTIC_DETAILED && <Detailed2 />}
       {location?.pathname == PageURL.INDIA_LOSS_FLOW && <LossFlow />}

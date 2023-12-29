@@ -14,6 +14,7 @@ import { CSVLink } from "react-csv";
 import { saveAs } from 'file-saver';
 import ReactDOM from 'react-dom'
 import html2canvas from 'html2canvas';
+import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailsHeader";
 
 
 
@@ -165,7 +166,8 @@ const GenOverView = () => {
   return (
     <div>
       <div className="country-header">
-        <CountryHeader />
+        <ProjectDetailsHeader />
+        {/* <CountryHeader /> */}
       </div>
       {loading ? <SpinLoader /> :
         <>

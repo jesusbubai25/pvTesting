@@ -1,12 +1,14 @@
 import React, { createContext, useState } from "react";
 import PieChartComp from "../../../../components/PieChartComp";
 import { Grid } from "@mui/material";
+import { colors1 } from "../../../../colors/color";
+
 
 const LossFlow = () => {
   const [data, setData] = useState([
-    { name: "Inverter Level DC Site Loss", value: 6.5 },
-    { name: "Soiling Loss", value: 3.5 },
-    { name: "Cable Loss", value: 1.0 },
+    { name: "Inverter Level DC Site Loss", value: 6.5,fill:colors1[0]},
+    { name: "Soiling Loss", value: 3.5 ,fill:colors1[3]},
+    { name: "Cable Loss", value: 1.0,fill:colors1[2] },
 
   ]);
   
@@ -41,7 +43,7 @@ const LossFlow = () => {
               setname={setname}
             />
           </div>
-          <div style={{ paddingTop: "1rem", width: "100%", display: "flex", alignItems: "self-start", justifyContent: "center" }}>
+          <div style={{ paddingTop: "2rem", width: "100%", display: "flex", alignItems: "self-start", justifyContent: "center" }}>
             <div>
               <h2>{name}</h2>
               <h2>PV: {value || 0}</h2>

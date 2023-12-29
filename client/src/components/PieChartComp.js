@@ -94,7 +94,7 @@ const RenderActiveShape = (prop) => {
         stroke={fill}
         fill="none"
       />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none"  />
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
@@ -141,7 +141,7 @@ export default function PieChartComp(props) {
         innerRadius={100}
         outerRadius={170}
         // fill="#ed7d31"
-        fill={colors1[1]}
+        fill={colors1[2]}
         dataKey="value"
         onMouseEnter={onPieEnter}
       />

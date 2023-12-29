@@ -12,6 +12,8 @@ import SmbDetails from "./SmbDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { powerPlantDetail } from "../../../../actions/inverterActions";
 import SpinLoader from "../../../../components/SpinLoader";
+import CountryHeader1 from "../CounterHeader1";
+import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailsHeader";
 
 const ProjOverView = () => {
   const [showDetails, setShowDetails] = useState({
@@ -42,15 +44,14 @@ const ProjOverView = () => {
     if (!plantDetail) {
       dispatch(powerPlantDetail())
     }
-    console.log(plantDetail?.data2)
-
   }, [showDetails, dispatch])
 
 
   return (
     <div>
       <div className="country-header-no-margin">
-        <CountryHeader />
+        {/* <CountryHeader /> */}
+        <ProjectDetailsHeader />
       </div>
       {loading ?
         <SpinLoader /> :
@@ -87,10 +88,6 @@ const ProjOverView = () => {
                   `Location: ${plantDetail?.data2.plantName}`,
                   `Capacity DC [MWp]: ${plantDetail?.data2.dcCapacity}`,
                   `Capacity AC [MWp]: ${plantDetail?.data2.acCapacity}`
-
-                  // "Location: Bhajanghat",
-                  // "Capacity DC [MWp]: 10.9",
-                  // "Capacity AC [MWp]: 10.0"
                 ]}
                 data={plantDetail?.data2}
                 onClick={() => {
@@ -124,9 +121,6 @@ const ProjOverView = () => {
                   `Modules: ${plantDetail?.data2.moduleType}`,
                   `Guaranteed Generation: ${plantDetail?.data2.guaranteedGenereation}`,
                   `Tilt: ${plantDetail?.data2.acCapacity}`
-                  // "Modules: 330 Wp and 340 Wp",
-                  // "Guaranteed Generation: 15,000,000 kWh",
-                  // "Tilt: Fixed tilt at 19 Degree",
                 ]}
                 data={plantDetail?.data2}
                 onClick={() => {
@@ -158,9 +152,6 @@ const ProjOverView = () => {
                   `Specifications: ${plantDetail?.data2.inverterDetails}`,
                   `Inverter Type: ${plantDetail?.data2.inverterType
                   }`
-                  // "Number of Inverters: 4",
-                  // "Specifications: 2.5 MVA Delta",
-                  // "Inverter Type : Central",
                 ]}
                 data={plantDetail?.data2}
                 onClick={() => {
@@ -192,10 +183,6 @@ const ProjOverView = () => {
                   `Number of SMB: ${plantDetail?.data2.numberOfInverter}`,
                   `Specifications: ${plantDetail?.data2.inverterDetails}`,
                   `Inverter Type: ${plantDetail?.data2.inverterType}`
-                  // "Number of SMB: 47",
-                  // "Number of String: 1106",
-                  // "String Type: Y Connector"
-
                 ]}
                 data={plantDetail?.data2}
                 onClick={() => {
