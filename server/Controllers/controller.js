@@ -26,17 +26,17 @@ const promisePool2 = pool2.promise();
 exports.Test2 = async (req, res) => {
   let connection;
   try {
-    connection= await promisePool.getConnection()
+    connection = await promisePool.getConnection()
     await connection.beginTransaction();
-    const [result,fields]=await connection.query("select * from inverterDetails")
+    const [result, fields] = await connection.query("select * from inverterDetails")
     await connection.commit();
     return res.status(200).json({ result: result, sucess: true });
-    
+
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({ error: error.message, sucess: false });
-    
-  }finally{
+
+  } finally {
     connection?.release();
   }
 
@@ -148,7 +148,7 @@ exports.NormalizedEnergyDetails = async (req, res) => {
     Normalized_Energy_kwh,AC_Loss,ExcessORShortfallNormalised_Percentage,pvsyst_Energy from normalizedEnergyDetailsTbl;
     select ((Actual_Inverter_Energy_kwh/(Actual_GTI * 10600)) * 100) as Monthly_PR from normalizedEnergyDetailsTbl
     `)
-    let data1 = [], data2 = [],data3=[];
+    let data1 = [], data2 = [], data3 = [];
     data1.push(
       {
         month: "Yearly",
@@ -161,7 +161,7 @@ exports.NormalizedEnergyDetails = async (req, res) => {
       }
     )
     for (let i = 0; i < result[0].length; i++) {
-      let obj = {}, obj1 = {},obj2={};
+      let obj = {}, obj1 = {}, obj2 = {};
       obj.month = result[0][i].month_year.split("-")[0];
       obj.net_energy = result[0][i].Net_Energy
       obj.contructual_energy = result[0][i].contructual_Energy
@@ -177,16 +177,16 @@ exports.NormalizedEnergyDetails = async (req, res) => {
       obj1.netEnergy = result[0][i].Net_Energy
       obj1.shortfall = result[0][i].ExcessORShortfallNormalised_Percentage
       data2.push(obj1)
-      obj2.name=obj1.name
+      obj2.name = obj1.name
       obj2.netEnergy = result[0][i].Net_Energy
-      obj2.contructual_energy=result[0][i].contructual_Energy
-      obj2.Actual_pr=parseFloat((Math.floor((result[1][i].Monthly_PR * 100)) / 100).toFixed(2))
-      obj2.ExcessORShortfallNormalised_Percentage=result[0][i].ExcessORShortfall_Percentage 
-      obj2.pvsyst_Energy=result[0][i].pvsyst_Energy
+      obj2.contructual_energy = result[0][i].contructual_Energy
+      obj2.Actual_pr = parseFloat((Math.floor((result[1][i].Monthly_PR * 100)) / 100).toFixed(2))
+      obj2.ExcessORShortfallNormalised_Percentage = result[0][i].ExcessORShortfall_Percentage
+      obj2.pvsyst_Energy = result[0][i].pvsyst_Energy
 
       data3.push(obj2);
     }
-    return res.status(200).json({ data1, data2,data3, sucess: true });
+    return res.status(200).json({ data1, data2, data3, sucess: true });
   } catch (error) {
     console.log(error.message);
     await connection?.rollback();
@@ -207,7 +207,7 @@ exports.GHI_GTI_Data = async (req, res) => {
     Actual_GHI,pvsyst_GTI_vs_Actual_GTI,pvsyst_GHI_vs_Actual_GHI from normalizedEnergyDetailsTbl
     `)
     let pvsyst_actual_GHI = [], pvsyst_actual_GTI = [];
-    let data=[];
+    let data = [];
     for (let i = 0; i < result?.length; i++) {
       let obj = {}, obj1 = {};
       obj.name = result[i].month_year.split("-")[0].slice(0, 3) + "-" + result[i].month_year.split("-")[1].toString().slice(2);
@@ -216,8 +216,8 @@ exports.GHI_GTI_Data = async (req, res) => {
       obj.pvsyst_GTI = result[i].pvsyst_GTI
       obj.Actual_GHI = result[i].Actual_GHI
       obj.Actual_GTI = result[i].Actual_GTI
-      obj.pvsyst_GTI_vs_Actual_GTI=result[i].pvsyst_GTI_vs_Actual_GTI
-      obj.pvsyst_GHI_vs_Actual_GHI=result[i].pvsyst_GHI_vs_Actual_GHI
+      obj.pvsyst_GTI_vs_Actual_GTI = result[i].pvsyst_GTI_vs_Actual_GTI
+      obj.pvsyst_GHI_vs_Actual_GHI = result[i].pvsyst_GHI_vs_Actual_GHI
       // pvsyst_actual_GHI.push(obj); pvsyst_actual_GTI.push(obj1)
       data.push(obj);
     }
@@ -255,10 +255,10 @@ exports.GHI_GTI_Data = async (req, res) => {
 
 
 exports.powerPlantTableDetails = async (req, res) => {
-  let connection,connection2;
+  let connection, connection2;
   try {
     connection = await promisePool.getConnection()
-    connection2=await promisePool2.getConnection();
+    connection2 = await promisePool2.getConnection();
     await connection.beginTransaction();
     await connection2.beginTransaction();
     const [rows, fields] = await connection.query("select * from powerPlantDetailsTbl")
@@ -267,7 +267,7 @@ exports.powerPlantTableDetails = async (req, res) => {
 
     await connection.commit();
     await connection2.commit();
-    return res.status(200).json({ result: rows,result2:rows2[0],result3:rows3, sucess: true });
+    return res.status(200).json({ result: rows, result2: rows2[0], result3: rows3, sucess: true });
   } catch (error) {
     console.log(error.message);
     await connection.rollback()

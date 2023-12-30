@@ -21,6 +21,10 @@ application.use(express.json())
 application.use(cookieparser())
 application.use(handleRoutes)
 
+application.get("/getData",async(req,res)=>{
+  return res.status(200).json({data:{name:"sidhant",age:22},sucess:true})
+})
+
 
 process.on("uncaughtException", err => {
   console.log("Server is closing due to uncaughtException occured!")
