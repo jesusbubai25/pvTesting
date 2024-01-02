@@ -1,11 +1,11 @@
-const express=require("express")
+const express = require("express")
 const application = express();
 const bodyparser = require("body-parser")
 const cors = require("cors");
-const handleRoutes=require("./route")
-const cookieparser=require("cookie-parser")
-require('dotenv').config({path:"./config.env"})
-const bcryptjs=require("bcryptjs");
+const handleRoutes = require("./route")
+const cookieparser = require("cookie-parser")
+require('dotenv').config({ path: "./config.env" })
+const bcryptjs = require("bcryptjs");
 
 
 // const corsOptions = {
@@ -21,8 +21,10 @@ application.use(express.json())
 application.use(cookieparser())
 application.use(handleRoutes)
 
-application.get("/getData",async(req,res)=>{
-  return res.status(200).json({data:{name:"sidhant",age:22},sucess:true})
+
+
+application.get("/getData", async (req, res) => {
+  return res.status(200).json({ data: { name: "sidhant", age: 22 }, sucess: true })
 })
 
 
@@ -34,7 +36,7 @@ process.on("uncaughtException", err => {
   })
 })
 
-const server = application.listen(8443, () => {
+const server = application.listen(8000, () => {
   console.log("Server is running at port " + server.address().port);
 });
 
