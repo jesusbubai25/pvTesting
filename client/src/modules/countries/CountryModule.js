@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import CountryGuard from "./guard/CountryGuard";
 import CountryDefault from "./components/CountryDefault";
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PageURL from "../../constants/PageURL";
 import ProjectOverViewGuard from "./guard/ProjectOverViewGuard";
 import GenOverViewGuard from "./guard/GenOverViewGuard";
@@ -11,7 +11,7 @@ import ProjOverView from "./components/projectOverView/ProjOverView";
 import PresCripModel from "./components/prescriptiveModel/PresCripModel";
 import DiagonisticGuard from "./guard/DiagonisticGuard";
 import Diagonistic from "./components/diagonistic/Diagonistic";
-import ProjectDetails from "./components/ProjectDetails/ProjectDetailsHeader";
+import ProjectDetails from "./components/ProjectDetails/ProjectDetailBody";
 
 const CountryModule = () => {
 
@@ -33,21 +33,31 @@ const CountryModule = () => {
       );
     case PageURL.INDIA_PROJ_OVERVIEW:
       return (
-        <ProjectOverViewGuard>
-          <ProjOverView />
-        </ProjectOverViewGuard>
+        // <ProjectOverViewGuard>
+        //   <ProjOverView />
+        // </ProjectOverViewGuard>
+        <DiagonisticGuard>
+          <Diagonistic />
+        </DiagonisticGuard>
+
       );
     case PageURL.INDIA_GEN_SUMMARY:
       return (
-        <GenOverViewGuard>
-          <GenOverView />
-        </GenOverViewGuard>
+        // <GenOverViewGuard>
+        //   <GenOverView />
+        // </GenOverViewGuard>
+        <DiagonisticGuard>
+          <Diagonistic />
+        </DiagonisticGuard>
       );
     case PageURL.INDIA_PRES_MODEL:
       return (
-        <PrescriptiveGaurd>
-          <PresCripModel />
-        </PrescriptiveGaurd>
+        // <PrescriptiveGaurd>
+        //   <PresCripModel />
+        // </PrescriptiveGaurd>
+        <DiagonisticGuard>
+          <Diagonistic />
+        </DiagonisticGuard>
       );
 
     case PageURL.INDIA_DIAGONISTIC_DETAILED:
@@ -82,8 +92,12 @@ const CountryModule = () => {
       );
     case PageURL.PROJECT_DETAILS:
       return (
-          <ProjectDetails />
-      ) 
+        <DiagonisticGuard>
+          <Diagonistic />
+
+        </DiagonisticGuard>
+        // <ProjectDetails />
+      )
   }
 
 };

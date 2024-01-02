@@ -14,7 +14,8 @@ import { CSVLink } from "react-csv";
 import { saveAs } from 'file-saver';
 import ReactDOM from 'react-dom'
 import html2canvas from 'html2canvas';
-import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailsHeader";
+import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailBody";
+import CountryHeader2 from "../ProjectDetails/CountryHeader2";
 
 
 
@@ -164,11 +165,14 @@ const GenOverView = () => {
 
   console.log(speedometerRef1)
   return (
-    <div>
-      <div className="country-header">
+    
+    <>
+      {/* <div className="country-header">
         <ProjectDetailsHeader />
-        {/* <CountryHeader /> */}
-      </div>
+        <CountryHeader />
+        <CountryHeader2 />
+      </div> */}
+
       {loading ? <SpinLoader /> :
         <>
           {energy?.data1 && energy?.data2 &&
@@ -500,7 +504,7 @@ const GenOverView = () => {
           }
         </>
       }
-    </div>
+    </>
   );
 };
 

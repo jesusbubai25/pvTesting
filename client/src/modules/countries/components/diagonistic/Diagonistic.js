@@ -9,24 +9,36 @@ import LossFlow from "./LossFlow";
 import Detailed from "./Detailed";
 import Detailed2 from "./Detailed2";
 import CountryHeader1 from "../CounterHeader1";
-import ProjectDetails from "../ProjectDetails/ProjectDetailsHeader";
-import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailsHeader";
+import ProjectDetails from "../ProjectDetails/ProjectDetailBody";
+import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailBody";
+import CountryHeader2 from "../ProjectDetails/CountryHeader2";
+import ProjectDetailBody from "../ProjectDetails/ProjectDetailBody";
+import GenOverView from "../generationOverView/GenOverView";
+import ProjOverView from "../projectOverView/ProjOverView";
+import PresCripModel from "../prescriptiveModel/PresCripModel";
 
 const Diagonistic = () => {
   const location = useLocation();
 
   return (
-    <div style={{height:"100%"}} >
+    <div style={{ height: "100%" }} >
       <div className="country-header">
         {/* <ProjectDetails /> */}
         {/* <CountryHeader/> */}
-        <ProjectDetailsHeader/>
+        {/* <ProjectDetailsHeader/> */}
+        <CountryHeader2 />
       </div>
       {location?.pathname == PageURL.INDIA_DIAGONISTIC_DETAILED && <Detailed2 />}
       {location?.pathname == PageURL.INDIA_LOSS_FLOW && <LossFlow />}
       {location?.pathname == PageURL.INDIA_INVERTER_EFFICIENCY && <InverterEfficiency />}
       {location?.pathname == PageURL.INDIA_INVERTER1_SCB_SMB1 && <SCBSMB />}
       {location?.pathname == PageURL.INDIA_INVERTER1_SCB_SMB2 && <SCBSMB />}
+      {location?.pathname == PageURL.PROJECT_DETAILS && <ProjectDetailBody />}
+      {location?.pathname == PageURL.INDIA_GEN_SUMMARY && <GenOverView />}
+      {location?.pathname == PageURL.INDIA_PROJ_OVERVIEW && <ProjOverView />}
+      {location?.pathname == PageURL.INDIA_PRES_MODEL&& <PresCripModel />}
+
+
     </div>
   );
 };

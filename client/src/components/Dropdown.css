@@ -35,6 +35,6 @@
 }
 
 .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
-   border: 2px solid red;
+   /* border: 2px solid red; */
    scrollbar-width: 2px !important;
 }

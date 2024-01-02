@@ -43,9 +43,9 @@ const CountryHeader = (props) => {
         <h3 style={{ color: "#ed7d31", fontSize: "140%" }}>
           Creating Climate To Live In A Better World
         </h3>
-        <div className="dropdown">
+        {/* <div className="dropdown">
           <DropDown />
-        </div>
+        </div> */}
         <div>
           <Buttons
             type="contained"

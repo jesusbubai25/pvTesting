@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { powerPlantDetail } from "../../../../actions/inverterActions";
 import SpinLoader from "../../../../components/SpinLoader";
 import CountryHeader1 from "../CounterHeader1";
-import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailsHeader";
+import CountryHeader2 from "../ProjectDetails/CountryHeader2";
 
 const ProjOverView = () => {
   const [showDetails, setShowDetails] = useState({
@@ -49,15 +49,16 @@ const ProjOverView = () => {
 
   return (
     <div>
-      <div className="country-header-no-margin">
-        {/* <CountryHeader /> */}
-        <ProjectDetailsHeader />
-      </div>
+      {/* <div className="country-header-no-margin"> */}
+      {/* <CountryHeader /> */}
+      {/* <ProjectDetailsHeader /> */}
+      {/* <CountryHeader2/> */}
+      {/* </div> */}
       {loading ?
         <SpinLoader /> :
         <div ref={refReset} >
           <Grid container spacing={2} >
-            <Grid item lg={12}>
+            <Grid item lg={12} marginBottom={2}>
               <div
                 style={{
                   height: "40vh",

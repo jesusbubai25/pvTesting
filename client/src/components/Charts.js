@@ -151,7 +151,7 @@ const Charts = (props) => {
           textAlign: "center",
         }}
       >
-        <span style={{ fontFamily: "cursive" }}>{props?.title}</span>
+        <span>{props?.title}</span>
       </h3>
       <BarChart
         ref={(chart) => setstoreElement(chart)}

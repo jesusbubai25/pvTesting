@@ -6,7 +6,8 @@ import Charts from "../../../../components/Charts";
 import LineBarChart from "../../../../components/LineBarChart";
 import { Grid } from "@mui/material";
 import Printer from "../../../../components/Printer";
-import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailsHeader";
+import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailBody";
+import CountryHeader2 from "../ProjectDetails/CountryHeader2";
 
 const data = [
   {
@@ -61,11 +62,12 @@ const PresCripModel = () => {
     }
   };
   return (
-    <div>
-      <div className="country-header">
-        <ProjectDetailsHeader/>
+    <>
+      {/* <div className="country-header"> */}
+        {/* <ProjectDetailsHeader/> */}
         {/* <CountryHeader /> */}
-      </div>
+        {/* <CountryHeader2/> */}
+      {/* </div> */}
       <div>
         <Grid
           container
@@ -117,7 +119,7 @@ const PresCripModel = () => {
           </Grid>
         </Grid>
       </div>
-    </div>
+    </>
   );
 };
 
