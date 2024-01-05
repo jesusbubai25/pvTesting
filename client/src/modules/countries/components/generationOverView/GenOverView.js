@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import LineBarChart from "../../../../components/LineBarChart";
-import CountryHeader from "../CountryHeader";
 import "../CountryDefault.css";
 import "./GenOverView.css";
 import { Checkbox, FormControlLabel, FormGroup, Grid } from "@mui/material";
@@ -12,11 +11,7 @@ import SelectOptions from "./SelectOptions";
 import Printer from "../../../../components/Printer";
 import { CSVLink } from "react-csv";
 import { saveAs } from 'file-saver';
-import ReactDOM from 'react-dom'
 import html2canvas from 'html2canvas';
-import ProjectDetailsHeader from "../ProjectDetails/ProjectDetailBody";
-import CountryHeader2 from "../ProjectDetails/CountryHeader2";
-
 
 
 
@@ -31,7 +26,7 @@ const GenOverView = () => {
   const [ExcessORShortfall_kwh, setExcessORShortfall_kwh] = useState(0);
   const [ExcessORShortfall_Percentage, setExcessORShortfall_Percentage] = useState(0)
   const [AC_Loss, setAC_Loss] = useState(0)
-  const [Acutal_pr, setAcutal_pr] = useState(0)
+  const [Actual_pr, setActual_pr] = useState(0)
   const [checkBoxChecked, setCheckBoxChecked] = useState({
     NetEnergy: true,
     NormalisedEnergy: true,
@@ -40,25 +35,27 @@ const GenOverView = () => {
   const downloadRef1 = useRef(null)
   const downloadRef2 = useRef(null)
   const downloadRef3 = useRef(null)
+  const downloadRef4 = useRef(null)
   const speedometerRef1 = useRef(null);
   const speedometerRef2 = useRef(null);
   const speedometerRef3 = useRef(null);
-  const [storeElement, setStoreElement] = useState(null)
+  const graphRef = useRef(null);
   useMemo(() => {
     if (energy?.data1) {
       let initalmonth = energy.data1.find(e => e.month === "Yearly")
-      setContractual_energy(initalmonth.contructual_energy)
-      setnetEnergy(initalmonth.net_energy)
-      setExcessORShortfall_kwh(initalmonth.ExcessORShortfall_kwh)
-      setExcessORShortfall_Percentage(initalmonth.ExcessORShortfall_Percentage)
-      setAC_Loss(initalmonth.AC_Loss)
-      setAcutal_pr(initalmonth.Acutal_pr)
+      if (yearlyEnergyMonth === "Yearly" && yearlyEnergyMonth2 === "Yearly" && yearlyEnergyMonth3 === "Yearly") {
+        setContractual_energy(initalmonth.contructual_energy)
+        setnetEnergy(initalmonth.net_energy)
+        setExcessORShortfall_kwh(initalmonth.ExcessORShortfall_kwh)
+        setExcessORShortfall_Percentage(initalmonth.ExcessORShortfall_Percentage)
+        setAC_Loss(initalmonth.AC_Loss)
+        setActual_pr(initalmonth.Actual_pr)
+      }
     }
 
   }, [energy])
 
   const dispatch = useDispatch();
-
   const handleChangeYear1 = ({ month, net_energy, contructual_energy }) => {
     try {
       setnetEnergy(net_energy);
@@ -78,10 +75,10 @@ const GenOverView = () => {
       console.log(error);
     }
   };
-  const handleChangeYear3 = ({ month, AC_Loss, Acutal_pr }) => {
+  const handleChangeYear3 = ({ month, AC_Loss, Actual_pr }) => {
     try {
       setAC_Loss(AC_Loss)
-      setAcutal_pr(Acutal_pr)
+      setActual_pr(Actual_pr)
 
       setYearlyEnergyMonth3(month);
     } catch (error) {
@@ -98,23 +95,56 @@ const GenOverView = () => {
   const clickhandler3 = () => {
     downloadRef3.current.link.click();
   }
+  const clickhandler4 = () => {
+    downloadRef4.current.link.click();
+  }
   const jpgDownload1 = async () => {
-    const canvas = await html2canvas(speedometerRef1.current, { foreignObjectRendering: true });
-    canvas.height = 500
-    canvas.width = 1000
-    console.log(canvas)
-    const data = canvas.toDataURL('image/jpg', 1.0);
-    saveAs(data, 'graph.jpg')
+    // setTimeout(async () => {
+    //   const canvas = await html2canvas(speedometerRef1.current, { foreignObjectRendering: true });
+    //   console.log(canvas)
+    //   const data = canvas.toDataURL();
+    //   saveAs(data, 'graph.jpg')
+    // }, 100);
+
+    setTimeout(async () => {
+      const canvas = await html2canvas(speedometerRef1.current, {
+        // scrollY: -window.scrollY,
+        // crossOrigin: 'Anonymous',
+        // allowTaint: true,
+        // foreignObjectRendering: true
+      });
+      const dataURL = canvas.toDataURL('image/jpg');
+      saveAs(dataURL, 'graph.jpg')
+    }, 100);
+
   };
   const jpgDownload2 = async () => {
-    const canvas = await html2canvas(speedometerRef2.current, { foreignObjectRendering: true });
-    const data = canvas.toDataURL('image/jpg', 1.0);
-    saveAs(data, 'graph.jpg')
+    setTimeout(async () => {
+      const canvas = await html2canvas(speedometerRef2.current);
+      const dataURL = canvas.toDataURL('image/jpg');
+      saveAs(dataURL, 'graph.jpg')
+    }, 100);
+
+    // const canvas = await html2canvas(speedometerRef2.current, { foreignObjectRendering: true });
+    // const data = canvas.toDataURL();
+    // saveAs(data, 'graph.jpg')
   };
   const jpgDownload3 = async () => {
-    const canvas = await html2canvas(speedometerRef3.current, { foreignObjectRendering: true });
-    const data = canvas.toDataURL('image/jpg', 1.0);
-    saveAs(data, 'graph.jpg')
+    setTimeout(async () => {
+      const canvas = await html2canvas(speedometerRef3.current);
+      const data = canvas.toDataURL();
+      saveAs(data, 'graph.jpg')
+    }, 100);
+
+  };
+
+  const jpgDownload4 = async () => {
+    setTimeout(async () => {
+      const canvas = await html2canvas(graphRef.current);
+      const data = canvas.toDataURL();
+      saveAs(data, 'graph.jpg')
+    }, 100);
+
   };
 
   const vdata = energy?.data1.reduce((acc, curr) => {
@@ -148,7 +178,7 @@ const GenOverView = () => {
       else {
         return (
           [...acc, {
-            month: curr.month, AC_Loss: curr.AC_Loss, Acutal_pr: curr.Acutal_pr
+            month: curr.month, AC_Loss: curr.AC_Loss, Actual_pr: curr.Actual_pr
           }]
 
         )
@@ -160,12 +190,10 @@ const GenOverView = () => {
 
   useEffect(() => {
     dispatch(normalizedEnergyDetails())
-
   }, [dispatch])
 
-  console.log(speedometerRef1)
   return (
-    
+
     <>
       {/* <div className="country-header">
         <ProjectDetailsHeader />
@@ -242,14 +270,13 @@ const GenOverView = () => {
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-evenly" }} >
                     <SpeedChart
-
-                      title={`${yearlyEnergyMonth === "None" ? "" : yearlyEnergyMonth} Net Energy & Grid Loss`.trim()}
+                      title={`Net Energy`}
                       minValue={0}
                       maxValue={20000000}
                       value={netenergy}
                     />
                     <SpeedChart
-                      title={`${yearlyEnergyMonth === "None" ? "" : yearlyEnergyMonth} Contractual Energy`.trim()}
+                      title={`Contractual Energy`}
                       minValue={0}
                       maxValue={20000000}
                       value={Contractual_energy}
@@ -316,13 +343,13 @@ const GenOverView = () => {
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                     <SpeedChart
-                      title={`${yearlyEnergyMonth2 === "None" ? "" : yearlyEnergyMonth2} Excess Shortfall`}
+                      title={`Excess Shortfall`}
                       minValue={-1000000}
                       maxValue={100000}
                       value={ExcessORShortfall_kwh}
                     />
                     <SpeedChart
-                      title={`${yearlyEnergyMonth2 === "None" ? "" : yearlyEnergyMonth2} Excess/Shortfall Percentage`.trim()}
+                      title={`Excess/Shortfall Percentage`}
                       minValue={-200}
                       maxValue={200}
                       value={ExcessORShortfall_Percentage}
@@ -375,7 +402,7 @@ const GenOverView = () => {
                       onChange={(e) => {
                         if (e.target.value === "None") {
                           setAC_Loss(0)
-                          setAcutal_pr(0);
+                          setActual_pr(0);
                           setYearlyEnergyMonth3("")
                           return;
                         }
@@ -388,13 +415,13 @@ const GenOverView = () => {
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                     <SpeedChart
-                      title={`${yearlyEnergyMonth3 === "None" ? "" : yearlyEnergyMonth3} Actual PR`}
+                      title={`Actual PR`}
                       minValue={-1000}
                       maxValue={1000}
-                      value={Acutal_pr}
+                      value={Actual_pr}
                     />
                     <SpeedChart
-                      title={`${yearlyEnergyMonth3 === "None" ? "" : yearlyEnergyMonth3} AC Line Loss Percentage`}
+                      title={`AC Line Loss Percentage`}
                       minValue={-20}
                       maxValue={20}
                       value={AC_Loss}
@@ -413,7 +440,17 @@ const GenOverView = () => {
                     marginLeft: "20px",
                     marginTop: "20px",
                   }}
+                  ref={graphRef}
+                  
                 >
+                  <Printer clickhandler={clickhandler4} jpgDownload={jpgDownload4} />
+                  <CSVLink
+                    data={energy?.data2}
+                    filename='data.csv'
+                    className='hidden'
+                    ref={downloadRef4}
+                    target='_blank'
+                  />
 
                   <div
                     style={{

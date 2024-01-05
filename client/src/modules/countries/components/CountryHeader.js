@@ -31,7 +31,7 @@ const CountryHeader = (props) => {
 
 
   return (
-    <div className="header">
+    <div className="header"  style={{justifyContent:"space-between",paddingLeft:"1.5rem"}}>
       <div className="logo">
         <img onClick={() => navigate(PageURL.COUNTRYDEFAULT)}
           src={GreenLogo}
@@ -39,44 +39,50 @@ const CountryHeader = (props) => {
           alt="Greenenco-Logo"
         />
       </div>
-      <div className="title">
+      <div className="title" style={{width:"80vw"}}>
         <h3 style={{ color: "#ed7d31", fontSize: "140%" }}>
           Creating Climate To Live In A Better World
         </h3>
         {/* <div className="dropdown">
           <DropDown />
         </div> */}
-        <div>
-          <Buttons
-            type="contained"
-            buttonType="primary"
-            buttonText="Project Details"
-            onClick={() => {
-              navigate(PageURL.PROJECT_DETAILS)
-              // props?.setDashBoard(true);
-            }}
-          ></Buttons>
-        </div>
-        {PageURL.COUNTRYDEFAULT === location.pathname && user && user.LevelPermission === 4 && (
+        <div style={{display:"flex",alignItems:"center"}}>
+
           <div>
             <Buttons
               type="contained"
               buttonType="primary"
-              buttonText="Admin Dashboard"
+              buttonText="Project Details"
               onClick={() => {
-                props?.setDashBoard(true);
+                navigate(PageURL.PROJECT_DETAILS)
+                // props?.setDashBoard(true);
               }}
             ></Buttons>
           </div>
-        )}
-      </div>
-      <div className="logout">
-        <Buttons
-          type="contained"
-          buttonType="primary"
-          buttonText="Logout"
-          onClick={logoutHandler}
-        ></Buttons>
+          {PageURL.COUNTRYDEFAULT === location.pathname && user && user.LevelPermission === 4 && (
+            <div>
+              <Buttons
+
+                type="contained"
+                buttonType="primary"
+                buttonText="Admin Dashboard"
+                onClick={() => {
+                  props?.setDashBoard(true);
+                }}
+
+              ></Buttons>
+            </div>
+          )}
+
+          <div className="logout">
+            <Buttons
+              type="contained"
+              buttonType="primary"
+              buttonText="Logout"
+              onClick={logoutHandler}
+            ></Buttons>
+          </div>
+        </div>
       </div>
     </div>
   );

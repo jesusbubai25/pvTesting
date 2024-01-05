@@ -48,7 +48,24 @@ const ProjOverView = () => {
 
 
   return (
-    <div>
+    // .country-header {
+    //   height: 10vh;
+    //   width: 100vw;
+    //   margin-bottom: 10px;
+    // }
+    
+    // .country-header-no-margin {
+    //   height: 10vh;
+    //   width: 100vw;
+    // }
+    
+    // .country-body {
+    //   width: 100vw;
+    //   height: 90vh;
+    //   overflow: hidden;
+    //   display: flex;
+    // }
+    <div >
       {/* <div className="country-header-no-margin"> */}
       {/* <CountryHeader /> */}
       {/* <ProjectDetailsHeader /> */}
@@ -58,17 +75,18 @@ const ProjOverView = () => {
         <SpinLoader /> :
         <div ref={refReset} >
           <Grid container spacing={2} >
-            <Grid item lg={12} marginBottom={2}>
+            <Grid item lg={12} marginBottom={4} >
               <div
                 style={{
                   height: "40vh",
                   overflow: "hidden",
+                  paddingTop:"5px"
                 }}
               >
                 <img
                   src={ProjPic}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  alt=""
+                  alt="Project-picture"
                 />
               </div>
             </Grid>
@@ -181,9 +199,12 @@ const ProjOverView = () => {
                 bgColor="#ed7d31"
                 heading="SMB & String"
                 body={[
-                  `Number of SMB: ${plantDetail?.data2.numberOfInverter}`,
-                  `Specifications: ${plantDetail?.data2.inverterDetails}`,
-                  `Inverter Type: ${plantDetail?.data2.inverterType}`
+                  "Number of SMB: 47",
+                  "Number of String: 1106",
+                  "String Type: Y Connector",
+                  // `Number of SMB: ${plantDetail?.data2.numberOfInverter}`,
+                  // `Specifications: ${plantDetail?.data2.inverterDetails}`,
+                  // `Inverter Type: ${plantDetail?.data2.inverterType}`
                 ]}
                 data={plantDetail?.data2}
                 onClick={() => {

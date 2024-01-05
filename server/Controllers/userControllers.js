@@ -5,7 +5,6 @@ const sendEmail = require("../utils/sendEmail");
 const { generateStrongPassword, getOtp } = require("../utils/strongPassword");
 const mysql = require('mysql2')
 const token = "greencousers"
-const OTP_obj = { otp: null, date: null, email: null }
 
 const pool = mysql.createPool({
   host: "141.136.43.151",
@@ -53,7 +52,7 @@ exports.SignupHandler = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     await connection.rollback()
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
 
   } finally {
     connection?.release();
@@ -96,7 +95,7 @@ exports.allowRegistredUser = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     await connection?.rollback()
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
   }
   finally {
     connection?.release();
@@ -138,7 +137,7 @@ exports.LoginHandler = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     await connection?.rollback()
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
   }
   finally {
     connection?.release();
@@ -172,7 +171,7 @@ exports.deleteExistingUser = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     await connection?.rollback();
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
 
   } finally {
     connection?.release();
@@ -210,7 +209,7 @@ exports.sendOtpHandler = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     await connection?.rollback();
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
   } finally {
     connection?.release();
   }
@@ -234,10 +233,12 @@ exports.verifyOtpHandler = async (req, res) => {
       console.log("User not found");
       return res.status(400).json({ error: "user not fond", sucess: false })
     }
+    console.log(rows)
     strong_password = generateStrongPassword()
     hash_password = await bcryptjs.hash(strong_password, 10);
     await connection.query(`update registrationGreenEnco set userPassword=? where email_ID = ?`, [hash_password, email_ID])
-
+    await connection.commit();
+    
     const options = {
       email: email_ID,
       subject: "Regarding your Greenenco-Pvamp-Dashboard password",
@@ -247,13 +248,12 @@ exports.verifyOtpHandler = async (req, res) => {
       `
     }
     await sendEmail(options)
-    await connection.commit();
     return res.status(200).cookie("auth_otp", null, { expires: new Date(Date.now()), httpOnly: true }).json({ message: "Otp verified sucessfully! and password sent to your email", sucess: true })
 
   } catch (error) {
     console.log(error.message);
     await connection?.rollback();
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
   } finally {
     connection?.release();
   }
@@ -290,7 +290,7 @@ exports.reSendOtpHandler = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     await connection?.rollback();
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
   }finally{
     connection?.release();
   }
@@ -307,7 +307,7 @@ exports.LogoutHandler = async (req, res) => {
       message: "Logged out succefully"
     })
   } catch (error) {
-    return res.status(200).json({ error: error.message, sucess: false })
+    return res.status(400).json({ error: error.message, sucess: false })
   }
 }
 
@@ -327,7 +327,7 @@ exports.getUser = async (req, res) => {
 
     await connection?.rollback();
     console.log(error.message);
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
   } finally {
     connection?.release();
   }
@@ -345,7 +345,7 @@ exports.getRegisteredUsers = async (req, res) => {
   } catch (error) {
     await connection?.rollback();
     console.log(error.message);
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
   } finally {
     connection?.release();
   }
@@ -378,7 +378,7 @@ exports.deleteRegistredUser = async (req, res) => {
   } catch (error) {
     await connection?.rollback();
     console.log(error.message);
-    return res.status(200).json({ error: error.message, sucess: false });
+    return res.status(400).json({ error: error.message, sucess: false });
   } finally {
     connection?.release();
   }

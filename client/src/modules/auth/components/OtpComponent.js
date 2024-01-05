@@ -18,6 +18,7 @@ const OtpComponent = (props) => {
   const { isVerifiedOtp, error, isResendOtp, loading } = useSelector(state => state.user)
   let email = JSON.parse(localStorage.getItem("email"))
   console.log(error)
+  console.log(isVerifiedOtp)
   useEffect(() => {
     if (error) {
       toast.error(error)

@@ -157,7 +157,7 @@ exports.NormalizedEnergyDetails = async (req, res) => {
         ExcessORShortfall_kwh: result[0].reduce((a, b) => { return a + b.ExcessORShortfall_kwh }, 0),
         ExcessORShortfall_Percentage: result[0].reduce((a, b) => { return a + b.ExcessORShortfall_Percentage }, 0),
         AC_Loss: parseFloat((Math.floor((result[0].reduce((a, b) => { return a + b.AC_Loss }, 0)) * 100) / 100).toFixed(2)),
-        Acutal_pr: parseFloat((Math.floor((result[1].reduce((a, b) => { return a + b.Monthly_PR }, 0)) * 100) / 100).toFixed(2))
+        Actual_pr: parseFloat((Math.floor((result[1].reduce((a, b) => { return a + b.Monthly_PR }, 0)) * 100) / 100).toFixed(2))
       }
     )
     for (let i = 0; i < result[0].length; i++) {

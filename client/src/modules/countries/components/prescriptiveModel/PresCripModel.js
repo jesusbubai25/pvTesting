@@ -13,22 +13,38 @@ const data = [
   {
     name: "Module",
     Loss: 5.25,
+    // fill: "#FF0000"
+    fill:"#de425b"
   },
   {
     name: "Soiling",
     Loss: 3.5,
+    // fill:"rgb(227, 94, 27)"
+    fill:"#e18745"
   },
   {
     name: "Shadow",
     Loss: 1.3,
+    // fill: "#FFA500"
+    fill: "#dac767"
   },
   {
     name: "Resistance",
     Loss: 1,
+    // fill:"rgb(223, 200, 51)"
+    fill:"#78ab63"
   },
   {
     name: "Overheating",
     Loss: 1,
+    // fill: "rgb(27, 84, 227)"
+    // fill: "rgb(24, 134, 245)"
+    // fill:"rgb(252, 237, 107)" 
+    // fill:"rgb(94, 216, 253)"
+    fill:"#488f31"
+    
+
+
   },
 ];
 
@@ -64,9 +80,9 @@ const PresCripModel = () => {
   return (
     <>
       {/* <div className="country-header"> */}
-        {/* <ProjectDetailsHeader/> */}
-        {/* <CountryHeader /> */}
-        {/* <CountryHeader2/> */}
+      {/* <ProjectDetailsHeader/> */}
+      {/* <CountryHeader /> */}
+      {/* <CountryHeader2/> */}
       {/* </div> */}
       <div>
         <Grid

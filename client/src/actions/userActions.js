@@ -153,6 +153,7 @@ export const verifyOtp = (otp, email_ID) => async (dispatch) => {
         dispatch({ type: verify_otp_request })
 
         const { data } = await axios.post(`/verify-otp`, { otp, email_ID }, { withCredentials: true });
+        console.log(data)
         dispatch({ type: verify_otp_sucess, payload: data.sucess })
 
     } catch (error) {

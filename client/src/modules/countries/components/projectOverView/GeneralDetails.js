@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 
 const GeneralDetails = () => {
   return (
-    <div style={{padding:"0 1rem",paddingBottom:"1rem"}} >
+    <div style={{padding:"0 1rem",paddingBottom:"1rem",marginTop:"3rem"}} >
       <h1
         style={{
           textAlign: "center",

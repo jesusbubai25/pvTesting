@@ -9,8 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { colors1 } from "../colors/color";
-
+import { colors1, colors3 } from "../colors/color";
 export default function LineBarChart(props) {
   if (!props?.data) return null;
   return (
@@ -20,7 +19,7 @@ export default function LineBarChart(props) {
         width: "max-content",
       }}
     >
-      
+
       <h3 style={{ textAlign: "center" }}>
         {props?.title}
       </h3>
@@ -40,8 +39,8 @@ export default function LineBarChart(props) {
         <XAxis
           dataKey="name"
           fontSize={12} fontWeight={600}
-          // label={{ value: "Pages", position: "insideBottomRight", offset: 0 }}
-          // scale="band"
+        // label={{ value: "Pages", position: "insideBottomRight", offset: 0 }}
+        // scale="band"
         />
 
         <YAxis yAxisId="left-axis" label={{ value: `${props?.y_axis_label_value1 || ""}`, angle: -90, position: "insideBottomLeft" }} />
@@ -63,7 +62,7 @@ export default function LineBarChart(props) {
             dataKey={props?.dataKey1}
             barSize={20}
             // fill="#122b4f"
-            fill={`${colors1[3]}`}
+            fill={`${colors3[0]}`}
             yAxisId="left-axis"
           />
         )}
@@ -72,7 +71,7 @@ export default function LineBarChart(props) {
             dataKey={props?.dataKey2}
             barSize={20}
             // fill="#ed7d31"
-            fill={`${colors1[2]}`}
+            fill={`${colors3[1]}`}
             yAxisId="left-axis"
           />
         )}
@@ -90,3 +89,6 @@ export default function LineBarChart(props) {
     </div>
   );
 }
+
+//colors1- Index - [3,2,4]
+//colors2- Index - [1,2,3]

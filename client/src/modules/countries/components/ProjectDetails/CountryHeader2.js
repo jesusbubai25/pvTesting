@@ -4,18 +4,19 @@ import GreenLogo from "../../../../newLogo.PNG";
 import { useNavigate } from "react-router-dom";
 import PageURL from "../../../../constants/PageURL";
 import '../../../../components/Dropdown.css'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from "@mui/material";
 
 const data1 = [
     {
         country: "India",
-        projectName: [
+        partnersName: [
             {
-                name: "Bhajanghat",
+                name: "Luminous",
                 blocks: [
                     {
-                        name: "block_1",
+                        name: "Bhajanghat",
                         details: [
                             {
                                 header: "Details",
@@ -58,22 +59,22 @@ const data1 = [
     }
     // , {
     //     country: "Uk",
-    //     projectName: ["uk_Project1", "uk_Project2", "uk_Project3", "uk_Project4"],
+    //     partnersName: ["uk_Project1", "uk_Project2", "uk_Project3", "uk_Project4"],
     //     block: ["uk_block1", "uk_block2"]
 
     // }, {
     //     country: "France",
-    //     projectName: ["Project1", "Project2", "Project3", "Project4"],
+    //     partnersName: ["Project1", "Project2", "Project3", "Project4"],
     //     block: ["block1", "block2"],
 
     // }, {
     //     country: "India",
-    //     projectName: ["Italy", "Project2", "Project3", "Project4"],
+    //     partnersName: ["Italy", "Project2", "Project3", "Project4"],
     //     block: ["block1", "block2"],
 
     // }, {
     //     country: "Thailand",
-    //     projectName: ["Project1", "Project2", "Project3", "Project4"],
+    //     partnersName: ["Project1", "Project2", "Project3", "Project4"],
     //     block: ["block1", "block2"],
 
     // }
@@ -85,7 +86,7 @@ const CountryHeader2 = (props) => {
     const navigate = useNavigate();
     const [data, setdata] = useState(data1)
     const [country, setCountry] = useState("")
-    const [projectName, setprojectName] = useState("")
+    const [partnersName, setpartnersName] = useState("")
     const [block, setBlock] = useState("")
     const [projectDetail, setProjectDetail] = useState("")
 
@@ -93,7 +94,7 @@ const CountryHeader2 = (props) => {
 
     };
     const handleChange2 = (event) => {
-        setprojectName(event.target.value)
+        setpartnersName(event.target.value)
     };
     const handleChange3 = (event) => {
         setBlock(event.target.value)
@@ -102,14 +103,51 @@ const CountryHeader2 = (props) => {
     const [checkedData, setCheckedData] = React.useState({
         projectDetail: false,
         Diagonistic: false,
-        Inverter: false,
+        Efficiency: false,
         Inverter1: false,
         Inverter2: false,
         Inverter3: false,
         Inverter4: false,
-        checkedData: false
+        checkedData: false,
+        Prescritive: false,
+        string_smb: false,
 
     })
+    const [checkedData2, setCheckedData2] = React.useState({
+        block1: false,
+        block2: false
+
+    })
+    const [checkedData3, setCheckedData3] = React.useState({
+        Inverter1: false,
+        Inverter2: false,
+        Inverter3:false,
+        Inverter4:false
+
+    })
+    const onclickBlockHandler = (name) => {
+        let checked = { ...checkedData2 };
+        for (let key in checked) {
+            if (key === name) {
+                checked[key] = !checked[key];
+            } else {
+                checked[key] = false
+            }
+        }
+        setCheckedData2(checked)
+    }
+
+    const onclickInverterHandler = (name) => {
+        let checked = { ...checkedData3 };
+        for (let key in checked) {
+            if (key === name) {
+                checked[key] = !checked[key];
+            } else {
+                checked[key] = false
+            }
+        }
+        setCheckedData3(checked)
+    }
     const onclickHandler = (name) => {
         let checked = { ...checkedData };
         for (let key in checked) {
@@ -154,7 +192,7 @@ const CountryHeader2 = (props) => {
                                 id="demo-simple-select-filled"
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}
-                                style={{ backgroundColor: "#ed7d31" }}
+                                style={{ backgroundColor: "rgb(236, 85, 15)" }}
                             >
                                 <MenuItem ><em>None</em> </MenuItem>
 
@@ -169,19 +207,19 @@ const CountryHeader2 = (props) => {
                     </div>
                     <div className="dropdown">
                         <FormControl variant="filled" sx={{ m: 1, minWidth: 165 }}>
-                            <InputLabel id="demo-simple-select-filled-label1" style={{ color: "black", fontWeight: "800" }}>Project Name</InputLabel>
+                            <InputLabel id="demo-simple-select-filled-label1" style={{ color: "black", fontWeight: "800",fontSize:"0.95rem" }}>Partners Name</InputLabel>
                             <Select
                                 labelId="demo-simple-select-filled-label1"
                                 id="demo-simple-select-filled1"
-                                onChange={(e) => setprojectName(e.target.value)}
-                                value={projectName}
-                                style={{ backgroundColor: "#ed7d31" }}
+                                onChange={(e) => setpartnersName(e.target.value)}
+                                value={partnersName}
+                                style={{ backgroundColor: "rgb(236, 85, 15)" }}
                             >
-                                {/* {!data[country]?.projectName && <MenuItem><em>None</em> </MenuItem>} */}
+                                {/* {!data[country]?.partnersName && <MenuItem><em>None</em> </MenuItem>} */}
                                 <MenuItem><em>None</em> </MenuItem>
 
                                 {
-                                    data[country]?.projectName.map((value, index) => {
+                                    data[country]?.partnersName.map((value, index) => {
                                         return <MenuItem key={index} value={value.name}>{value.name}</MenuItem>
                                     })
                                 }
@@ -190,18 +228,18 @@ const CountryHeader2 = (props) => {
                     </div>
                     <div className="dropdown">
                         <FormControl variant="filled" sx={{ m: 1, minWidth: 165 }}>
-                            <InputLabel id="demo-simple-select-filled-label2" style={{ color: "black", fontWeight: "800" }}>Block</InputLabel>
+                            <InputLabel id="demo-simple-select-filled-label2" style={{ color: "black", fontWeight: "800" }}>Project Name</InputLabel>
                             <Select
                                 labelId="demo-simple-select-filled-label2"
                                 id="demo-simple-select-filled2"
                                 onChange={(e) => setBlock(e.target.value)}
                                 value={block}
-                                style={{ backgroundColor: "#ed7d31" }}
+                                style={{ backgroundColor: "rgb(236, 85, 15)" }}
                             >
-                                {/* {!data[country]?.projectName?.find(e => e.name === projectName)?.blocks && <MenuItem><em>None</em> </MenuItem>} */}
+                                {/* {!data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks && <MenuItem><em>None</em> </MenuItem>} */}
                                 <MenuItem><em>None</em> </MenuItem>
                                 {
-                                    data[country]?.projectName?.find(e => e.name === projectName)?.blocks?.map((value, index) => {
+                                    data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks?.map((value, index) => {
                                         return <MenuItem key={index} value={value.name}>{value.name}</MenuItem>
 
                                     })
@@ -215,54 +253,31 @@ const CountryHeader2 = (props) => {
                                 id="demo-simple-select-filled-label3"
                                 style={{ color: "black", fontWeight: "bolder" }}
                             >
-                                projectDetail
+                                Project Detail
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-filled-label3"
                                 id="demo-simple-select-filled3"
                                 onChange={(e) => { setProjectDetail(e.target.value); console.log("value is ", e.target.value) }}
                                 value={projectDetail}
-                                style={{ backgroundColor: "#ed7d31" }}
+                                style={{ backgroundColor: "rgb(236, 85, 15)" }}
                             >
 
-                                {!data[country]?.projectName?.find(e => e.name === projectName)?.blocks.find(e => e.name === block)?.details
+                                {!data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks.find(e => e.name === block)?.details
                                     &&
-                                     <MenuItem><em>None</em> </MenuItem>                                 
+                                    <MenuItem value={"none"}><em>None</em> </MenuItem>
                                 }
 
-                                <ListSubheader className="SubHeader" >
-                                    <span onClick={() => onclickHandler("projectDetail")}>Details
-                                    <i class={`fa-solid fa-angle-${checkedData.projectDetail ? "up" : "down"}`}></i></span>
-                                </ListSubheader>
-                                {/* {
-                                            checkedData.projectDetail &&
-                                            <>
-                                                <MenuItem
-                                                    value={1}
-                                                    onClick={() => {
-                                                        navigate(PageURL.INDIA_PROJ_OVERVIEW);
-                                                    }}
-                                                >
-                                                    Project OverView
-                                                </MenuItem>
-                                                <MenuItem
-                                                    value={2}
-                                                    onClick={() => {
-                                                        navigate(PageURL.INDIA_GEN_SUMMARY);
-                                                    }}
-                                                >
-                                                    Generation Summary
-                                                </MenuItem>
-                                                <MenuItem
-                                                    value={3}
-                                                    onClick={() => {
-                                                        navigate(PageURL.INDIA_PRES_MODEL);
-                                                    }}
-                                                >
-                                                    Prescriptive Model
-                                                </MenuItem>
-                                            </>
-                                        } */}
+                                {
+                                    data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks.find(e => e.name === block)?.details?.length > 0
+                                    &&
+                                    <ListSubheader className="SubHeader" >
+                                        <span onClick={() => onclickHandler("projectDetail")}>Overview Details
+                                            <i class={`fa-solid fa-angle-${checkedData.projectDetail ? "up" : "down"}`}></i>
+                                            </span>
+                                    </ListSubheader>
+                                }
+
 
                                 {
                                     checkedData.projectDetail &&
@@ -285,20 +300,16 @@ const CountryHeader2 = (props) => {
                                     Generation Summary
                                 </MenuItem>}
 
-                                {checkedData.projectDetail && <MenuItem
-                                    value={3}
-                                    onClick={() => {
-                                        navigate(PageURL.INDIA_PRES_MODEL);
-                                    }}
-                                >
-                                    Prescriptive Model
-                                </MenuItem>
 
+                                {
+                                    data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks.find(e => e.name === block)?.details?.length > 0
+                                    &&
+                                    <ListSubheader className="SubHeader">
+                                        <span onClick={() => onclickHandler('Diagonistic')}>Diagonistic Model
+                                            <i class={`fa-solid fa-angle-${checkedData.Diagonistic ? "up" : "down"}`}></i>
+                                        </span>
+                                    </ListSubheader>
                                 }
-                                <ListSubheader className="SubHeader"><span
-                                    // onClick={() => setDiagonistic(!Diagonistic)}
-                                    onClick={() => onclickHandler('Diagonistic')}
-                                >Diagonistic Model <i class={`fa-solid fa-angle-${checkedData.Diagonistic ? "up" : "down"}`}></i></span> </ListSubheader>
                                 {
                                     checkedData.Diagonistic &&
 
@@ -323,37 +334,19 @@ const CountryHeader2 = (props) => {
                                     </MenuItem>
                                 }
 
-                                {/* {
-                                    checkedData.Diagonistic &&
-                                    <>
-                                        <MenuItem
-                                            value={5}
-                                            onClick={() => {
-                                                navigate(PageURL.INDIA_DIAGONISTIC_DETAILED);
-                                            }}
-                                        >
-                                            Detailed Summary
-                                        </MenuItem>
+                                {
+                                    data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks.find(e => e.name === block)?.details?.length > 0
+                                    &&
 
-                                        <MenuItem
-                                            value={6}
-                                            onClick={() => {
-                                                navigate(PageURL.INDIA_LOSS_FLOW);
-                                            }}
-                                        >
-                                            Loss Flow Diagram
-                                        </MenuItem>
-                                    </>
-
-                                } */}
-
-                                <ListSubheader className="SubHeader"><span onClick={() =>
-                                    onclickHandler('Inverter')
-                                    //  setInverter(!Inverter)
-                                } >Inverters <i class={`fa-solid fa-angle-${checkedData.Inverter ? "up" : "down"}`}></i></span>  </ListSubheader>
+                                    <ListSubheader className="SubHeader">
+                                        <span onClick={() => onclickHandler('Efficiency')} >Inverter Efficiency
+                                            <i class={`fa-solid fa-angle-${checkedData.Efficiency ? "up" : "down"}`}></i>
+                                        </span>
+                                    </ListSubheader>
+                                }
 
                                 {
-                                    checkedData.Inverter &&
+                                    checkedData.Efficiency &&
 
                                     <MenuItem
                                         value={7}
@@ -365,117 +358,178 @@ const CountryHeader2 = (props) => {
                                     </MenuItem>
 
                                 }
-
-                                <ListSubheader className="SubHeader"> <span
-                                    onClick={() =>
-                                        onclickHandler('Inverter1')
-                                        // setInverter1(!Inverter1)
-                                    } >Inverter1 <i class={`fa-solid fa-angle-${checkedData.Inverter1 ? "up" : "down"}`}></i></span></ListSubheader>
-                                {checkedData.Inverter1 &&
-                                    <>
-                                        <MenuItem
-                                            value={8}
-                                            onClick={() => {
-                                                navigate(PageURL.INDIA_INVERTER1_SCB_SMB1);
-                                            }}
-                                        >
-                                            SCB/SMB1
-                                        </MenuItem>
-                                        <MenuItem
-                                            value={9}
-                                            onClick={() => {
-                                                navigate(PageURL.INDIA_INVERTER1_SCB_SMB2);
-                                            }}
-                                        >
-                                            SCB/SMB2
-                                        </MenuItem>
-                                        <MenuItem
-                                            value={10}
-                                            onClick={() => {
-                                                navigate(PageURL.INDIA_INVERTER1_SCB_SMB2);
-                                            }}
-                                        >
-                                            SCB/SMB3
-                                        </MenuItem>
-                                        <MenuItem value={11}>SCB/SMB4</MenuItem>
-                                        <MenuItem value={12}>SCB/SMB5</MenuItem>
-                                        <MenuItem value={13}>SCB/SMB6</MenuItem>
-                                        <MenuItem value={14}>SCB/SMB7</MenuItem>
-                                        <MenuItem value={15}>SCB/SMB8</MenuItem>
-                                        <MenuItem value={16}>SCB/SMB9</MenuItem>
-                                        <MenuItem value={17}>SCB/SMB10</MenuItem>
-                                        <MenuItem value={18}>SCB/SMB11</MenuItem>
-                                        <MenuItem value={19}>String Loss Diagram</MenuItem>
-                                    </>
-                                }
-                                <ListSubheader className="SubHeader"> <span
-
-                                    onClick={() => onclickHandler('Inverter2')}
-                                //  onClick={() => setInverter2(!Inverter2)} 
-                                >Inverter2 <i class={`fa-solid fa-angle-${checkedData.Inverter2 ? "up" : "down"}`}></i></span></ListSubheader>
                                 {
-                                    checkedData.Inverter2 &&
-                                    <>
+                                    data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks.find(e => e.name === block)?.details?.length > 0
+                                    &&
 
-                                        <MenuItem value={20}>SCB/SMB1</MenuItem>
-                                        <MenuItem value={21}>SCB/SMB2</MenuItem>
-                                        <MenuItem value={22}>SCB/SMB3</MenuItem>
-                                        <MenuItem value={23}>SCB/SMB4</MenuItem>
-                                        <MenuItem value={24}>SCB/SMB5</MenuItem>
-                                        <MenuItem value={25}>SCB/SMB6</MenuItem>
-                                        <MenuItem value={26}>SCB/SMB7</MenuItem>
-                                        <MenuItem value={27}>SCB/SMB8</MenuItem>
-                                        <MenuItem value={28}>SCB/SMB9</MenuItem>
-                                        <MenuItem value={29}>SCB/SMB10</MenuItem>
-                                        <MenuItem value={30}>String Loss Diagram</MenuItem>
-                                    </>
+                                    <ListSubheader className="SubHeader">
+                                        <span onClick={() => onclickHandler('string_smb')} >String / SMB
+                                            <i class={`fa-solid fa-angle-${checkedData.string_smb ? "up" : "down"}`}></i>
+                                        </span>
+                                    </ListSubheader>
                                 }
-                                <ListSubheader className="SubHeader"><span
-                                    onClick={() => onclickHandler('Inverter3')}
-                                //  onClick={() => setInverter3(!Inverter3)}
-                                >Inverter3 <i class={`fa-solid fa-angle-${checkedData.Inverter3 ? "up" : "down"}`}></i></span> </ListSubheader>
                                 {
-                                    checkedData.Inverter3 &&
+                                    checkedData.string_smb &&
                                     <>
+                                        <ListSubheader className="SubHeader">
+                                            <span onClick={() => onclickBlockHandler('block1')} >Block 1
+                                                <i class={`fa-solid fa-angle-${checkedData2.block1 ? "up" : "down"}`}></i>
+                                            </span>
+                                        </ListSubheader>
 
-                                        <MenuItem value={31}>SCB/SMB1</MenuItem>
-                                        <MenuItem value={32}>SCB/SMB2</MenuItem>
-                                        <MenuItem value={33}>SCB/SMB3</MenuItem>
-                                        <MenuItem value={34}>SCB/SMB4</MenuItem>
-                                        <MenuItem value={35}>SCB/SMB5</MenuItem>
-                                        <MenuItem value={36}>SCB/SMB6</MenuItem>
-                                        <MenuItem value={37}>SCB/SMB7</MenuItem>
-                                        <MenuItem value={38}>SCB/SMB8</MenuItem>
-                                        <MenuItem value={39}>SCB/SMB9</MenuItem>
-                                        <MenuItem value={40}>SCB/SMB10</MenuItem>
-                                        <MenuItem value={41}>SCB/SMB11</MenuItem>
-                                        <MenuItem value={42}>String Loss Diagram</MenuItem>
+                                        {
+                                            checkedData2.block1 &&
+                                            <ListSubheader className="SubHeader">
+                                                <span onClick={() => onclickInverterHandler('Inverter1')} >Inverter1
+                                                    <i class={`fa-solid fa-angle-${checkedData3.Inverter1 ? "up" : "down"}`}></i>
+                                                </span>
+                                            </ListSubheader>
+                                        }
+                                        {checkedData3.Inverter1 && checkedData2.block1 &&
+                                            <>
+                                                <MenuItem
+                                                    value={8}
+                                                    onClick={() => {
+                                                        navigate(PageURL.INDIA_INVERTER1_SCB_SMB1);
+                                                    }}
+                                                >
+                                                    SCB/SMB1
+                                                </MenuItem>
+                                                <MenuItem
+                                                    value={9}
+                                                    onClick={() => {
+                                                        navigate(PageURL.INDIA_INVERTER1_SCB_SMB2);
+                                                    }}
+                                                >
+                                                    SCB/SMB2
+                                                </MenuItem>
+                                                <MenuItem
+                                                    value={10}
+                                                    onClick={() => {
+                                                        navigate(PageURL.INDIA_INVERTER1_SCB_SMB2);
+                                                    }}
+                                                >
+                                                    SCB/SMB3
+                                                </MenuItem>
+                                                <MenuItem value={11}>SCB/SMB4</MenuItem>
+                                                <MenuItem value={12}>SCB/SMB5</MenuItem>
+                                                <MenuItem value={13}>SCB/SMB6</MenuItem>
+                                                <MenuItem value={14}>SCB/SMB7</MenuItem>
+                                                <MenuItem value={15}>SCB/SMB8</MenuItem>
+                                                <MenuItem value={16}>SCB/SMB9</MenuItem>
+                                                <MenuItem value={17}>SCB/SMB10</MenuItem>
+                                                <MenuItem value={18}>SCB/SMB11</MenuItem>
+                                                <MenuItem value={19}>String Loss Diagram</MenuItem>
+                                            </>
+                                        }
+                                        {
+                                            checkedData2.block1 &&
+                                            <ListSubheader className="SubHeader">
+                                                <span onClick={() => onclickInverterHandler('Inverter2')}>Inverter2
+                                                    <i class={`fa-solid fa-angle-${checkedData3.Inverter2 ? "up" : "down"}`}></i>
+                                                </span>
+                                            </ListSubheader>
+                                        }
+                                        {
+                                            checkedData3.Inverter2 && checkedData2.block1 &&
+                                            <>
+
+                                                <MenuItem value={20}>SCB/SMB1</MenuItem>
+                                                <MenuItem value={21}>SCB/SMB2</MenuItem>
+                                                <MenuItem value={22}>SCB/SMB3</MenuItem>
+                                                <MenuItem value={23}>SCB/SMB4</MenuItem>
+                                                <MenuItem value={24}>SCB/SMB5</MenuItem>
+                                                <MenuItem value={25}>SCB/SMB6</MenuItem>
+                                                <MenuItem value={26}>SCB/SMB7</MenuItem>
+                                                <MenuItem value={27}>SCB/SMB8</MenuItem>
+                                                <MenuItem value={28}>SCB/SMB9</MenuItem>
+                                                <MenuItem value={29}>SCB/SMB10</MenuItem>
+                                                <MenuItem value={30}>String Loss Diagram</MenuItem>
+                                            </>
+                                        }
+                                        <ListSubheader className="SubHeader">
+                                            <span onClick={() => onclickBlockHandler('block2')} >Block 2
+                                                <i class={`fa-solid fa-angle-${checkedData2.block2 ? "up" : "down"}`}></i>
+                                            </span>
+                                        </ListSubheader>
+                                        {
+                                            checkedData2.block2 &&
+                                            <ListSubheader className="SubHeader">
+                                                <span onClick={() => onclickInverterHandler('Inverter3')}>Inverter3
+                                                    <i class={`fa-solid fa-angle-${checkedData3.Inverter3 ? "up" : "down"}`}></i>
+                                                </span>
+                                            </ListSubheader>
+                                        }
+                                        {
+                                            checkedData3.Inverter3 && checkedData2.block2 &&
+                                            <>
+
+                                                <MenuItem value={31}>SCB/SMB1</MenuItem>
+                                                <MenuItem value={32}>SCB/SMB2</MenuItem>
+                                                <MenuItem value={33}>SCB/SMB3</MenuItem>
+                                                <MenuItem value={34}>SCB/SMB4</MenuItem>
+                                                <MenuItem value={35}>SCB/SMB5</MenuItem>
+                                                <MenuItem value={36}>SCB/SMB6</MenuItem>
+                                                <MenuItem value={37}>SCB/SMB7</MenuItem>
+                                                <MenuItem value={38}>SCB/SMB8</MenuItem>
+                                                <MenuItem value={39}>SCB/SMB9</MenuItem>
+                                                <MenuItem value={40}>SCB/SMB10</MenuItem>
+                                                <MenuItem value={41}>SCB/SMB11</MenuItem>
+                                                <MenuItem value={42}>String Loss Diagram</MenuItem>
+                                            </>
+                                        }
+                                        {
+                                            checkedData2.block2 &&
+                                            <ListSubheader className="SubHeader"> <span
+                                                onClick={() => onclickInverterHandler('Inverter4')}
+                                            >Inverter4 <i class={`fa-solid fa-angle-${checkedData3.Inverter4 ? "up" : "down"}`}></i></span></ListSubheader>
+                                        }
+                                        {
+                                            checkedData3.Inverter4 && checkedData2.block2 &&
+                                            <>
+                                                <MenuItem value={43}>SCB/SMB1</MenuItem>
+                                                <MenuItem value={44}>SCB/SMB2</MenuItem>
+                                                <MenuItem value={45}>SCB/SMB3</MenuItem>
+                                                <MenuItem value={46}>SCB/SMB4</MenuItem>
+                                                <MenuItem value={47}>SCB/SMB5</MenuItem>
+                                                <MenuItem value={48}>SCB/SMB6</MenuItem>
+                                                <MenuItem value={49}>SCB/SMB7</MenuItem>
+                                                <MenuItem value={50}>SCB/SMB8</MenuItem>
+                                                <MenuItem value={51}>SCB/SMB9</MenuItem>
+                                                <MenuItem value={52}>SCB/SMB10</MenuItem>
+                                                <MenuItem value={53}>SCB/SMB11</MenuItem>
+                                                <MenuItem value={54}>String Loss Diagram</MenuItem>
+                                            </>
+                                        }
+
                                     </>
                                 }
-                                <ListSubheader className="SubHeader last_item"> <span
-                                    onClick={() => onclickHandler('Inverter4')}
-                                //  onClick={() => setInverter4(!Inverter4)}
-                                >Inverter3 <i class={`fa-solid fa-angle-${checkedData.Inverter4 ? "up" : "down"}`}></i></span></ListSubheader>
+
+
+
                                 {
-                                    checkedData.Inverter4 &&
-                                    <>
-
-                                        <MenuItem value={43}>SCB/SMB1</MenuItem>
-                                        <MenuItem value={44}>SCB/SMB2</MenuItem>
-                                        <MenuItem value={45}>SCB/SMB3</MenuItem>
-                                        <MenuItem value={46}>SCB/SMB4</MenuItem>
-                                        <MenuItem value={47}>SCB/SMB5</MenuItem>
-                                        <MenuItem value={48}>SCB/SMB6</MenuItem>
-                                        <MenuItem value={49}>SCB/SMB7</MenuItem>
-                                        <MenuItem value={50}>SCB/SMB8</MenuItem>
-                                        <MenuItem value={51}>SCB/SMB9</MenuItem>
-                                        <MenuItem value={52}>SCB/SMB10</MenuItem>
-                                        <MenuItem value={53}>SCB/SMB11</MenuItem>
-                                        <MenuItem value={54}>String Loss Diagram</MenuItem>
-                                    </>
-                                    //     }
-                                    // </>
+                                    data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks.find(e => e.name === block)?.details?.length > 0
+                                    &&
+                                    <ListSubheader className="SubHeader last_item"> <span
+                                        onClick={() => onclickHandler('Prescritive')}
+                                    >Prescriptive Model <i class={`fa-solid fa-angle-${checkedData.Prescritive ? "up" : "down"}`}></i></span></ListSubheader>
                                 }
+                                {
+                                    checkedData.Prescritive &&
+
+                                    <MenuItem
+                                        value={3}
+                                        onClick={() => {
+                                            navigate(PageURL.INDIA_PRES_MODEL);
+                                        }}
+                                    >
+                                        Prescriptive Model
+                                    </MenuItem>
+                                }
+
+
+
+
                             </Select>
                         </FormControl>
                         {/* <FormControl variant="filled" sx={{ m: 1, minWidth: 170 }}>
@@ -489,7 +543,7 @@ const CountryHeader2 = (props) => {
                             >
                                 <MenuItem>None</MenuItem>
                                 {
-                                    data[country]?.projectName?.find(e => e.name === projectName)?.blocks.find(e => e.name === block)?.details?.map((value, index) => {
+                                    data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks.find(e => e.name === block)?.details?.map((value, index) => {
 
                                         return (
                                             <>

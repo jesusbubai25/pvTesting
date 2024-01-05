@@ -9,10 +9,11 @@ const ButtonsComp = (props) => {
       style={{
         margin: "5px",
         height: "7vh",
-        width: "7vw",
+        width: "10vw",
         color: "black",
         fontWeight: "bolder",
-        backgroundColor: props?.buttonType === "primary" ? "#ed7d31" : "white",
+        backgroundColor:"rgb(236, 85, 15)"
+        //  props?.buttonType === "primary" ? "#ed7d31" : "white",
       }}
       onClick={props?.onClick}
     >

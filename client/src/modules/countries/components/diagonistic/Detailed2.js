@@ -326,7 +326,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Pvyst GTI"
+                        label="Pvyst GHI"
                       />
                       <FormControlLabel
                         control={
@@ -342,7 +342,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Actual GTI"
+                        label="Actual GHI"
                       />
                       <FormControlLabel
                         control={
@@ -357,7 +357,7 @@ const Detailed2 = () => {
                             }}
                           />
                         }
-                        label="Pvsyst GTI vs Actual GTI"
+                        label="Pvsyst GHI vs Actual GHI"
                       />
                     </FormGroup>
                   </div>
@@ -490,7 +490,7 @@ const Detailed2 = () => {
               // borderColor={"#ed7d31"}
               >
                 <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
-                  <Printer />
+                  <Printer  />
                 </div>
                 <LineBarChart
                   data={energy?.data3}
@@ -668,31 +668,31 @@ const Detailed2 = () => {
 
               </Grid>
               <Grid lg={6} marginTop={4.5} paddingLeft={3}>
-              <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
                   <Printer />
                 </div>
                 <LineChart
                   width={680}
                   height={280}
                   margin={{
-                    bottom:20
+                    bottom: 20
                   }}
                   data={energy?.data3}
-                 
+
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis interval={0} dataKey="name" fontSize={"0.8rem"} fontWeight={600}  />
+                  <XAxis interval={0} dataKey="name" fontSize={"0.8rem"} fontWeight={600} />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                {Actual_pr &&  <Line
+                  {Actual_pr && <Line
                     type="monotone"
                     dataKey="Actual_pr"
                     stroke="#8884d8"
                     strokeWidth={3}
                     activeDot={{ r: 8 }}
                   />
-                }
+                  }
                 </LineChart>
                 <div
                   style={{
@@ -725,7 +725,7 @@ const Detailed2 = () => {
                           />
                         }
                         label="Actual Pr"
-                      />                 
+                      />
                     </FormGroup>
                   </div>
                 </div>

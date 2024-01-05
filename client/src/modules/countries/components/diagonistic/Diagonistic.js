@@ -16,6 +16,7 @@ import ProjectDetailBody from "../ProjectDetails/ProjectDetailBody";
 import GenOverView from "../generationOverView/GenOverView";
 import ProjOverView from "../projectOverView/ProjOverView";
 import PresCripModel from "../prescriptiveModel/PresCripModel";
+import LossFlow2 from "./LossFlow2";
 
 const Diagonistic = () => {
   const location = useLocation();
@@ -29,7 +30,8 @@ const Diagonistic = () => {
         <CountryHeader2 />
       </div>
       {location?.pathname == PageURL.INDIA_DIAGONISTIC_DETAILED && <Detailed2 />}
-      {location?.pathname == PageURL.INDIA_LOSS_FLOW && <LossFlow />}
+      {/* {location?.pathname == PageURL.INDIA_LOSS_FLOW && <LossFlow />} */}
+      {location?.pathname == PageURL.INDIA_LOSS_FLOW && <LossFlow2 />}
       {location?.pathname == PageURL.INDIA_INVERTER_EFFICIENCY && <InverterEfficiency />}
       {location?.pathname == PageURL.INDIA_INVERTER1_SCB_SMB1 && <SCBSMB />}
       {location?.pathname == PageURL.INDIA_INVERTER1_SCB_SMB2 && <SCBSMB />}

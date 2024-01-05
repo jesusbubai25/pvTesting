@@ -13,6 +13,8 @@
     justify-content: space-between;
     gap: 2rem;
 }
+.SubHeader>span>i{
+}
 
 .SubHeader:hover {
     background-color: rgb(233, 182, 116) !important;
@@ -37,4 +39,7 @@
 .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
    /* border: 2px solid red; */
    scrollbar-width: 2px !important;
+}
+.css-mhc70k-MuiGrid-root>.MuiGrid-item{
+    padding-top: 0 !important;
 }

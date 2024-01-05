@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser, userLogin } from "../../../actions/userActions";
 import { clear_errors, user_login_reset } from "../../../constants/dataConstants";
 import Loader from "../../../components/Loader";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const LoginComponent = (props) => {
   const navigate = useNavigate();
@@ -93,11 +95,19 @@ const LoginComponent = (props) => {
           }}
         />
         <div style={{ position: "relative" }}>
-          <i onClick={() => setText(!text)} style={{
+          {/* <i onClick={() => setText(!text)} style={{
             display: openEye ? "block" : "none", position: "absolute", right: "20%", bottom: "19px",
             color: "black"
           }}
-            class={`fa-solid ${!text ? "fa-eye" : "fa-eye-slash"}`}></i>
+            class={`fa-solid ${!text ? "fa-eye" : "fa-eye-slash"}`}></i> */}
+            {/* <RemoveRedEyeIcon onClick={()=>setText(!text)} style={{
+            display: openEye ? "block" : "none", position: "absolute", right: "20%", bottom: "19px",
+            color: "black"
+          }}></RemoveRedEyeIcon> */}
+          {!text && openEye && <RemoveRedEyeIcon onClick={()=>setText(!text)} style={{ position: "absolute", right: "20%", bottom: "16px",
+            color: "black"}}></RemoveRedEyeIcon>}
+          {text &&  <VisibilityOffIcon onClick={()=>setText(!text)} style={{ position: "absolute", right: "20%", bottom: "16px",
+            color: "black"}}></VisibilityOffIcon>}
         </div>
 
         {/* <span  style={{ position: "relative", left: "76%", bottom: "35px", height: "12px", width: "23px", borderRadius: "50%", backgroundColor: "black",

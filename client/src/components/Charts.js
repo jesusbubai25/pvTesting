@@ -13,10 +13,10 @@ import { CSVLink } from 'react-csv'
 import ReactDOM from 'react-dom'
 import { saveAs } from 'file-saver';
 import html2canvas from "html2canvas";
-import { colors1 } from "../colors/color";
+import { colors1, colors3 } from "../colors/color";
 
 // const colours = ["#122b4f", "#ed7d31", "#047e7ef7", "rgb(32, 148, 243)"];
-const colours =colors1;
+const colours = colors1;
 
 
 const Charts = (props) => {
@@ -40,7 +40,7 @@ const Charts = (props) => {
     const hexColourLength = 6;
     let colourCode = "#";
     try {
-      if (index < colours.length) return colours[index];
+      if (index < colours.length) return colors3[index];
       else {
         for (let i = 0; i < hexColourLength; i++) {
           const isLetter = Math.round(Math.random());
@@ -214,7 +214,13 @@ const Charts = (props) => {
             }
           }
           else {
-            return <Bar key={index} dataKey={item} fill={colors1[2]} />;
+            if (item != "fill") {
+              return <Bar key={index} dataKey={item}
+
+                fill={getColourPicker(index)}
+              />;
+            }
+
           }
         })}
       </BarChart>

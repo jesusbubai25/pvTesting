@@ -4,6 +4,7 @@
     text-decoration: none;
 }
 .links_div a:hover{
-    color: red;
+    color: rgb(236, 33, 15);
+    color: rgb(240, 65, 17);
     scale: 1.010;
 }

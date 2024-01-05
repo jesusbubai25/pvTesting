@@ -6,17 +6,17 @@ import { colors1 } from "../../../../colors/color";
 
 const LossFlow = () => {
   const [data, setData] = useState([
-    { name: "Inverter Level DC Site Loss", value: 6.5,fill:colors1[0]},
-    { name: "Soiling Loss", value: 3.5 ,fill:colors1[3]},
-    { name: "Cable Loss", value: 1.0,fill:colors1[2] },
+    { name: "Inverter Level DC Site Loss", value: 6.5, fill: colors1[0] },
+    { name: "Soiling Loss", value: 3.5, fill: colors1[3] },
+    { name: "Cable Loss", value: 1.0, fill: colors1[2] },
 
   ]);
-  
+
   const [value, setValue] = useState(null)
   const [percentage, setPercentage] = useState(null)
   const [name, setname] = useState(null)
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} minHeight={600}>
       <Grid
         item
         lg={11}
