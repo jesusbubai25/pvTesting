@@ -1,5 +1,5 @@
 import { Checkbox, FormControlLabel, FormGroup, Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Charts from "../../../../components/Charts";
 import LineChartComp from "../../../../components/LineChartComp";
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +8,8 @@ import SpinLoader from "../../../../components/SpinLoader";
 import Printer from "../../../../components/Printer";
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import LineBarChart from "../../../../components/LineBarChart";
+import html2canvas from "html2canvas";
+import{saveAs} from 'file-saver'
 
 const data = [
   {
@@ -121,6 +123,16 @@ const Detailed2 = () => {
   const dispatch = useDispatch();
   const { GHI_GTI_data, loading, error } = useSelector(state => state.GHI_GTI_data)
   const { energy } = useSelector(state => state.energy)
+  const ref=useRef(null)
+
+    const jpgDownload=()=>{
+      setTimeout(async () => {
+        const canvas = await html2canvas(ref.current);
+        const data = canvas.toDataURL();
+        saveAs(data, 'graph.jpg')
+      }, 100);
+  }
+
 
   const [Ghi_Gti_data, setGHI_GTI_data] = useState({
     pvsyst_GHI: true,
@@ -170,12 +182,20 @@ const Detailed2 = () => {
                 alignItems={"center"}
                 justifyContent={"center"}
                 flexDirection={"column"}
+                position={"relative"}
               // border={3}
               // borderColor={"#ed7d31"}
               >
-                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
                   <Printer />
-                </div>
+                </div> */}
+                {/* <CSVLink
+                    data={energy?.data2}
+                    filename='data.csv'
+                    className='hidden'
+                    ref={downloadRef4}
+                    target='_blank'
+                  /> */}
                 <LineBarChart
                   data={GHI_GTI_data?.data}
                   height={300}
@@ -274,12 +294,13 @@ const Detailed2 = () => {
                 alignItems={"center"}
                 justifyContent={"center"}
                 flexDirection={"column"}
+                position={"relative"}
               // border={3}
               // borderColor={"#ed7d31"}
               >
-                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
                   <Printer />
-                </div>
+                </div> */}
                 <LineBarChart
                   data={GHI_GTI_data?.data}
                   height={300}
@@ -380,12 +401,13 @@ const Detailed2 = () => {
                 alignItems={"center"}
                 justifyContent={"center"}
                 flexDirection={"column"}
+                position={"relative"}
               // border={3}
               // borderColor={"#ed7d31"}
               >
-                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
                   <Printer />
-                </div>
+                </div> */}
                 <LineBarChart
                   data={energy?.data2}
                   height={300}
@@ -486,12 +508,13 @@ const Detailed2 = () => {
                 alignItems={"center"}
                 justifyContent={"center"}
                 flexDirection={"column"}
+                position={"relative"}
               // border={3}
               // borderColor={"#ed7d31"}
               >
-                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
+                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
                   <Printer  />
-                </div>
+                </div> */}
                 <LineBarChart
                   data={energy?.data3}
                   height={300}
@@ -589,10 +612,13 @@ const Detailed2 = () => {
               margin={"auto"}
               marginTop={5}
               marginLeft={4}
+              ref={ref}
+
             >
               <Grid
                 item
                 lg={6}
+                position={"relative"}
               >
                 {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
                   <Printer />
@@ -608,6 +634,7 @@ const Detailed2 = () => {
                 // dataKey3="Actual_pr"
                 // y_axis_label_value1="Energy"
                 // y_axis_label_value2="Excess/Shortfall"
+                 hidePrintIcon={{show:false}}
                 />
                 <div
                   style={{
@@ -669,7 +696,7 @@ const Detailed2 = () => {
               </Grid>
               <Grid lg={6} marginTop={4.5} paddingLeft={3}>
                 <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
-                  <Printer />
+                  <Printer jpgDownload={jpgDownload}/>
                 </div>
                 <LineChart
                   width={680}

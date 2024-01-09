@@ -12,8 +12,8 @@ const ButtonsComp = (props) => {
         width: "10vw",
         color: "black",
         fontWeight: "bolder",
-        backgroundColor:"rgb(236, 85, 15)"
-        //  props?.buttonType === "primary" ? "#ed7d31" : "white",
+        // backgroundColor:"rgb(236, 85, 15)"
+        backgroundColor: props?.backgroundColor ? props.backgroundColor : props?.buttonType === "primary" ? "#ed7d31" : "white"
       }}
       onClick={props?.onClick}
     >

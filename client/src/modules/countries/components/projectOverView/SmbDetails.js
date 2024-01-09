@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { colors1, colors2 } from "../../../../colors/color";
 
 const SmbDetails = () => {
@@ -15,7 +15,7 @@ const SmbDetails = () => {
     }, [])
 
     return (
-        <div style={{ width: "95%", paddingBottom: "1rem" ,marginTop:"2rem" }}>
+        <div style={{ width: "95%", paddingBottom: "1rem", marginTop: "2rem" }}>
             <TableContainer component={Paper}>
                 <h1 style={{ textAlign: "center" }}>SMB And String Details</h1>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -51,16 +51,19 @@ const SmbDetails = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody >
+                        {/* blockNo(pin):"Sub-Array-1"
+                        inverterNo */}
+
                         {plantDetail?.data1?.map((value, index, arr) => (
                             <TableRow key={index}>
                                 {(index === 0 && <TableCell align="left">{value.blockNo}</TableCell>) ||
-                                    (index < plantDetail?.length && arr[index].blockNo != arr[index - 1].blockNo && <TableCell align="left">{arr[index].blockNo}</TableCell>) ||
+                                    (index < plantDetail?.data1?.length && arr[index].blockNo != arr[index - 1].blockNo && <TableCell align="left">{arr[index].blockNo}</TableCell>) ||
                                     <TableCell align="left">
                                         <p></p>
                                     </TableCell>
                                 }
                                 {(index === 0 && <TableCell align="center">{value.inverterNo}</TableCell>) ||
-                                    (index < plantDetail?.length && arr[index].inverterNo != arr[index - 1].inverterNo && <TableCell align="center">{arr[index].inverterNo}</TableCell>) ||
+                                    (index < plantDetail?.data1?.length && arr[index].inverterNo != arr[index - 1].inverterNo && <TableCell align="center">{arr[index].inverterNo}</TableCell>) ||
                                     <TableCell align="center">
                                         <p></p>
                                     </TableCell>
@@ -78,7 +81,7 @@ const SmbDetails = () => {
                 </Table>
             </TableContainer>
 
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div style={{ width: "50%" }}>
                     {colors1.map((e,index) => {
                         return (
@@ -99,7 +102,7 @@ const SmbDetails = () => {
                     })}
                 </div>
 
-            </div>
+            </div> */}
         </div>
     );
 };

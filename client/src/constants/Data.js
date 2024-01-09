@@ -363,3 +363,180 @@ export const data2 = [
     SMB_1_1_12: -13,
   },
 ];
+
+
+export const dataTree = [
+  {
+    id: 1,
+    text: 'Plant Under Perfermance',
+    diamond: false,
+    children: [
+      {
+        id: 2,
+        text: 'PV Module',
+        diamond: false,
+        children: [
+          {
+            id: 3,
+            text: 'Bypass Diode',
+            diamond: false,
+            children: [
+              {
+                id: '4',
+                text: 'Damage bypass diode',
+                diamond: false,
+              }
+            ]
+          },
+          {
+            id: 3,
+            text: 'Hot spot',
+            diamond: false,
+            children: [
+              {
+                id: '4',
+                text: 'Cell damage',
+                diamond: false,
+              }
+            ]
+          },
+          {
+            id: 3,
+            text: 'Short Circuit/PID',
+            diamond: false,
+            children: [
+              {
+                id: '4',
+                text: 'No negative terminal earthing',
+                diamond: false,
+              },{
+                id: '4',
+                text: 'Non PID resistive module',
+                diamond: false,
+              }
+            ]
+          },
+          {
+            id: 3,
+            text: 'Module Failure',
+            diamond: false,
+            children: [
+              {
+                id: '4',
+                text: 'Module damage',
+                diamond: false,
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 5,
+        text: 'Cables',
+        diamond: false,
+        children: [
+          {
+            id: 3,
+            text: 'DC cables',
+            diamond: false,
+            children: [
+              {
+                id: '4',
+                text: 'Higher cable loss',
+                diamond: false,
+              },
+              {
+                id: '4',
+                text: 'Riso',
+                diamond: false,
+              },
+              {
+                id: '4',
+                text: 'Lose contact of MC4',
+                diamond: false,
+              }
+            ]
+          },
+          {
+            id: 3,
+            text: 'AC cables',
+            diamond: false,
+            children: [
+              {
+                id: '4',
+                text: 'Higher cable loss',
+                diamond: false,
+              },
+              {
+                id: '4',
+                text: 'Higher Riso',
+                diamond: false,
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 8,
+        text: 'Connectors',
+        diamond: false,
+        children: [
+          {
+            id: 3,
+            text: 'MC4 or MC4 equivalent and cable lugs',
+            diamond: false,
+            children: [
+              {
+                id: '4',
+                text: 'Riso - DC string cable',
+                diamond: false,
+              },{
+                id: '4',
+                text: 'Poor contact of DC main cable lugs',
+                diamond: false,
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 11,
+        text: 'Soiling',
+        diamond: false,
+        children: [
+          {
+            id: 3,
+            text: 'Cleaning cycle',
+            diamond: false,
+            children: [
+              {
+                id: '4',
+                text: 'Electrical under performance',
+                diamond: false,
+              }
+            ]
+          }
+        ]
+      },
+      {
+          id: 14,
+          text: 'Shading loss',
+          diamond: false,
+          children: [
+              {
+                  id: 3,
+                  text: 'Mismatch with PVSYST',
+                  diamond: false,
+                  children: [
+                      {
+                          id: '4',
+                          text: 'Shadow from adjacent tress',
+                          diamond: false,
+                      }
+                  ]
+              }
+          ]
+      }
+    ]
+  }
+]

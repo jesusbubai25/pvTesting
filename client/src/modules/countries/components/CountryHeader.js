@@ -51,7 +51,7 @@ const CountryHeader = (props) => {
           <div>
             <Buttons
               type="contained"
-              buttonType="primary"
+              backgroundColor="rgb(236, 85, 15)"
               buttonText="Project Details"
               onClick={() => {
                 navigate(PageURL.PROJECT_DETAILS)
@@ -64,7 +64,7 @@ const CountryHeader = (props) => {
               <Buttons
 
                 type="contained"
-                buttonType="primary"
+                backgroundColor="rgb(236, 85, 15)"
                 buttonText="Admin Dashboard"
                 onClick={() => {
                   props?.setDashBoard(true);
@@ -73,13 +73,13 @@ const CountryHeader = (props) => {
               ></Buttons>
             </div>
           )}
-
           <div className="logout">
             <Buttons
               type="contained"
-              buttonType="primary"
+              backgroundColor="rgb(236, 85, 15)"
               buttonText="Logout"
               onClick={logoutHandler}
+              
             ></Buttons>
           </div>
         </div>

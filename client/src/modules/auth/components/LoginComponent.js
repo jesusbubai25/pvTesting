@@ -104,10 +104,10 @@ const LoginComponent = (props) => {
             display: openEye ? "block" : "none", position: "absolute", right: "20%", bottom: "19px",
             color: "black"
           }}></RemoveRedEyeIcon> */}
-          {!text && openEye && <RemoveRedEyeIcon onClick={()=>setText(!text)} style={{ position: "absolute", right: "20%", bottom: "16px",
-            color: "black"}}></RemoveRedEyeIcon>}
-          {text &&  <VisibilityOffIcon onClick={()=>setText(!text)} style={{ position: "absolute", right: "20%", bottom: "16px",
-            color: "black"}}></VisibilityOffIcon>}
+          {!text && openEye && <RemoveRedEyeIcon onClick={()=>setText(!text)} style={{ position: "absolute", right: "20%", bottom: "19px",
+            color: "black",fontSize:"1.2rem"}}></RemoveRedEyeIcon>}
+          {text &&  <VisibilityOffIcon onClick={()=>setText(!text)} style={{ position: "absolute", right: "20%", bottom: "19px",
+            color: "black",fontSize:"1.2rem"}}></VisibilityOffIcon>}
         </div>
 
         {/* <span  style={{ position: "relative", left: "76%", bottom: "35px", height: "12px", width: "23px", borderRadius: "50%", backgroundColor: "black",

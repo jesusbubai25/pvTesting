@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './printer.css'
 
-const Printer = ({ clickhandler, jpgDownload }) => {
+const Printer = ({ clickhandler, jpgDownload,svgDownload }) => {
     const [open, setOpen] = useState(false)
     return (
 
@@ -25,7 +25,10 @@ const Printer = ({ clickhandler, jpgDownload }) => {
                     }
 
                     >Download JPG</Link>
-                    <Link  >Download SVG</Link>
+                    <Link onClick={()=>{
+                        setOpen(false);
+                        svgDownload && svgDownload();
+                    }} >Download SVG</Link>
                     <Link onClick={() => {
                         setOpen(false);
                         clickhandler && clickhandler();

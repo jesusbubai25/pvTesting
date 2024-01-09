@@ -33,20 +33,19 @@ exports.SignupHandler = async (req, res) => {
 
     const [rows, fields] = await connection.query(`select * from Persons where emailID='${email}';
     select * from registrationGreenEnco where email_ID='${email}'`)
-
+   await connection.commit();
     if (rows[0].length > 0 || rows[1].length > 0) {
       return res.status(400).json({ error: "User in this email alredy exist", sucess: false })
     }
     await connection.query(`INSERT INTO Persons (FirstName, LastName, EmailID, MobileNumber, LevelPermission) VALUES (
     '${firstName}', '${lastName}', '${email}', ${phoneNumber}, ${userLevel})`)
+    await connection.commit();
     const options = {
       email: email,
       message: "You will get a response from our team shortely",
       subject: "Test"
     }
     await sendEmail(options)
-    await connection.commit();
-
     return res.json({ error: "user registred successfully!", sucess: true })
 
   } catch (error) {
@@ -69,7 +68,7 @@ exports.allowRegistredUser = async (req, res) => {
     await connection.beginTransaction();
 
     const [rows, fields] = await connection.query(`select * from Persons where emailID=?`, [email_ID])
-
+    await connection.commit();
     if (rows.length === 0) {
       return res.status(400).json({ error: "User not found" })
     }
@@ -80,6 +79,7 @@ exports.allowRegistredUser = async (req, res) => {
     rows[0].MobileNumber, rows[0].EmailID, rows[0].EmailID, hash_password, rows[0].LevelPermission])
 
     await connection.query(`DELETE FROM Persons WHERE EmailId LIKE ?`, [email_ID])
+    await connection.commit();
     const options = {
       email: email_ID,
       subject: "Regarding your Greenenco-Pvamp-Dashboard password",
@@ -89,7 +89,6 @@ exports.allowRegistredUser = async (req, res) => {
           `
     }
     await sendEmail(options)
-    await connection.commit();
     return res.json({ error: "email regarding login sent to the user Successfully!", sucess: true })
 
   } catch (error) {
@@ -118,7 +117,7 @@ exports.LoginHandler = async (req, res) => {
 
     connection = await promisePool.getConnection()
     const [rows, fields] = await connection.query(`select * from registrationGreenEnco where email_ID=?`, [userName])
-
+   await connection.commit();
     if (rows.length === 0) {
       return res.status(400).json({ error: "User not found" })
     }
@@ -154,18 +153,19 @@ exports.deleteExistingUser = async (req, res) => {
     await connection.beginTransaction();
 
     const [rows, fields] = await connection.query(`select * from registrationGreenEnco where email_ID='${email}'`)
+    await connection.commit();
     if (rows.length === 0) {
       return res.status(400).json({ error: "User not found", sucess: false })
     }
 
     await connection.query(`DELETE FROM registrationGreenEnco WHERE email_ID LIKE '${email}'`)
+    await connection.commit();
     const options = {
       email: email,
       message: "Your account deleted",
       subject: "Test"
     }
     await sendEmail(options)
-    await connection.commit();
     return res.json({ error: `user ${email} deleted successfully!`, sucess: true })
 
   } catch (error) {
@@ -187,6 +187,7 @@ exports.sendOtpHandler = async (req, res) => {
     await connection.beginTransaction();
 
     const [rows, fields] = await connection.query(`select * from registrationGreenEnco where email_ID=?`, [req.body.email_ID])
+    await connection.commit();
     if (rows.length === 0) {
       console.log("User not found");
       return res.status(400).json({ error: "user not fond", sucess: false })
@@ -229,11 +230,11 @@ exports.verifyOtpHandler = async (req, res) => {
       return res.status(400).json({ error: "OTP is incorrect", sucess: false })
     }
     const [rows, fields] = await connection.query(`select * from registrationGreenEnco where email_ID=?`, [email_ID])
+    await connection.commit();
     if (rows.length === 0) {
       console.log("User not found");
       return res.status(400).json({ error: "user not fond", sucess: false })
     }
-    console.log(rows)
     strong_password = generateStrongPassword()
     hash_password = await bcryptjs.hash(strong_password, 10);
     await connection.query(`update registrationGreenEnco set userPassword=? where email_ID = ?`, [hash_password, email_ID])
@@ -269,6 +270,7 @@ exports.reSendOtpHandler = async (req, res) => {
     await connection.beginTransaction();
 
     const [rows, fields] = await connection.query(`select * from registrationGreenEnco where email_ID=?`, [email])
+    await connection.commit();
     if (rows.length === 0) {
       console.log("User not found");
       return res.status(400).json({ error: "user not fond", sucess: false })
@@ -319,6 +321,7 @@ exports.getUser = async (req, res) => {
     const email_ID = req.email_ID;
     connection = await promisePool.getConnection();
     const [rows, fields] = await connection.query(`select * from registrationGreenEnco where email_ID=?`, [email_ID])
+    await connection.commit();
     if (rows.length === 0) {
       return res.status(401).json({ error: "User not found", sucess: false })
     }
@@ -340,6 +343,7 @@ exports.getRegisteredUsers = async (req, res) => {
   try {
     connection = await promisePool.getConnection();
     const [rows, fields] = await connection.query("select * from Persons")
+    await connection.commit();
     return res.status(200).json({ users: rows, sucess: true });
 
   } catch (error) {
@@ -361,19 +365,20 @@ exports.deleteRegistredUser = async (req, res) => {
     connection = await promisePool.getConnection();
     await connection.beginTransaction();
     const [rows, fields] = await connection.query(`select * from Persons where EmailID=?`, [email_ID])
+    await connection.commit();
     if (rows.length === 0) {
       console.log("user not found")
       return res.status(401).json({ error: "User not found" })
     }
 
     await connection.query(`DELETE FROM Persons WHERE EmailId LIKE ?`, [email_ID])
+    await connection.commit();
     const options = {
       email: email_ID,
       subject: "Regarding your Greenenco-Pvamp-Dashboard registration",
       message: "You are not allowed to access our dashboard"
     }
     await sendEmail(options)
-    connection.commit();
     return res.json({ error: "user deleted Successfully and an mail reagarding this sent to the user", sucess: true })
   } catch (error) {
     await connection?.rollback();

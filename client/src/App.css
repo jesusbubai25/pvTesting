@@ -5,6 +5,9 @@
     height: 100vh;
     overflow-y: auto;
 }
+ul{
+    padding: none;
+}
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   ComposedChart,
   Line,
@@ -10,15 +10,83 @@ import {
   Legend,
 } from "recharts";
 import { colors1, colors3 } from "../colors/color";
+import Printer from "./Printer";
+import html2canvas from "html2canvas";
+import { saveAs } from 'file-saver';
+import { CSVLink } from "react-csv";
+
+
 export default function LineBarChart(props) {
+  const storeElem = useRef(null)
+  const csvRef=useRef(null)
+  const jpgDownload = () => {
+    setTimeout(async () => {
+      const canvas = await html2canvas(storeElem.current);
+      const data = canvas.toDataURL();
+      saveAs(data, 'graph.jpg')
+    }, 100);
+  }
+
+  const csv_Download=()=>{
+    csvRef.current.link.click()
+  }
+
+  const CSV_Data = () => {
+    let newarr=[];
+    let str="dataKey"
+    let i=1;
+    while (props && props[str+`${i}`]) {
+      newarr.push(str+`${i}`);
+      i++;
+    }
+   return props.data?.reduce((acc, curr) => {
+      return (
+        [...acc, {
+          month: curr.name,
+          [props?.dataKey1]: curr[props?.dataKey1],
+          [props?.dataKey2]: curr[props?.dataKey2],
+          [props?.dataKey3]: curr[props?.dataKey3]
+        }]
+      )
+
+    }, [])
+  }
+
+  // return data.reduce((acc, curr) => {
+  //   if (val1 === 1 && val2 === 2) {
+  //     return (
+  //       [...acc, {
+  //         month: curr.month, net_energy: curr.net_energy,
+  //         contructual_energy: curr.contructual_energy
+  //       }]
+  //     )
+  //   }
+
+
+
+
   if (!props?.data) return null;
   return (
     <div
       style={{
         height: "max-content",
         width: "max-content",
+        // position:"relative"
       }}
+      ref={storeElem}
     >
+      {!props.hidePrintIcon &&
+        <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px",top:"20px" }}>
+          <Printer jpgDownload={jpgDownload} clickhandler={csv_Download} />
+        </div>
+      }
+      <CSVLink
+        data={CSV_Data(props?.data)}
+        filename='data.csv'
+        className='hidden'
+        ref={csvRef}
+        target='_blank'
+      />
 
       <h3 style={{ textAlign: "center" }}>
         {props?.title}

@@ -39,7 +39,6 @@ exports.Test2 = async (req, res) => {
   } finally {
     connection?.release();
   }
-
   // getConnectiontring(req, res, () => {
   //   const pool = req.pool;
   //   pool.query("select * from testingTbl", (err,result) => {
@@ -85,6 +84,7 @@ exports.InverterEfficiency = async (req, res) => {
   try {
     connection = await promisePool.getConnection()
     const [rows, fields] = await connection.query("SELECT * from inverterEfficiencyDetails")
+    await connection.commit();
     let result = rows[0];
     let newdata = [];
     for (let i in result) {
@@ -113,6 +113,7 @@ exports.InverterEfficiencyMonthly = async (req, res) => {
   try {
     connection = await promisePool.getConnection()
     const [result, fields] = await connection.query("SELECT * from InverterMonthlyEfficiencyDetails")
+    await connection.commit();
     let newresult = [];
     for (let i = 0; i < result.length; i++) {
       let obj = {};
@@ -148,6 +149,7 @@ exports.NormalizedEnergyDetails = async (req, res) => {
     Normalized_Energy_kwh,AC_Loss,ExcessORShortfallNormalised_Percentage,pvsyst_Energy from normalizedEnergyDetailsTbl;
     select ((Actual_Inverter_Energy_kwh/(Actual_GTI * 10600)) * 100) as Monthly_PR from normalizedEnergyDetailsTbl
     `)
+    await connection.commit();
     let data1 = [], data2 = [], data3 = [];
     data1.push(
       {
@@ -206,6 +208,7 @@ exports.GHI_GTI_Data = async (req, res) => {
     const [result, fields] = await connection.query(`SELECT month_year,pvsyst_GHI,pvsyst_GTI,Actual_GTI,
     Actual_GHI,pvsyst_GTI_vs_Actual_GTI,pvsyst_GHI_vs_Actual_GHI from normalizedEnergyDetailsTbl
     `)
+    await connection.commit();
     let pvsyst_actual_GHI = [], pvsyst_actual_GTI = [];
     let data = [];
     for (let i = 0; i < result?.length; i++) {

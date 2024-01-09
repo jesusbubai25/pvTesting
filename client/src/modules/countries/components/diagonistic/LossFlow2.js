@@ -1,16 +1,18 @@
 import React, { createContext, useState } from "react";
 import PieChartComp from "../../../../components/PieChartComp";
-import { Checkbox, FormLabel, Grid } from "@mui/material";
+import { Checkbox, FormLabel, Grid, InputLabel, TextField } from "@mui/material";
 import { colors1 } from "../../../../colors/color";
 import trasmission_tower from '../../../../fonts and images/transmission.png'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import amrMeter from '../../../../fonts and images/amr_meter.jpeg'
 import transformer from '../../../../fonts and images/transformer.jpg'
 import inverter from '../../../../fonts and images/inverter.jpg'
+import inverter2 from '../../../../fonts and images/inverter2.png'
 import scada from '../../../../fonts and images/scada.jpg'
 import './LossFlow.css'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import Table from "../../../../components/Table";
 
 
 
@@ -25,17 +27,29 @@ const LossFlow2 = () => {
     const [value, setValue] = useState(null)
     const [percentage, setPercentage] = useState(null)
     const [name, setname] = useState(null)
+
+
+    const [showCheckBox, setShowCheckBox] = useState({
+        Module: false,
+        Soiling: false,
+        Shadow: false,
+        Resistance: false,
+        Overheating: false,
+    });
+
+    console.log(showCheckBox)
+
     return (
         <Grid container spacing={2} minHeight={650}>
             <Grid
                 item
-                lg={11}
+                lg={11.8}
                 style={{
                     borderStyle: "solid",
                     borderColor: "#ed7d31",
                     borderRadius: "5px",
                     marginTop: "10px",
-                    marginLeft: "70px",
+                    marginLeft: "20px",
                     position: "relative",
                     display: "flex",
                     // alignItems:"center",
@@ -84,12 +98,17 @@ const LossFlow2 = () => {
 
                             <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700" }}>Transformer</span>
                         </div>
-                        <ArrowBackIcon sx={{ width: "100px", fontSize: "4rem" }} />
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <ArrowBackIcon sx={{ width: "100px", fontSize: "4rem",visibility:"hidden" }} />
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center",position:"relative" }}>
 
-                            <img style={{ height: "170px", width: "150px" }} src={inverter} title="Inverter" />
-                            <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700" }}>Inverter</span>
-
+                            <img style={{ height: "110px", width: "120px" }} src={inverter2} title="Inverter" />
+                            <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700", position: "relative", top: "10px" }}>Inverter</span>
+                            <div style={{position:"absolute",top:"4.8%",borderTop:"3px solid red",width:"108%",right:"100%"}}>
+                            </div>
+                            <div style={{position:"absolute",top:"10%",borderTop:"3px solid yellow",width:"108%",right:"100%"}}>
+                            </div>
+                            <div style={{position:"absolute",top:"15.5%",borderTop:"3px solid blue",width:"108%",right:"100%"}}>
+                            </div>
 
                         </div>
                         {/* <ArrowBackIcon sx={{ width: "100px", fontSize: "4rem" }} /> */}
@@ -98,16 +117,16 @@ const LossFlow2 = () => {
                                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                     <img style={{ height: "120px", width: "150px" }} src={scada} title="SCADA" />
 
-                                    <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700" }}>SCADA</span>
+                                    <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700",position:"relative",top:"10px" }}>SCADA</span>
 
 
 
                                 </div>
                             </div>
-                            <div style={{ position: "absolute", height: "100%", width: "8px", backgroundColor: "black", left: "50%" }}>
+                            <div style={{ position: "absolute", height: "54%", width: "8px", backgroundColor: "black", left: "50%",marginTop:"15px" }}>
 
-                                <div style={{ position: "absolute", height: "8px", width: "11.5vw", backgroundColor: "black", right: "0", bottom: "0" }}>
-                                    <div style={{ position: "absolute", height: "14vh", width: "8px", backgroundColor: "black", left: "0", bottom: "0" }}>
+                                <div style={{ position: "absolute", height: "8px", width: "10.5vw", backgroundColor: "black", right: "0", bottom: "0" }}>
+                                    <div style={{ position: "absolute", height: "10vh", width: "8px", backgroundColor: "black", left: "0", bottom: "0" }}>
 
 
                                     </div>
@@ -139,35 +158,32 @@ const LossFlow2 = () => {
                     </div>
                     <div style={{
                         display: "flex", flexDirection: "column", width: "40%",
-                        height: "50%", justifyContent: "space-between", alignItems: "center", marginLeft: "9rem"
+                        height: "70%", justifyContent: "space-between", alignItems: "center", marginLeft: "11rem"
                     }}>
 
 
                         <div className="smb_box">
                             SMB BOX
-                            <div style={{
+                            <div className="animate_cable" style={{
                                 width: "8px", height: "61%", position: "absolute", bottom: "100%",
-                                backgroundColor: "red",
-                                // backgroundColor:"rgb(86, 198, 45)",
+                                backgroundColor: showCheckBox.Overheating ? "blue" : "red",
                                 left: "50%", boxShadow: "none"
                             }}>
 
-                                <div style={{
+                                <div className="animate_cable" style={{
                                     height: "8px",
-                                    width: "22vw",
-                                    // backgroundColor:"rgb(86, 198, 45)",
-                                    backgroundColor: "red",
+                                    width: "21vw",
+                                    backgroundColor: showCheckBox.Overheating ? "blue" : "red",
                                     position: "absolute",
                                     top: "0px"
 
 
 
                                 }}>
-                                    <div style={{
-                                        width: "8px", height: "14vh",
-                                        // backgroundColor:"rgb(86, 198, 45)"
-                                        backgroundColor: "red"
-                                        , position: "absolute", right: "0", bottom: "0"
+                                    <div className="animate_cable" style={{
+                                        width: "8px", height: "10vh",
+                                        backgroundColor: showCheckBox.Overheating ? "blue" : "red",
+                                        position: "absolute", right: "0", bottom: "0"
                                     }}>
 
                                     </div>
@@ -180,53 +196,143 @@ const LossFlow2 = () => {
                         <div className="solar_box" >
 
                             <div className="solar_pannel_box">
-                                <div className="solar_pannel_item1"></div>
-                                <div className="solar_pannel_item2"></div>
-                                <div className="solar_pannel_item3"></div>
-                                <div style={{
-                                    height: "74%", position: "absolute", bottom: "100%",
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item1"></div>
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item2"></div>
+
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item3"> solar pannel</div>
+                                <div className="animate_div" style={{
+                                    height: "40%", position: "absolute", bottom: "100%",
                                     background: "none",
-                                    borderLeft: "5px dashed rgb(67,176,239)",
+                                    borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                     left: "50%", boxShadow: "none"
                                 }}>
+                                    <div className="animate_div2" style={{
+                                        position: "absolute", bottom: "85%",
+                                        background: "none",
+                                        width: "70%",
+                                        left: "0",
+                                        borderTop: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
+                                        boxShadow: "none"
+                                    }}></div>
+
+
+                                    <div style={{
+                                        position: "absolute",
+                                        bottom: "80%", left: "67%",
+                                        fontSize: "2rem",
+                                        transform: "rotate(180deg)"
+                                    }}>
+                                        <i  className="fa-solid fa-y y_connector" 
+                                        style={{
+                                            color:showCheckBox.Resistance?"red":"black"
+                                        }}
+                                        ></i>
+
+                                        <div className="animate_div" style={{
+                                            position: "absolute", top: "100%",left:"35%",
+                                            background: "none",
+                                            height: "107%",
+                                            borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
+                                            boxShadow: "none"
+                                        }}></div>
+                                    </div>
 
                                 </div>
 
                             </div>
                             <div className="solar_pannel_box">
-                                <div className="solar_pannel_item1"></div>
-                                <div className="solar_pannel_item2"></div>
-                                <div className="solar_pannel_item3"></div>
-                                <div style={{
-                                    height: "74%", position: "absolute", bottom: "100%",
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item1"></div>
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item2"></div>
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item3">
+
+                                    solar pannel
+                                </div>
+                                <div className="animate_div" style={{
+                                    height: "40%", position: "absolute", bottom: "100%",
                                     background: "none",
-                                    borderLeft: "5px dashed rgb(67,176,239)",
+                                    borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                     left: "50%", boxShadow: "none"
-                                }}></div>
+                                }}>
+
+
+                                    <div className="animate_div2 special_animate" style={{
+                                        position: "absolute", bottom: "85%",
+                                        background: "none",
+                                        width:showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling? "72.7%":"70%",
+                                        right: "100%",
+                                        borderTop: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
+                                        boxShadow: "none"
+                                    }}></div>
+                                </div>
+
 
                             </div>
                             <div className="solar_pannel_box">
-                                <div className="solar_pannel_item1"></div>
-                                <div className="solar_pannel_item2"></div>
-                                <div className="solar_pannel_item3"></div>
-                                <div style={{
-                                    height: "74%", position: "absolute", bottom: "100%",
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item1"></div>
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item2"></div>
+
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item3">solar pannel</div>
+                                <div className="animate_div" style={{
+                                    height: "40%", position: "absolute", bottom: "100%",
                                     background: "none",
-                                    borderLeft: "5px dashed rgb(67,176,239)",
+                                    borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                     left: "50%", boxShadow: "none"
-                                }}></div>
+                                }}>
+                                    <div className="animate_div2" style={{
+                                        position: "absolute", bottom: "85%",
+                                        background: "none",
+                                        width: "70%",
+                                        left: "0",
+                                        borderTop: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
+                                        boxShadow: "none"
+                                    }}></div>
+
+
+                                    <div style={{
+                                        position: "absolute",
+                                        bottom: "80%", left: "67%",
+                                        fontSize: "2rem",
+                                        transform: "rotate(180deg)",
+
+                                    }}>
+                                        <i className="fa-solid fa-y y_connector"
+                                         style={{
+                                            color:showCheckBox.Resistance?"red":"black"
+                                        }}
+                                        ></i>
+
+                                        <div className="animate_div" style={{
+                                            position: "absolute", top: "100%",left:"35%",
+                                            background: "none",
+                                            height: "107%",
+                                            borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
+                                            boxShadow: "none"
+                                        }}></div>
+                                    </div>
+                                </div>
+
 
                             </div>
                             <div className="solar_pannel_box">
-                                <div className="solar_pannel_item1"></div>
-                                <div className="solar_pannel_item2"></div>
-                                <div className="solar_pannel_item3"></div>
-                                <div style={{
-                                    height: "74%", position: "absolute", bottom: "100%",
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item1"></div>
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item2"></div>
+
+                                <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item3">solar pannel</div>
+                                <div className="animate_div" style={{
+                                    height:showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling? "41%":"40%", position: "absolute", bottom: "100%",
                                     background: "none",
-                                    borderLeft: "5px dashed rgb(67,176,239)",
+                                    borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                     left: "50%", boxShadow: "none"
-                                }}></div>
+                                }}>
+                                    <div className="animate_div2 special_animate" style={{
+                                        position: "absolute", bottom: "85%",
+                                        background: "none",
+                                        width:showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling? "72.7%":"70%",
+                                        right:  "100%",
+                                        borderTop: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
+                                        boxShadow: "none"
+                                    }}></div>
+                                </div>
 
                             </div>
                         </div>
@@ -237,43 +343,162 @@ const LossFlow2 = () => {
 
                 </div>
 
-                <div style={{ display: "flex",flexDirection:"column",alignItems:"center",justifyContent:"center",width:"100%",border:"2px solid red" }}>
-                    <div>
-                        <Checkbox
-                            id="check1"
-                            defaultChecked
-                            color="success"
+                <div style={{
+                    display: "flex", flexDirection: "column", alignItems: "center",
+                    justifyContent: "center", width: "100%", padding: "0 1rem"
+                }}>
+                    <span style={{fontSize:"1.5rem",fontWeight:"600"}}>Loss Flow Table</span>
 
-                        />
-                        <FormLabel htmlFor="check1">Check1</FormLabel>
-                    </div>
+                    {/* <Grid
+                        item
+                        lg={7}
+                        style={{ borderStyle: "solid",
+                        //  borderColor: "#ed7d31" 
+                         borderColor: "blue" ,
+                        }}
+                        width={"100%"}
+                    > */}
+                    {/* <div
+                            style={{
+                                // display: "flex",
+                                // justifyContent: "center",
+                                height: "100%",
+                                width: "100%",
+                                display:"flex",
+                                alignItems:"center",
+                                justifyContent:"center"
+                            }}
+                        > */}
+                    <table
+                      className="loss_flow_table"
+                        style={{
+                            height: "98%",
+                            border: "3px solid black",  
+                        }}
+                        
+                    >
+                        <tr style={{ backgroundColor: "#edeafb", padding: "0.5rem 0" }}>
+                            <th></th>
+                            <th>Losses</th>
 
-                    <div>
-                        <Checkbox
-                            id="check2"
-                            defaultChecked
-                            color="success"
+                            <th>Input from Green Enco</th>
+                            <th>Loss (%)</th>
+                        </tr>
 
-                        />
-                        <FormLabel htmlFor="check2">Check2</FormLabel>
-                    </div>
-                    <div>
-                        <Checkbox
-                            id="check3"
-                            defaultChecked
-                            color="success"
+                        <tr style={{ padding: "1rem 0" }}>
+                            <td>
+                                <Checkbox
+                                    id="module"
+                                    checked={showCheckBox.Module}
+                                    color="success"
+                                    onChange={() => setShowCheckBox({ ...showCheckBox, Module: !showCheckBox.Module })}
+                                />
+                            </td>
 
-                        />
-                        <FormLabel htmlFor="check3">Check3</FormLabel>
-                    </div>
+                            <td style={{ textAlign: "center" }}><InputLabel style={{ color: "black" }} htmlFor="module" >Module</InputLabel> </td>
 
+                            <td style={{ textAlign: "center" }}>
+                                There is a multiple of module defects have been identified with bypass
+                                diode dominating with 5.25% impact on underperformance
+                            </td>
+                            <td style={{ textAlign: "center" }}>5.25 %</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <Checkbox
+
+                                    checked={showCheckBox.Soiling}
+                                    id="soiling"
+                                    color="success"
+                                    onChange={() => setShowCheckBox({ ...showCheckBox, Soiling: !showCheckBox.Soiling })}
+
+                                />
+                            </td>
+
+                            <td style={{ textAlign: "center" }}>  <InputLabel style={{ color: "black" }} htmlFor="soiling" >Soiling</InputLabel> </td>
+
+                            <td style={{ textAlign: "center" }}>
+                                We have observed a 3.5% gap between the actual soiling loss and PVSYST
+                                model
+                            </td>
+                            <td style={{ textAlign: "center" }}>3.50 %</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <Checkbox
+                                    id="shadow"
+                                    checked={showCheckBox.Shadow}
+                                    color="success"
+                                    onChange={() => setShowCheckBox({ ...showCheckBox, Shadow: !showCheckBox.Shadow })}
+
+                                />
+                            </td>
+
+                            <td style={{ textAlign: "center" }}><InputLabel htmlFor="shadow" style={{ color: "black" }} > Shadow Loss</InputLabel> </td>
+
+                            <td style={{ textAlign: "center" }}>
+                                There is 1.3% gap in actual plant performance compared to PVSYST model
+                            </td>
+                            <td style={{ textAlign: "center" }}>1.30 %</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <Checkbox
+
+                                    id="insulator"
+                                    checked={showCheckBox.Resistance}
+                                    color="success"
+                                    onChange={() => setShowCheckBox({ ...showCheckBox, Resistance: !showCheckBox.Resistance })}
+
+                                />
+                            </td>
+
+                            <td style={{ textAlign: "center" }}>
+
+                                <InputLabel htmlFor="insulator" style={{ whiteSpace: "pre-wrap", color: "black" }} >
+                                    Insulation resistance of cable & connector
+                                </InputLabel>
+                            </td>
+
+                            <td style={{ textAlign: "center" }}>
+                                There are number of damage Y connector and DC string cable exposed to
+                                the sharp edge of thr module mountaining structure that require
+                                attention to avoid inverter tripping due to low insultion resistance
+
+                            </td>
+                            <td style={{ textAlign: "center" }}>1.00 %</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <Checkbox
+                                    id="overheating"
+                                    checked={showCheckBox.Overheating}
+                                    color="success"
+                                    onChange={() => setShowCheckBox({ ...showCheckBox, Overheating: !showCheckBox.Overheating })}
+
+                                />
+                            </td>
+
+                            <td style={{ textAlign: "center" }}>
+                                <InputLabel htmlFor="overheating" style={{ whiteSpace: "pre-wrap", color: "black" }}>
+                                    Overheating DC string and DC main cables
+
+                                </InputLabel>
+                            </td>
+
+                            <td style={{ textAlign: "center" }}>
+                                IR inspection of the SMBs have indentified several overheating strings
+                                and Dc cable joint, which is causing derating of cables and could
+                                result into fire in high irradiance days
+                            </td>
+                            <td style={{ textAlign: "center" }}>1.00 %</td>
+                        </tr>
+                    </table>
                 </div>
+                {/* </Grid> */}
 
-                {/* <spna>Umbrella Icon</spna>
-                <svg className="umbrella" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" aria-labelledby="title">
-                    <title style={{ color: "black" }}>Umbrella Icon</title>
-                    <path d="M27 14h5c0-1.105-1.119-2-2.5-2s-2.5 0.895-2.5 2v0zM27 14c0-1.105-1.119-2-2.5-2s-2.5 0.895-2.5 2c0-1.105-1.119-2-2.5-2s-2.5 0.895-2.5 2v0 14c0 1.112-0.895 2-2 2-1.112 0-2-0.896-2-2.001v-1.494c0-0.291 0.224-0.505 0.5-0.505 0.268 0 0.5 0.226 0.5 0.505v1.505c0 0.547 0.444 0.991 1 0.991 0.552 0 1-0.451 1-0.991v-14.009c0-1.105-1.119-2-2.5-2s-2.5 0.895-2.5 2c0-1.105-1.119-2-2.5-2s-2.5 0.895-2.5 2c0-1.105-1.119-2-2.5-2s-2.5 0.895-2.5 2c0-5.415 6.671-9.825 15-9.995v-1.506c0-0.283 0.224-0.499 0.5-0.499 0.268 0 0.5 0.224 0.5 0.499v1.506c8.329 0.17 15 4.58 15 9.995h-5z" />
-                </svg> */}
+
             </Grid>
         </Grid>
     );

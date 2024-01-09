@@ -5,10 +5,13 @@ const DiagonisticGuard = ({ children }) => {
   const [loadChild, setLoadChild] = useState(false);
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoadChild(true)
+    }, 3000);
 
   }, []);
 
-  return  children
+  return loadChild? children:<SpinLoader/>
 };
 
 export default DiagonisticGuard;

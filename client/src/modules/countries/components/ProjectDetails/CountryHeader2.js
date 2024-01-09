@@ -104,13 +104,10 @@ const CountryHeader2 = (props) => {
         projectDetail: false,
         Diagonistic: false,
         Efficiency: false,
-        Inverter1: false,
-        Inverter2: false,
-        Inverter3: false,
-        Inverter4: false,
         checkedData: false,
         Prescritive: false,
         string_smb: false,
+        correctiveAction:false
 
     })
     const [checkedData2, setCheckedData2] = React.useState({
@@ -121,8 +118,8 @@ const CountryHeader2 = (props) => {
     const [checkedData3, setCheckedData3] = React.useState({
         Inverter1: false,
         Inverter2: false,
-        Inverter3:false,
-        Inverter4:false
+        Inverter3: false,
+        Inverter4: false
 
     })
     const onclickBlockHandler = (name) => {
@@ -207,7 +204,7 @@ const CountryHeader2 = (props) => {
                     </div>
                     <div className="dropdown">
                         <FormControl variant="filled" sx={{ m: 1, minWidth: 165 }}>
-                            <InputLabel id="demo-simple-select-filled-label1" style={{ color: "black", fontWeight: "800",fontSize:"0.95rem" }}>Partners Name</InputLabel>
+                            <InputLabel id="demo-simple-select-filled-label1" style={{ color: "black", fontWeight: "800", fontSize: "0.95rem" }}>Partners Name</InputLabel>
                             <Select
                                 labelId="demo-simple-select-filled-label1"
                                 id="demo-simple-select-filled1"
@@ -274,7 +271,7 @@ const CountryHeader2 = (props) => {
                                     <ListSubheader className="SubHeader" >
                                         <span onClick={() => onclickHandler("projectDetail")}>Overview Details
                                             <i class={`fa-solid fa-angle-${checkedData.projectDetail ? "up" : "down"}`}></i>
-                                            </span>
+                                        </span>
                                     </ListSubheader>
                                 }
 
@@ -518,17 +515,48 @@ const CountryHeader2 = (props) => {
                                     checkedData.Prescritive &&
 
                                     <MenuItem
-                                        value={3}
+                                        value={55}
                                         onClick={() => {
-                                            navigate(PageURL.INDIA_PRES_MODEL);
+                                            navigate(PageURL.INDIA_PRES_MODEL_Fault_Tree);
                                         }}
                                     >
-                                        Prescriptive Model
+                                        Fault Tree Diagram
                                     </MenuItem>
                                 }
 
+                                {
+                                    checkedData.Prescritive &&
 
+                                    <MenuItem
+                                        value={56}
+                                        onClick={() => {
+                                            navigate(PageURL.INDIA_PRES_MODEL_Loss_Flow);
+                                        }}
+                                    >
+                                        Loss Flow Diagram
+                                    </MenuItem>
+                                }
+                                {/* {
+                                    data[country]?.partnersName?.find(e => e.name === partnersName)?.blocks.find(e => e.name === block)?.details?.length > 0
+                                    &&
 
+                                    <ListSubheader className="SubHeader ">
+                                        <span onClick={() => onclickHandler('correctiveAction')} >Corrective Action
+                                            <i class={`fa-solid fa-angle-${checkedData.correctiveAction ? "up" : "down"}`}></i>
+                                        </span>
+                                    </ListSubheader>
+                                }
+                                {
+                                    checkedData.correctiveAction &&
+                                    <MenuItem
+                                        value={56}
+                                        onClick={() => {
+                                            navigate(PageURL.INDIA_PRES_MODEL_Loss_Flow);
+                                        }}
+                                    >
+                                        Action Plan
+                                    </MenuItem>
+                                } */}
 
                             </Select>
                         </FormControl>

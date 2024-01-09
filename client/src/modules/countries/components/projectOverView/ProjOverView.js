@@ -199,12 +199,12 @@ const ProjOverView = () => {
                 bgColor="#ed7d31"
                 heading="SMB & String"
                 body={[
-                  "Number of SMB: 47",
-                  "Number of String: 1106",
-                  "String Type: Y Connector",
-                  // `Number of SMB: ${plantDetail?.data2.numberOfInverter}`,
-                  // `Specifications: ${plantDetail?.data2.inverterDetails}`,
-                  // `Inverter Type: ${plantDetail?.data2.inverterType}`
+                  // "Number of SMB: 47",
+                  // "Number of String: 1106",
+                  // "String Type: Y Connector",
+                  `Number of SMB: ${plantDetail?.data2.smbNo}`,
+                  `Number of string: ${plantDetail?.data2.stringNo}`,
+                  `String Type: ${plantDetail?.data2.typeOfString}`
                 ]}
                 data={plantDetail?.data2}
                 onClick={() => {

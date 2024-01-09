@@ -36,7 +36,8 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path={PageURL.COUNTRYDEFAULT} element={<CountryModule />}>
               <Route path={PageURL.INDIA_GEN_SUMMARY} element={<CountryModule />} />
-              <Route path={PageURL.INDIA_PRES_MODEL} element={<CountryModule />} />
+              <Route path={PageURL.INDIA_PRES_MODEL_Loss_Flow} element={<CountryModule />} />
+              <Route path={PageURL.INDIA_PRES_MODEL_Fault_Tree} element={<CountryModule />} />
               <Route path={PageURL.PROJECT_DETAILS} element={<CountryModule />} />
               <Route
                 path={PageURL.INDIA_PROJ_OVERVIEW}

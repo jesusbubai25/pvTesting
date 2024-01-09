@@ -32,47 +32,14 @@ const Charts = (props) => {
   useEffect(() => {
     setData(props?.data);
 
-  }, [props?.data, chartRef]);
+  }, [props?.data]);
 
   if (!props.data && props.data.length < 1) return;
 
-  const getColourPicker = (index) => {
-    const hexColourLength = 6;
-    let colourCode = "#";
-    try {
-      if (index < colours.length) return colors3[index];
-      else {
-        for (let i = 0; i < hexColourLength; i++) {
-          const isLetter = Math.round(Math.random());
-          if (isLetter) {
-            colourCode = colourCode + getRandomLetter();
-          } else {
-            colourCode = colourCode + getRandomNumber();
-          }
-        }
-        return colourCode;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getRandomNumber = () => {
-    try {
-      return Math.round(Math.random() * 9);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const getRandomLetter = () => {
-    try {
-      const charList = "ABCDEFabcdef";
-      const index = Math.round(Math.random() * (charList?.length - 1));
-      return charList[index];
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
+
+
   const clickhandler = () => {
     downloadRef.current.link.click();
   }
@@ -116,12 +83,15 @@ const Charts = (props) => {
   // SVG Download
 
   const svgDownload = () => {
-    const base64SVG = chartRef.current.chartInstance.toBase64Image();
+       const elem=chartRef.current.chartInstance;
+
+    console.log(elem)
+    // const base64SVG = chartRef.current.chartInstance.toBase64Image();
     // const base64SVG = chart.toBase64Image();
-    const link = document.createElement('a');
-    link.href = base64SVG;
-    link.download = 'chart.svg';
-    link.click();
+    // const link = document.createElement('a');
+    // link.href = base64SVG;
+    // link.download = 'chart.svg';
+    // link.click();
   }
   return (
     <div
@@ -137,7 +107,7 @@ const Charts = (props) => {
 
       }}
     >
-      <Printer clickhandler={clickhandler} jpgDownload={jpgDownload} />
+      <Printer clickhandler={clickhandler} jpgDownload={jpgDownload} svgDownload={svgDownload} />
 
       <CSVLink
         data={data}
@@ -229,5 +199,42 @@ const Charts = (props) => {
     </div>
   );
 }
+const getRandomNumber = () => {
+  try {
+    return Math.round(Math.random() * 9);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getRandomLetter = () => {
+  try {
+    const charList = "ABCDEFabcdef";
+    const index = Math.round(Math.random() * (charList?.length - 1));
+    return charList[index];
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getColourPicker = (index) => {
+  const hexColourLength = 6;
+  let colourCode = "#";
+  try {
+    if (index < colours.length) return colors3[index];
+    else {
+      for (let i = 0; i < hexColourLength; i++) {
+        const isLetter = Math.round(Math.random());
+        if (isLetter) {
+          colourCode = colourCode + getRandomLetter();
+        } else {
+          colourCode = colourCode + getRandomNumber();
+        }
+      }
+      return colourCode;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export default memo(Charts)

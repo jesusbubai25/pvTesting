@@ -439,8 +439,8 @@ const GenOverView = () => {
                     borderRadius: "5px",
                     marginLeft: "20px",
                     marginTop: "20px",
+                    position:"relative"
                   }}
-                  ref={graphRef}
                   
                 >
                   <Printer clickhandler={clickhandler4} jpgDownload={jpgDownload4} />
@@ -519,7 +519,8 @@ const GenOverView = () => {
                       </FormGroup>
                     </div>
                   </div>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
+                  
+                  <div style={{ display: "flex", justifyContent: "center" }} ref={graphRef}>
                     <LineBarChart
                       data={energy?.data2}
                       height={200}
@@ -533,6 +534,8 @@ const GenOverView = () => {
                       dataKey3="shortfall"
                       y_axis_label_value1="Energy"
                       y_axis_label_value2="Excess/Shortfall"
+                      hidePrintIcon={{show:false}}
+                    
                     />
                   </div>
                 </Grid>

@@ -56,14 +56,15 @@ const SmallCard = (props) => {
         <h2 style={{ textAlign: "center", color: "#122b4f" }}>
           {props?.heading}
         </h2>
-      </div>
-      {props?.body?.map((item) => {
+        {props?.body?.map((item) => {
         return (
           <div>
             <h5 style={{ textAlign: "center" }}>{item}</h5>
           </div>
         );
       })}
+      </div>
+      
       <div
         style={{
           display: "block",
@@ -73,7 +74,7 @@ const SmallCard = (props) => {
         <Button
           variant="contained"
           style={{
-            margin: "5px",
+            marginBottom: "35px",
             height: "5vh",
             width: "5vw",
             color: "black",

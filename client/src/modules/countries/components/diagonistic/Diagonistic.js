@@ -17,6 +17,7 @@ import GenOverView from "../generationOverView/GenOverView";
 import ProjOverView from "../projectOverView/ProjOverView";
 import PresCripModel from "../prescriptiveModel/PresCripModel";
 import LossFlow2 from "./LossFlow2";
+import FaultTree from "./FaultTree";
 
 const Diagonistic = () => {
   const location = useLocation();
@@ -38,7 +39,8 @@ const Diagonistic = () => {
       {location?.pathname == PageURL.PROJECT_DETAILS && <ProjectDetailBody />}
       {location?.pathname == PageURL.INDIA_GEN_SUMMARY && <GenOverView />}
       {location?.pathname == PageURL.INDIA_PROJ_OVERVIEW && <ProjOverView />}
-      {location?.pathname == PageURL.INDIA_PRES_MODEL&& <PresCripModel />}
+      {location?.pathname == PageURL.INDIA_PRES_MODEL_Loss_Flow&& <PresCripModel />}
+      {location?.pathname == PageURL.INDIA_PRES_MODEL_Fault_Tree && <FaultTree/>}
 
 
     </div>
