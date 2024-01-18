@@ -5,8 +5,9 @@ import { data1 } from "../../../../constants/Data";
 import { data2 } from "../../../../constants/Data";
 import { useLocation } from "react-router-dom";
 import PageURL from "../../../../constants/PageURL";
-import { useDispatch } from "react-redux";
-import { All_SCBSMB } from "../../../../actions/inverterActions";
+import { useDispatch, useSelector } from "react-redux";
+import { All_SCBSMB, InverterSmbMonthlyLoss, InverterSmbYearlyLoss } from "../../../../actions/inverterActions";
+import SpinLoader from "../../../../components/SpinLoader";
 
 const data = [
   {
@@ -247,34 +248,52 @@ const SCBSMB = () => {
   const [dataSet, setDataSet] = useState(
     location?.pathname === PageURL.INDIA_INVERTER1_SCB_SMB1 ? data1 : data2
   );
-  const dispatch=useDispatch();
+  const { inverterSmbYearlyLoss, loading, error } = useSelector(state => state.inverterSmbYearlyLoss)
+  const { inverterSmbMonthlyLoss, loading2, error2 } = useSelector(state => state.inverterSmbMonthlyLoss)
+ 
+  const dispatch = useDispatch();
+  const pathKeywords = location.pathname.split('/')
+
+  let smb = pathKeywords[5].split("")?.reduce((acc, curr) => {
+    if (acc >= '0' && acc <= '9') return acc + curr;
+    else return curr;
+  }, "")
 
   useEffect(() => {
-    // dispatch(All_SCBSMB())
-
-  }, [dispatch])
-  
+    dispatch(InverterSmbYearlyLoss(pathKeywords[4][pathKeywords[4]?.length - 1], smb));
+    dispatch(InverterSmbMonthlyLoss(pathKeywords[4][pathKeywords[4]?.length - 1], smb));
+  }, [dispatch, location])
+  console.log(loading)
   return (
-    <Grid container spacing={2}>
-      <Grid item lg={12} style={{ display: "flex", justifyContent: "center" }}>
-        <Charts
-          data={data}
-          width={1450}
-          height={500}
-          title="SMB Yearly Loss"
-          xdataKey="name"
-        />
-      </Grid>
-      <Grid item lg={12} style={{ display: "flex", justifyContent: "center" }}>
-        <Charts
-          data={dataSet}
-          width={1450}
-          height={500}
-          title="Monthly Average Inverter Efficiency"
-          xdataKey="name"
-        />
-      </Grid>
-    </Grid>
+    <>
+      {loading ? <SpinLoader /> :
+        <Grid container spacing={2} gap={2}>
+          <Grid item lg={12} style={{ display: "flex", justifyContent: "center" }}>
+            <Charts
+              data={inverterSmbYearlyLoss?.data || []}
+              width={1450}
+              height={500}
+              title="SMB Yearly Loss"
+              xdataKey="name"
+              size={{ maxValue: (Math.ceil(inverterSmbYearlyLoss?.maxValue))===0 ?0:Math.ceil(inverterSmbYearlyLoss?.maxValue) + 1 || 0, minValue: Math.floor(inverterSmbYearlyLoss?.minValue) - 1 || 0 }}
+              position={0}
+            />
+          </Grid>
+          <Grid item lg={12} style={{ display: "flex", justifyContent: "center" }}>
+            <Charts
+              data={inverterSmbMonthlyLoss?.data || []}
+              width={1450}
+              height={500}
+              title="Monthly Average Inverter Efficiency"
+              size={{ maxValue: Math.ceil(inverterSmbMonthlyLoss?.maxValue)==0 ?0:Math.ceil(inverterSmbMonthlyLoss?.maxValue) + 1 || 0, minValue: Math.floor(inverterSmbMonthlyLoss?.minValue) - 1 || 0 }}
+              xdataKey="name"
+              position={1}
+
+            />
+          </Grid>
+        </Grid>
+      }
+    </>
   );
 };
 

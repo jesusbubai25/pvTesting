@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import CountryHeader from "../CountryHeader";
 import "../CountryDefault.css";
 import "./ProjOverView.css";
-import BasicCard from "../../../../components/CardComponent";
 import { Grid } from "@mui/material";
 import ProjPic from "../../../../projectOverViewPic.jpg";
 import SmallCard from "../../../../components/SmallCard";
@@ -12,14 +10,13 @@ import SmbDetails from "./SmbDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { powerPlantDetail } from "../../../../actions/inverterActions";
 import SpinLoader from "../../../../components/SpinLoader";
-import CountryHeader1 from "../CounterHeader1";
-import CountryHeader2 from "../ProjectDetails/CountryHeader2";
+import AsBuiltDiagram from "./AsBuiltDiagram";
 
 const ProjOverView = () => {
   const [showDetails, setShowDetails] = useState({
     showGeneralDetails: false,
     showInverterDetails: false,
-    showTechDetails: false,
+    showAsbuiltDetails: false,
     showSMB: false,
   });
   const { plantDetail, error, loading } = useSelector(state => state.plantDetail)
@@ -28,6 +25,7 @@ const ProjOverView = () => {
   const refForGeneralDetails = useRef(null);
   const refInverterDetails = useRef(null);
   const refsmb = useRef(null)
+  const refAsbuiltDiagram = useRef(null)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,6 +37,10 @@ const ProjOverView = () => {
     }
     if (showDetails.showSMB) {
       refsmb.current?.scrollIntoView({ behavior: 'smooth' })
+
+    }
+    if (showDetails.showAsbuiltDetails) {
+      refAsbuiltDiagram.current?.scrollIntoView({ behavior: 'smooth' })
 
     }
     if (!plantDetail) {
@@ -53,12 +55,12 @@ const ProjOverView = () => {
     //   width: 100vw;
     //   margin-bottom: 10px;
     // }
-    
+
     // .country-header-no-margin {
     //   height: 10vh;
     //   width: 100vw;
     // }
-    
+
     // .country-body {
     //   width: 100vw;
     //   height: 90vh;
@@ -80,7 +82,7 @@ const ProjOverView = () => {
                 style={{
                   height: "40vh",
                   overflow: "hidden",
-                  paddingTop:"5px"
+                  paddingTop: "5px"
                 }}
               >
                 <img
@@ -106,7 +108,7 @@ const ProjOverView = () => {
                 body={[
                   `Location: ${plantDetail?.data2.plantName}`,
                   `Capacity DC [MWp]: ${plantDetail?.data2.dcCapacity}`,
-                  `Capacity AC [MWp]: ${plantDetail?.data2.acCapacity}`
+                  `Capacity AC [MW]: ${plantDetail?.data2.acCapacity}`
                 ]}
                 data={plantDetail?.data2}
                 onClick={() => {
@@ -115,7 +117,7 @@ const ProjOverView = () => {
                     ...showDetails,
                     showInverterDetails: false,
                     showSMB: false,
-                    showTechDetails: false,
+                    showAsbuiltDetails: false,
                     showGeneralDetails: !showDetails?.showGeneralDetails,
                   });
 
@@ -135,11 +137,11 @@ const ProjOverView = () => {
               }}
             >
               <SmallCard
-                heading="Technical Details"
+                heading="As-built Diagram"
                 body={[
                   `Modules: ${plantDetail?.data2.moduleType}`,
                   `Guaranteed Generation: ${plantDetail?.data2.guaranteedGenereation}`,
-                  `Tilt: ${plantDetail?.data2.acCapacity}`
+                  `Tilt: ${plantDetail?.data2.tiltAngle}`
                 ]}
                 data={plantDetail?.data2}
                 onClick={() => {
@@ -148,10 +150,10 @@ const ProjOverView = () => {
                     showGeneralDetails: false,
                     showInverterDetails: false,
                     showSMB: false,
-                    showTechDetails: !showDetails?.showTechDetails,
+                    showAsbuiltDetails: !showDetails?.showAsbuiltDetails,
                   });
                 }}
-                showExpanded={showDetails?.showTechDetails}
+                showExpanded={showDetails?.showAsbuiltDetails}
               />
             </Grid>
             <Grid
@@ -178,7 +180,7 @@ const ProjOverView = () => {
                     ...showDetails,
                     showGeneralDetails: false,
                     showSMB: false,
-                    showTechDetails: false,
+                    showAsbuiltDetails: false,
                     showInverterDetails: !showDetails?.showInverterDetails,
                   });
                 }}
@@ -212,7 +214,7 @@ const ProjOverView = () => {
                     ...showDetails,
                     showGeneralDetails: false,
                     showInverterDetails: false,
-                    showTechDetails: false,
+                    showAsbuiltDetails: false,
                     showSMB: !showDetails?.showSMB,
                   });
                 }}
@@ -256,6 +258,20 @@ const ProjOverView = () => {
                 ref={refsmb}
               >
                 <SmbDetails />
+              </Grid>}
+              {showDetails?.showAsbuiltDetails &&
+              <Grid
+                item
+                lg={12}
+                md={12}
+                xs={12}
+                boxSizing={"border-box"}
+                marginTop={10}
+                marginBottom={5}
+                style={{ display: "flex", justifyContent: "center" }}
+                ref={refAsbuiltDiagram}
+              >
+                <AsBuiltDiagram />
               </Grid>}
           </Grid>
         </div>

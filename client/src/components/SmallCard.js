@@ -56,9 +56,9 @@ const SmallCard = (props) => {
         <h2 style={{ textAlign: "center", color: "#122b4f" }}>
           {props?.heading}
         </h2>
-        {props?.body?.map((item) => {
+        {props?.body?.map((item,i) => {
         return (
-          <div>
+          <div key={i} >
             <h5 style={{ textAlign: "center" }}>{item}</h5>
           </div>
         );
@@ -79,7 +79,9 @@ const SmallCard = (props) => {
             width: "5vw",
             color: "black",
             fontWeight: "bolder",
-            backgroundColor: "#64a8a7",
+            // backgroundColor: "#64a8a7",
+            backgroundColor: "rgb(50, 169, 32)",
+            backgroundColor: "rgb(23, 167, 210)",
           }}
           onClick={props?.onClick}
         >

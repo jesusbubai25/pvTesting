@@ -22,6 +22,25 @@ export const powerplant_details_request="net_powerplant_details_request"
 export const powerplant_details_sucess="net_powerplant_details_sucess"
 export const powerplant_details_fail="net_powerplant_details_fail"
 
+
+export const inverter_smb_yearly_loss_request="inverter_smb_yearly_loss_request"
+export const inverter_smb_yearly_loss_sucess="inverter_smb_yearly_loss_sucess"
+export const inverter_smb_yearly_loss_fail="inverter_smb_yearly_loss_fail"
+export const inverter_smb_yearly_loss_reset="inverter_smb_yearly_loss_reset"
+
+
+export const inverter_smb_monthly_loss_request="inverter_smb_monthly_loss_request"
+export const inverter_smb_monthly_loss_sucess="inverter_smb_monthly_loss_sucess"
+export const inverter_smb_monthly_loss_fail="inverter_smb_monthly_loss_fail"
+export const inverter_smb_monthly_loss_reset="inverter_smb_monthly_loss_reset"
+
+
+export const heatmap_data_request="heatmap_data_request"
+export const heatmap_data_sucess="heatmap_data_sucess"
+export const heatmap_data_fail="heatmap_data_fail"
+export const heatmap_data_reset="heatmap_data_reset"
+
+
 export const user_signup_request="user_signup_request"
 export const user_signup_sucess="user_signup_sucess"
 export const user_signup_fail="user_signup_fail"

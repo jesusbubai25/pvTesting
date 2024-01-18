@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 import LineBarChart from "../../../../components/LineBarChart";
 import "../CountryDefault.css";
 import "./GenOverView.css";
@@ -12,21 +12,27 @@ import Printer from "../../../../components/Printer";
 import { CSVLink } from "react-csv";
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
+import GaugeChart from "./GaugeChartComp";
+import GaugeChartComp from "./GaugeChartComp";
 
 
 
 
 const GenOverView = () => {
   const { loading, energy } = useSelector(state => state.energy)
-  const [yearlyEnergyMonth, setYearlyEnergyMonth] = useState("Yearly");
-  const [yearlyEnergyMonth2, setYearlyEnergyMonth2] = useState("Yearly");
-  const [yearlyEnergyMonth3, setYearlyEnergyMonth3] = useState("Yearly");
-  const [netenergy, setnetEnergy] = useState(0);
-  const [Contractual_energy, setContractual_energy] = useState(0);
-  const [ExcessORShortfall_kwh, setExcessORShortfall_kwh] = useState(0);
-  const [ExcessORShortfall_Percentage, setExcessORShortfall_Percentage] = useState(0)
-  const [AC_Loss, setAC_Loss] = useState(0)
-  const [Actual_pr, setActual_pr] = useState(0)
+  const [netenergy, setnetEnergy] = useState(null);
+  const [Contractual_energy, setContractual_energy] = useState(null);
+  const [ExcessORShortfall_kwh, setExcessORShortfall_kwh] = useState(null);
+  const [ExcessORShortfall_Percentage, setExcessORShortfall_Percentage] = useState(null)
+  const [AC_Loss, setAC_Loss] = useState(null)
+  const [Actual_pr, setActual_pr] = useState(null)
+  const [yearlyDetail, setYearlyDetail] = useState({
+    netenergy: 0,
+    contructual_energy: 0,
+    ShortFall: 0,
+    revenu_loss: 0,
+    actual_pr: 0
+  })
   const [checkBoxChecked, setCheckBoxChecked] = useState({
     NetEnergy: true,
     NormalisedEnergy: true,
@@ -42,48 +48,46 @@ const GenOverView = () => {
   const graphRef = useRef(null);
   useMemo(() => {
     if (energy?.data1) {
-      let initalmonth = energy.data1.find(e => e.month === "Yearly")
-      if (yearlyEnergyMonth === "Yearly" && yearlyEnergyMonth2 === "Yearly" && yearlyEnergyMonth3 === "Yearly") {
-        setContractual_energy(initalmonth.contructual_energy)
-        setnetEnergy(initalmonth.net_energy)
-        setExcessORShortfall_kwh(initalmonth.ExcessORShortfall_kwh)
-        setExcessORShortfall_Percentage(initalmonth.ExcessORShortfall_Percentage)
-        setAC_Loss(initalmonth.AC_Loss)
-        setActual_pr(initalmonth.Actual_pr)
+      let initalmonth = energy?.data1?.find(e => e.month === "January")
+      let Yearly = energy?.data1?.find(e => e.month === "Yearly")
+      setContractual_energy(initalmonth.contructual_energy)
+      setnetEnergy(initalmonth.net_energy)
+      setExcessORShortfall_kwh(initalmonth.ExcessORShortfall_kwh)
+      setExcessORShortfall_Percentage(initalmonth.ExcessORShortfall_Percentage)
+      setAC_Loss(initalmonth.AC_Loss)
+      setActual_pr(initalmonth.Actual_pr)
+      if (!yearlyDetail.netenergy || !yearlyDetail.contructual_energy || !yearlyDetail.ShortFall || !yearlyDetail.actual_pr || !yearlyDetail.revenu_loss) {
+        setYearlyDetail({
+          ...yearlyDetail,
+          netenergy: Yearly.net_energy,
+          contructual_energy: Yearly.contructual_energy,
+          ShortFall: Yearly.ExcessORShortfall_Percentage,
+          actual_pr: Yearly.Actual_pr,
+          revenu_loss: Yearly.ExcessORShortfall_kwh * 3.5
+        })
+
       }
     }
+    console.log(yearlyDetail)
+    if (energy?.data1) {
 
-  }, [energy])
+    }
+
+  }, [energy?.data1])
 
   const dispatch = useDispatch();
   const handleChangeYear1 = ({ month, net_energy, contructual_energy }) => {
-    try {
-      setnetEnergy(net_energy);
-      setContractual_energy(contructual_energy)
-      setYearlyEnergyMonth(month);
-    } catch (error) {
-      console.log(error);
-    }
+    setnetEnergy(net_energy);
+    setContractual_energy(contructual_energy)
   };
 
   const handleChangeYear2 = ({ month, ExcessORShortfall_kwh, ExcessORShortfall_Percentage }) => {
-    try {
-      setExcessORShortfall_Percentage(ExcessORShortfall_Percentage)
-      setExcessORShortfall_kwh(ExcessORShortfall_kwh)
-      setYearlyEnergyMonth2(month);
-    } catch (error) {
-      console.log(error);
-    }
+    setExcessORShortfall_Percentage(ExcessORShortfall_Percentage)
+    setExcessORShortfall_kwh(ExcessORShortfall_kwh)
   };
   const handleChangeYear3 = ({ month, AC_Loss, Actual_pr }) => {
-    try {
-      setAC_Loss(AC_Loss)
-      setActual_pr(Actual_pr)
-
-      setYearlyEnergyMonth3(month);
-    } catch (error) {
-      console.log(error);
-    }
+    setAC_Loss(AC_Loss)
+    setActual_pr(Actual_pr)
   };
 
   const clickhandler1 = () => {
@@ -188,24 +192,126 @@ const GenOverView = () => {
 
   }
 
+  const convertToReadableValue=(val)=>{
+    let string=""+val;
+    let arr=string.split("")
+    arr.splice(1,0,",")
+    arr.splice(4,0,",")
+    arr.splice(7,0,",")
+    return arr.join("")
+  }
+
   useEffect(() => {
     dispatch(normalizedEnergyDetails())
   }, [dispatch])
-
+console.log("values is ")
+  console.log(yearlyDetail.ShortFall/100)
+  console.log(yearlyDetail.actual_pr/100)
+  console.log(yearlyDetail.revenu_loss/100)
   return (
 
     <>
-      {/* <div className="country-header">
-        <ProjectDetailsHeader />
-        <CountryHeader />
-        <CountryHeader2 />
-      </div> */}
-
       {loading ? <SpinLoader /> :
         <>
           {energy?.data1 && energy?.data2 &&
             <div >
               <Grid container spacing={2} paddingTop={2} paddingBottom={3}>
+
+                <Grid
+                  // sx={{ boxShadow: 2 }}
+                  item
+                  lg={11}
+
+                  style={{
+                    borderWidth: "3px",
+                    borderRadius: "8px",
+                    marginLeft: "20px",
+                    marginTop: "1rem",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "2rem",
+                    margin: "auto",
+                    padding: "2rem 5rem",
+                    gap: "1rem"
+                  }}
+                  boxShadow={"1px 2px 3px solid"}
+                  className="generation_overview"
+                >
+                  <div style={{ width: "23%", minHeight: "200px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderRadius: "4px", gap: "1rem" }} >
+
+                    <div className="left_box_1" style={{ height: "50%", display: "flex", alignItems: "flex-start", flexDirection: "column", gap: "0.2rem", padding: "0.7rem 0.5rem" }}>
+                      <span>Net Energy Yearly</span>
+                      <span><b>{convertToReadableValue(yearlyDetail.netenergy)} Kwh</b> </span>
+                    </div>
+
+                    <div className="left_box_2" style={{ height: "50%",  display: "flex", alignItems: "flex-start", flexDirection: "column", gap: "0.2rem", padding: "0.7rem 0.5rem" }}>
+                      <span>Contractual Energy Yearly</span>
+                      <span><b>{convertToReadableValue(yearlyDetail.contructual_energy)} Kwh</b></span>
+                    </div>
+
+                  </div>
+                  <div className="show_value_container" >
+                    {/* <div className="bubbles">
+                      <div class="bubble"></div>
+                      <div class="bubble"></div>
+                    </div> */}
+
+                    <span> ShortFall/Excess (%)</span>
+
+                    <div className="show_value">
+                      <GaugeChartComp
+                        id="gauge_chart1"
+                        colors={['#EA4228', '#F5CD19', '#5BE12C']}
+                        value={yearlyDetail.ShortFall }
+                        minValue={-50}
+                        maxValue={50}
+                      />
+
+                    </div>
+
+                  </div>
+                  <div className="show_value_container" style={{ width: "17%" }}>
+                    <span>Revenue Loss (&#8377;)</span>
+
+                    <div className="show_value">
+                      <GaugeChartComp
+                        id="gauge_chart2"
+                        colors={['#EA4228', '#F5CD19', '#5BE12C']}
+                        value={Math.abs(yearlyDetail.revenu_loss )}
+                        minValue={0}
+                        maxValue={10000000}
+                      />
+
+                    </div>
+                  </div>
+                  <div className="show_value_container" style={{ width: "17%" }}>
+                    <span>Actual PR (%)</span>
+
+                    <div className="show_value">
+                      <GaugeChartComp
+                        id="gauge_chart3"
+                        colors={['#EA4228', '#F5CD19', '#5BE12C']}
+                        value={yearlyDetail.actual_pr }
+                        minValue={0}
+                        maxValue={100}
+                      />
+
+
+                    </div>
+                  </div>
+                  <div className="show_value_container" style={{ width: "17%" }}>
+                    <span>Plant Availabilaty Yearly (%)</span>
+                    <div className="show_value">
+                      <GaugeChartComp
+                        id="gauge_chart4"
+                        colors={['#EA4228', '#F5CD19', '#5BE12C']}
+                        value={(Math.floor(Math.random() * (100 - 99 + 1) + 99))}
+                        minValue={0}
+                        maxValue={100}
+                      />
+                    </div>
+                  </div>
+                </Grid>
 
                 <Grid
                   item
@@ -255,12 +361,6 @@ const GenOverView = () => {
                         backgroundColor: "#edeaea",
                       }}
                       onChange={(e) => {
-                        if (e.target.value === "None") {
-                          setContractual_energy(0)
-                          setnetEnergy(0);
-                          setYearlyEnergyMonth("")
-                          return;
-                        }
                         const data = energy.data1?.find((m) => m.month === e.target.value);
                         handleChangeYear1(data);
                       }}
@@ -328,12 +428,6 @@ const GenOverView = () => {
                         backgroundColor: "#edeaea",
                       }}
                       onChange={(e) => {
-                        if (e.target.value === "None") {
-                          setExcessORShortfall_Percentage(0);
-                          setExcessORShortfall_kwh(0);
-                          setYearlyEnergyMonth2("")
-                          return;
-                        }
                         const data = energy.data1?.find((m) => m.month === e.target.value);
                         handleChangeYear2(data);
                       }}
@@ -350,8 +444,8 @@ const GenOverView = () => {
                     />
                     <SpeedChart
                       title={`Excess/Shortfall Percentage`}
-                      minValue={-200}
-                      maxValue={200}
+                      minValue={-100}
+                      maxValue={100}
                       value={ExcessORShortfall_Percentage}
                     />
                   </div>
@@ -400,12 +494,6 @@ const GenOverView = () => {
                         backgroundColor: "#edeaea",
                       }}
                       onChange={(e) => {
-                        if (e.target.value === "None") {
-                          setAC_Loss(0)
-                          setActual_pr(0);
-                          setYearlyEnergyMonth3("")
-                          return;
-                        }
                         const data = energy.data1?.find((m) => m.month === e.target.value);
                         handleChangeYear3(data);
                       }}
@@ -416,14 +504,14 @@ const GenOverView = () => {
                   <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                     <SpeedChart
                       title={`Actual PR`}
-                      minValue={-1000}
-                      maxValue={1000}
+                      minValue={0}
+                      maxValue={100}
                       value={Actual_pr}
                     />
                     <SpeedChart
                       title={`AC Line Loss Percentage`}
-                      minValue={-20}
-                      maxValue={20}
+                      minValue={0}
+                      maxValue={2}
                       value={AC_Loss}
                     />
                   </div>
@@ -439,19 +527,10 @@ const GenOverView = () => {
                     borderRadius: "5px",
                     marginLeft: "20px",
                     marginTop: "20px",
-                    position:"relative"
+                    position: "relative"
                   }}
-                  
-                >
-                  <Printer clickhandler={clickhandler4} jpgDownload={jpgDownload4} />
-                  <CSVLink
-                    data={energy?.data2}
-                    filename='data.csv'
-                    className='hidden'
-                    ref={downloadRef4}
-                    target='_blank'
-                  />
 
+                >
                   <div
                     style={{
                       width: "100%",
@@ -519,13 +598,13 @@ const GenOverView = () => {
                       </FormGroup>
                     </div>
                   </div>
-                  
+
                   <div style={{ display: "flex", justifyContent: "center" }} ref={graphRef}>
                     <LineBarChart
                       data={energy?.data2}
                       height={200}
                       width={1000}
-                      title=" Yearly Net Energy Vs Normalised Energy Vs Excess/Shortfall"
+                      title="Net Energy Vs Normalised Energy Vs Excess/Shortfall"
                       value1={checkBoxChecked?.NetEnergy}
                       value2={checkBoxChecked?.NormalisedEnergy}
                       value3={checkBoxChecked?.ShortFall}
@@ -534,8 +613,7 @@ const GenOverView = () => {
                       dataKey3="shortfall"
                       y_axis_label_value1="Energy"
                       y_axis_label_value2="Excess/Shortfall"
-                      hidePrintIcon={{show:false}}
-                    
+                      position={0}
                     />
                   </div>
                 </Grid>

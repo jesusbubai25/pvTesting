@@ -4,18 +4,18 @@ import { Checkbox } from "@mui/material";
 
 const Table = (props) => {
   return (
-    <table
+    <table className="loss_flow_table"
       style={{
         width: "95%",
       }}
     >
-      <tr style={{ backgroundColor: "#edeafb" }}>
+      <tr style={{ backgroundColor: "#edeafb", padding: "0.5rem 0"}}>
         <th></th>
         <th>Sl No.</th>
 
         <th>Losses</th>
 
-        <th>Input from Green Enco</th>
+        <th>Description</th>
         <th>Loss (%)</th>
       </tr>
 

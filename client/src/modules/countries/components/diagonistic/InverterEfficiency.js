@@ -25,7 +25,7 @@ const InverterEfficiency = () => {
     m_Inverter4: true,
   });
   const onchangeHandler1 = (fname) => {
-    console.log(s_checkBoxChecked ," value")
+    console.log(s_checkBoxChecked, " value")
     try {
       const newData1 = efficiencies?.filter((item) => {
         if (item?.name != fname) {
@@ -62,7 +62,7 @@ const InverterEfficiency = () => {
             {InverterData && InverterMonthlyData &&
               <Grid container spacing={2} padding={"0.5rem"} >
 
-                <Grid item lg={6} >
+                <Grid item lg={6} display={"flex"} flexDirection={"column"} >
                   <Charts
                     data={InverterData}
                     width={740}
@@ -71,10 +71,11 @@ const InverterEfficiency = () => {
                     xdataKey="name"
                     size={
                       {
-                        minValue: 98,
-                        maxValue: 99
+                        minValue: 98.00,
+                        maxValue: 99.00
                       }
                     }
+                    position={0}
                     s_checkBoxChecked={s_checkBoxChecked}
                   >
                     <div
@@ -114,7 +115,7 @@ const InverterEfficiency = () => {
                                 defaultChecked
                                 color="success"
 
-                                onChange={(e) => {                        
+                                onChange={(e) => {
                                   onchangeHandler1("inverter2");
                                 }}
                               />
@@ -161,10 +162,12 @@ const InverterEfficiency = () => {
                     xdataKey="name"
                     size={
                       {
-                        minValue: 96,
-                        maxValue: 98
+                        minValue: 96.00,
+                        maxValue: 98.00
                       }
                     }
+                    position={1}
+
                     m_checkBoxChecked={m_checkBoxChecked}
                   >
 

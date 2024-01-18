@@ -42,9 +42,6 @@ const data = [
     // fill:"rgb(252, 237, 107)" 
     // fill:"rgb(94, 216, 253)"
     fill:"#488f31"
-    
-
-
   },
 ];
 
@@ -127,6 +124,7 @@ const PresCripModel = () => {
                     title="Loss Contribution"
                     xdataKey="name"
                     YAxisLabel="Percentage of Losses"
+                    position={0}
                   />
                   :
                   <h3>Select an option to view Graph</h3>

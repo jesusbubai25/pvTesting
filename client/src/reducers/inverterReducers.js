@@ -4,8 +4,14 @@ import {
     GHI_GTI_data_sucess,
     all_inverter_efficiency_fail, all_inverter_efficiency_request,
     all_inverter_efficiency_sucess, all_scbsmb_fail, all_scbsmb_request, all_scbsmb_sucess, energy_monthly_fail,
-    energy_monthly_request, energy_monthly_sucess, inverter_efficiency_fail, inverter_efficiency_request,
+    energy_monthly_request, energy_monthly_sucess, heatmap_data_fail, heatmap_data_request, heatmap_data_sucess, inverter_efficiency_fail, inverter_efficiency_request,
     inverter_efficiency_sucess,
+    inverter_smb_monthly_loss_fail,
+    inverter_smb_monthly_loss_request,
+    inverter_smb_monthly_loss_sucess,
+    inverter_smb_yearly_loss_fail,
+    inverter_smb_yearly_loss_request,
+    inverter_smb_yearly_loss_sucess,
     powerplant_details_fail,
     powerplant_details_request,
     powerplant_details_sucess,
@@ -67,7 +73,7 @@ export const all_scbsmb = (state = { all_scbsmb: null }, action) => {
     }
 
 }
-export const monthly_inverter_efficiency = (state = { monthly_inverter_efficiency:null }, action) => {
+export const monthly_inverter_efficiency = (state = { monthly_inverter_efficiency: null }, action) => {
 
     switch (action.type) {
         case all_inverter_efficiency_request:
@@ -160,6 +166,82 @@ export const plantDetail = (state = { plantDetail: null }, action) => {
                 plantDetail: action.payload
             };
         case powerplant_details_fail:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        default:
+            return state;
+    }
+}
+
+export const inverterSmbYearlyLoss = (state = { inverterSmbYearlyLoss: null }, action) => {
+
+    switch (action.type) {
+        case inverter_smb_yearly_loss_request:
+            return {
+                ...state,
+                loading: true
+            };
+        case inverter_smb_yearly_loss_sucess:
+            return {
+                ...state,
+                loading: false,
+                inverterSmbYearlyLoss: action.payload
+            };
+        case inverter_smb_yearly_loss_fail:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        default:
+            return state;
+    }
+}
+
+export const inverterSmbMonthlyLoss = (state = { inverterSmbMonthlyLoss: null }, action) => {
+
+    switch (action.type) {
+        case inverter_smb_monthly_loss_request:
+            return {
+                ...state,
+                loading2: true
+            };
+        case inverter_smb_monthly_loss_sucess:
+            return {
+                ...state,
+                loading2: false,
+                inverterSmbMonthlyLoss: action.payload
+            };
+        case inverter_smb_monthly_loss_fail:
+            return {
+                ...state,
+                loading2: false,
+                error2: action.payload
+            };
+        default:
+            return state;
+    }
+}
+
+
+export const heatmapData = (state = { heatmapData: null }, action) => {
+
+    switch (action.type) {
+        case heatmap_data_request:
+            return {
+                ...state,
+                loading: true
+            };
+        case heatmap_data_sucess:
+            return {
+                ...state,
+                loading: false,
+                heatmapData: action.payload
+            };
+        case heatmap_data_fail:
             return {
                 ...state,
                 loading: false,

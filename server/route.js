@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { InverterEfficiency,
     InverterEfficiencyMonthly, NormalizedEnergyDetails, GHI_GTI_Data, Test3, Test2, powerPlantTableDetails
 } = require("./Controllers/controller");
+const { Inverter_Smb_Yearly_Loss, Inverter_Smb_Monthly_Loss } = require("./Controllers/inverterController");
 
 const { LoginHandler, SignupHandler, getRegisteredUsers,
     getUser, allowRegistredUser, LogoutHandler, deleteRegistredUser, verifyOtpHandler, sendOtpHandler, reSendOtpHandler, deleteExistingUser } = require("./Controllers/userControllers");
@@ -35,6 +36,9 @@ router.route("/inverter-efficiency-monthly").get(isAuth,InverterEfficiencyMonthl
 router.route("/normalizedEnergyDetails").get(isAuth, NormalizedEnergyDetails)
 router.route("/GHI-GTI-data").get(isAuth,GHI_GTI_Data)
 router.route("/powerPlantDetails").get(isAuth,powerPlantTableDetails)
+router.route("/inverter-smb-yearly-loss").get(isAuth,Inverter_Smb_Yearly_Loss)
+router.route("/inverter-smb-monthly-loss/:inverter").get(isAuth,Inverter_Smb_Monthly_Loss)
+
 
 
 module.exports = router;

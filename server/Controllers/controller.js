@@ -26,9 +26,9 @@ const promisePool2 = pool2.promise();
 exports.Test2 = async (req, res) => {
   let connection;
   try {
-    connection = await promisePool.getConnection()
+    connection = await promisePool2.getConnection()
     await connection.beginTransaction();
-    const [result, fields] = await connection.query("select * from inverterDetails")
+    const [result, fields] = await connection.query("select * from smb1_1_4Inverter1LossDetails")
     await connection.commit();
     return res.status(200).json({ result: result, sucess: true });
 
@@ -56,7 +56,7 @@ exports.Test2 = async (req, res) => {
 exports.Test3 = async (req, res) => {
   let connection;
   try {
-    connection = await promisePool.getConnection()
+    connection = await promisePool2.getConnection()
     await connection.beginTransaction();
     // const [rows, fields] = await connection.query("select * from registrationGreenEnco;select * from Persons")
     // await connection.commit();
@@ -157,9 +157,9 @@ exports.NormalizedEnergyDetails = async (req, res) => {
         net_energy: result[0].reduce((a, b) => { return a + b.Net_Energy }, 0),
         contructual_energy: result[0].reduce((a, b) => { return a + b.contructual_Energy }, 0),
         ExcessORShortfall_kwh: result[0].reduce((a, b) => { return a + b.ExcessORShortfall_kwh }, 0),
-        ExcessORShortfall_Percentage: result[0].reduce((a, b) => { return a + b.ExcessORShortfall_Percentage }, 0),
-        AC_Loss: parseFloat((Math.floor((result[0].reduce((a, b) => { return a + b.AC_Loss }, 0)) * 100) / 100).toFixed(2)),
-        Actual_pr: parseFloat((Math.floor((result[1].reduce((a, b) => { return a + b.Monthly_PR }, 0)) * 100) / 100).toFixed(2))
+        ExcessORShortfall_Percentage: parseFloat(result[0].reduce((a, b) => { return a + b.ExcessORShortfall_Percentage }, 0)/12).toFixed(2),
+        AC_Loss: parseFloat((Math.floor((result[0].reduce((a, b) => { return a + b.AC_Loss }, 0)/12) * 100) / 100).toFixed(2)),
+        Actual_pr: parseFloat((Math.floor((result[1].reduce((a, b) => { return a + b.Monthly_PR }, 0)/12) * 100) / 100).toFixed(2))
       }
     )
     for (let i = 0; i < result[0].length; i++) {
@@ -175,7 +175,7 @@ exports.NormalizedEnergyDetails = async (req, res) => {
       data1.push(obj);
 
       obj1.name = result[0][i].month_year.split("-")[0].slice(0, 3) + "-" + result[0][i].month_year.split("-")[1].toString().slice(2);
-      obj1.normalisedEnergy = result[0][i].Normalized_Energy_kwh;
+      obj1.contructualEnergy = result[0][i].contructual_Energy;
       obj1.netEnergy = result[0][i].Net_Energy
       obj1.shortfall = result[0][i].ExcessORShortfallNormalised_Percentage
       data2.push(obj1)

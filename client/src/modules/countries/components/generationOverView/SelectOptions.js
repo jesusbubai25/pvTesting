@@ -4,16 +4,6 @@ const SelectOptions = () => {
     return (
         <>
             <option
-                value="Yearly"
-            >
-                Yearly
-            </option>
-            <option
-                value="None"
-            >
-                None
-            </option>
-            <option
                 value="January"
             >
                 January

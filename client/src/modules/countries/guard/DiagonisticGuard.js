@@ -7,7 +7,7 @@ const DiagonisticGuard = ({ children }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoadChild(true)
-    }, 3000);
+    }, 2000);
 
   }, []);
 

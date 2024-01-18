@@ -6,127 +6,32 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GHI_GTI_data_action, normalizedEnergyDetails } from "../../../../actions/inverterActions";
 import SpinLoader from "../../../../components/SpinLoader";
 import Printer from "../../../../components/Printer";
-import { Bar, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis, Area, AreaChart, BarChart } from "recharts";
+
 import LineBarChart from "../../../../components/LineBarChart";
 import html2canvas from "html2canvas";
 import { saveAs } from 'file-saver'
 import { CSVLink } from "react-csv";
 import GaugeChartComp from "../generationOverView/GaugeChartComp";
+import { graphData, graphData2, graphData3 } from "../../../../constants/Data";
+import "./Detailed.css";
 
-const data = [
-  {
-    name: "Aug-21",
-    PVSYST: 139,
-    ACTUAL: 117.78,
-  },
-  {
-    name: "Sep-21",
-    PVSYST: 129,
-    ACTUAL: 140,
-  },
-  {
-    name: "Oct-21",
-    PVSYST: 119,
-    ACTUAL: 111,
-  },
-  {
-    name: "Nov-21",
-    PVSYST: 193,
-    ACTUAL: 117.78,
-  },
-  {
-    name: "Dec-21",
-    PVSYST: 180.87,
-    ACTUAL: 156,
-  },
-  {
-    name: "Jan-22",
-    PVSYST: 175,
-    ACTUAL: 125.68,
-  },
-  {
-    name: "Feb-22",
-    PVSYST: 180,
-    ACTUAL: 150,
-  },
-  {
-    name: "Mar-22",
-    PVSYST: 170,
-    ACTUAL: 130,
-  },
-  {
-    name: "April-22",
-    PVSYST: 110,
-    ACTUAL: 90,
-  },
-  {
-    name: "May-22",
-    PVSYST: 120,
-    ACTUAL: 117.78,
-  },
-  {
-    name: "June-22",
-    PVSYST: 150,
-    ACTUAL: 168,
-  },
-  {
-    name: "July-22",
-    PVSYST: 139,
-    ACTUAL: 110,
-  },
-];
 
-const data1 = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
 
-const Detailed2 = () => {
+const Detailed3 = () => {
   const dispatch = useDispatch();
   const { GHI_GTI_data, loading, error } = useSelector(state => state.GHI_GTI_data)
   const { energy } = useSelector(state => state.energy)
   const ref = useRef(null)
   const csvref = useRef(null);
+
+
+
+  const [progressValue, setProgressValue] = useState({
+    progress_1: false,
+    progress_2: false,
+    progress_3: false
+  })
 
 
   //jpgDownload
@@ -210,100 +115,264 @@ const Detailed2 = () => {
       {
         loading ? <SpinLoader /> :
           GHI_GTI_data?.data &&
-          <Grid container spacing={2} paddingBottom={3}   >
+          <Grid container paddingBottom={3} boxSizing={"border-box"} >
 
             <Grid
-              // sx={{ boxShadow: 2 }}
+              sx={{ boxShadow: 2 }}
               item
-              lg={10}
-
+              lg={11.7}
               style={{
+                boxSizing: "border-box",
                 borderWidth: "3px",
-                borderRadius: "5px",
-                marginLeft: "10px",
-                marginTop: "1rem",
+                borderRadius: "8px",
+                margin: "auto",
                 display: "flex",
                 justifyContent: "space-between",
-                marginBottom: "2rem",
-                margin: "2rem auto 0 auto",
+                marginBottom: "1rem",
+                padding: "2rem 1rem",
                 gap: "1rem",
-                paddingRight:"1rem"
+                height: "290px",
               }}
-              boxShadow={"1px 2px 3px solid"}
-              className="generation_overview"
+              className="detail_overview_container"
 
 
             >
-              <div style={{ width: "23%", minHeight: "200px", display: "flex", flexDirection: "column", justifyContent: "space-between",  gap: "1rem" }} >
+              <div className="detail_overview_1">
 
-                <div className="left_box_1" style={{  height: "50%",  display: "flex", alignItems: "flex-start", flexDirection: "column", gap: "0.2rem", padding: "0.7rem 0.5rem" }}>
-                  <span>Pvsyst GTI Yearly</span>
-                  <span><b>{parseFloat(GHI_GTI_data?.data?.reduce((acc,curr)=>acc+curr.pvsyst_GTI,0)).toFixed(2) ||0} kwh/m<sup>2</sup></b> </span>
+                <div style={{ gap: "3rem" }}>
+
+                  <div>
+                    <div>
+                      <progress className="progress_1" style={{ accentColor: "green" }} value={parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2) || 0} max="2000" />
+
+                    </div>
+                    <div>
+                      <span>PVsyst GTI</span>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: `${parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2) * 100 / 2000 - 3}%`,
+                          bottom: "60%"
+                        }}
+                      ><i class="fa-solid fa-caret-up"></i></span>
+
+                      <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2) || 0}</span>
+
+
+                    </div>
+
+                  </div>
+                  <div>
+                    <div>
+                      <progress className="progress_2" style={{ accentColor: progressValue.progress_2 ? "grey" : "red" }} value={
+                        parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2)
+                      } max="2000" />
+                    </div>
+
+
+                    <div>
+                      <span>Actual GTI</span>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: `${parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2) * 100 / 2000 - 3}%`,
+                          bottom: "60%"
+                        }}
+                      ><i class="fa-solid fa-caret-up"></i></span>
+
+                      <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2) || 0}</span>
+
+
+                    </div>
+                  </div>
+
+
 
                 </div>
-                <div className="left_box_2" style={{  height: "50%",  display: "flex", alignItems: "flex-start", flexDirection: "column", gap: "0.2rem", padding: "0.7rem 0.5rem" }}>
-                  <span>Actual GTI Yearly</span>
-                  <span><b>{parseFloat(GHI_GTI_data?.data?.reduce((acc,curr)=>acc+curr.Actual_GTI,0)).toFixed(2) || 0} kwh/m<sup>2</sup></b></span>
+                <div>
+
+                  <div>
+
+                    <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2)}</span>
+                    <span>PVsyst GTI  </span>
+                    <div>
+                      <BarChart width={100} height={40} data={GHI_GTI_data?.data || []} >
+                        <XAxis dataKey="name" hide />
+                        <Tooltip contentStyle={{ fontSize: "0.8rem" }} />
+                        <Bar barSize={4} radius={14} dataKey="pvsyst_GTI" fill="#8884d8" />
+                      </BarChart>
+                    </div>
+                    <span className="progress_button_1">button</span>
+
+                  </div>
+                  <div>
+                    <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2)}</span>
+                    <span>Actual GTI</span>
+                    <div><BarChart width={100} height={40} data={GHI_GTI_data?.data || []} >
+                      <XAxis dataKey="name" hide />
+                      <Tooltip contentStyle={{ fontSize: "0.7rem" }} />
+                      <Bar barSize={4} radius={14} dataKey="Actual_GTI" fill="#8884d8" />
+                    </BarChart></div>
+                    <span onMouseOver={() => setProgressValue({ ...progressValue, progress_2: true })} onMouseOut={() => setProgressValue({ ...progressValue, progress_2: false })} className="progress_button_2">button</span>
+
+                  </div>
+
+
+                </div>
+
+              </div>
+              <div className="detail_overview_1">
+
+                <div >
+
+                  <div>
+                    <div>
+                      <progress className="progress_1" style={{ accentColor: "green" }} 
+                      value={parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)} max="2000" />
+
+                    </div>
+                    <div>
+                      <span>PVsyst GHI</span>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: `${parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2) * 100 / 2000 - 3}%`,
+                          bottom: "60%"
+                        }}
+                      ><i class="fa-solid fa-caret-up"></i></span>
+
+                      <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)}</span>
+
+
+                    </div>
+
+                  </div>
+                  <div>
+                    <div>
+                      <progress className="progress_2" style={{ accentColor: progressValue.progress_2 ? "grey" : "red" }} 
+                      value={parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2) || 0} max="2000" />
+                    </div>
+
+
+                    <div>
+                      <span>Actual GHI</span>
+                      {/* <span style={{fontSize:"1.2rem"}}><ArrowDropUpIcon  /></span> */}
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: `${parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2) * 100 / 2000 - 3 || 0}%`,
+                          bottom: "60%"
+                        }}
+                      ><i class="fa-solid fa-caret-up"></i></span>
+
+                      <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2) || 0}</span>
+
+
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      <progress className="progress_3" style={{ accentColor: "blue" }} value="1570" max="2000" />
+                    </div>
+
+
+                    <div>
+                      <span>Excess/ShortFall</span>
+                      {/* <span style={{fontSize:"1.2rem"}}><ArrowDropUpIcon  /></span> */}
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: `${1570 * 100 / 2000 - 2}%`,
+                          bottom: "60%"
+                        }}
+                      ><i class="fa-solid fa-caret-up"></i></span>
+
+                      <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.ShortFall, 0)).toFixed(2)}</span>
+
+
+                    </div>
+                  </div>
+
+
+                </div>
+                <div>
+
+                  <div>
+
+                    <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2) || 0}</span>
+                    <span>PVSYST GHI </span>
+                    <div>
+                      <BarChart width={100} height={40} data={graphData} >
+                        {/* <CartesianGrid /> */}
+                        <XAxis dataKey="name" hide />
+                        {/* <YAxis /> */}
+                        <Tooltip contentStyle={{ fontSize: "0.7rem" }} />
+                        {/* <Legend /> */}
+                        <Bar barSize={4} dataKey="val" fill="#8884d8" />
+                      </BarChart>
+                    </div>
+                    <span className="progress_button_1">button</span>
+
+                  </div>
+                  <div>
+                    <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2) || 0}</span>
+                    <span>Actual GHI</span>
+                    <div><BarChart width={100} height={40} data={graphData} >
+                      {/* <CartesianGrid /> */}
+                      <XAxis dataKey="name" hide />
+                      {/* <YAxis /> */}
+                      <Tooltip />
+                      {/* <Legend /> */}
+                      <Bar barSize={4} dataKey="val" fill="#8884d8" />
+                    </BarChart></div>
+                    <span onMouseOver={() => setProgressValue({ ...progressValue, progress_2: true })} onMouseOut={() => setProgressValue({ ...progressValue, progress_2: false })} className="progress_button_2">button</span>
+
+                  </div>
+
+                  <div>
+                    <span>100000</span>
+                    <span>Excess/ShortFall</span>
+                    <div><BarChart width={100} height={40} data={graphData} >
+                      {/* <CartesianGrid /> */}
+                      <XAxis dataKey="name" hide />
+                      {/* <YAxis /> */}
+                      <Tooltip />
+                      {/* <Legend /> */}
+                      <Bar barSize={4} dataKey="val" fill="#8884d8" />
+                    </BarChart></div>
+                    <span className="progress_button_3">button</span>
+
+                  </div>
+
+
+                </div>
+
+              </div>
+              <div className="gen_overview_3">
+
+                <div>
+                  <span>Value1</span>
+                  {/* <span>Value2</span> */}
+
+                </div>
+
+                <div>
+                  <BarChart width={230} height={150} data={graphData3} >
+                    {/* <CartesianGrid /> */}
+                    <XAxis dataKey="name" hide />
+                    {/* <YAxis /> */}
+                    <Tooltip contentStyle={{ fontSize: "0.7rem" }} />
+                    {/* <Legend /> */}
+                    <Bar barSize={6} dataKey="val" fill="#8884d8" />
+                    {/* <Bar barSize={6} dataKey="val2" fill="#8884d8" /> */}
+                    {/* <Bar barSize={4} dataKey="val3" fill="#8884d8" /> */}
+                  </BarChart>
+
                 </div>
 
               </div>
 
 
-              <div className="show_value_container" >
-                <span> Pvsyst GHI  Yearly  kwh/m<sup>2</sup></span>
-
-                <div className="show_value">
-                  <GaugeChartComp
-                    id="gauge_chart1"
-                    colors={['#EA4228', '#F5CD19', '#5BE12C']}
-                    value={parseFloat(GHI_GTI_data?.data?.reduce((acc,curr)=>acc+curr.pvsyst_GHI,0)/100).toFixed(2) ||0}
-                    minValue={0}
-                    maxValue={100}
-                  />
-
-                </div>
-
-              </div>
-              <div className="show_value_container" style={{  width: "17%"}}>
-                <span>Actual GHI Yearly  kwh/m<sup>2</sup></span>
-
-                <div className="show_value">
-                  <GaugeChartComp
-                    id="gauge_chart2"
-                    colors={['#EA4228', '#F5CD19', '#5BE12C']}
-                    value={parseFloat(GHI_GTI_data?.data?.reduce((acc,curr)=>acc+curr.Actual_GHI,0)/100).toFixed(2) ||0}
-                    minValue={0}
-                    maxValue={100}
-                  />
-
-                </div>
-              </div>
-              <div className="show_value_container" style={{  width: "17%" }}>
-                <span>PVsyst Module Temperature Avg (deg) </span>
-                <div className="show_value">
-                  <GaugeChartComp
-                    id="gauge_chart4"
-                    colors={['#EA4228', '#F5CD19', '#5BE12C']}
-                    // value={(Math.floor(Math.random() * (100 - 99 + 1) + 99)) / 100}
-                    value={35}
-                  />
-                </div>
-              </div>
-              <div className="show_value_container" style={{  width: "17%" }}>
-                <span>Actual Module Temperature Avg (deg)</span>
-
-                <div className="show_value">
-                  <GaugeChartComp
-                    id="gauge_chart3"
-                    colors={['#EA4228', '#F5CD19', '#5BE12C']}
-                    value={38}
-                  />
-
-
-                </div>
-              </div>
-
-              
             </Grid>
             <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
               <Grid
@@ -855,15 +924,15 @@ const Detailed2 = () => {
                     bottom: 20
                   }}
                   data={energy?.data3}
-                
+
 
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis interval={0} dataKey="name" fontSize={"0.8rem"} fontWeight={600} />
                   <YAxis />
                   <Tooltip
-                  
-                   />
+
+                  />
                   <Legend />
                   {Actual_pr && <Line
                     type="monotone"
@@ -933,6 +1002,6 @@ const saveToSvg = (svg, width, height) => {
   });
 };
 
-export default Detailed2;
+export default Detailed3;
 
 

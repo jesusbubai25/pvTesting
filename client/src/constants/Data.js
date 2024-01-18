@@ -409,7 +409,7 @@ export const dataTree = [
                 id: '4',
                 text: 'No negative terminal earthing',
                 diamond: false,
-              },{
+              }, {
                 id: '4',
                 text: 'Non PID resistive module',
                 diamond: false,
@@ -490,7 +490,7 @@ export const dataTree = [
                 id: '4',
                 text: 'Riso - DC string cable',
                 diamond: false,
-              },{
+              }, {
                 id: '4',
                 text: 'Poor contact of DC main cable lugs',
                 diamond: false,
@@ -519,24 +519,235 @@ export const dataTree = [
         ]
       },
       {
-          id: 14,
-          text: 'Shading loss',
-          diamond: false,
-          children: [
+        id: 14,
+        text: 'Shading loss',
+        diamond: false,
+        children: [
+          {
+            id: 3,
+            text: 'Mismatch with PVSYST',
+            diamond: false,
+            children: [
               {
-                  id: 3,
-                  text: 'Mismatch with PVSYST',
-                  diamond: false,
-                  children: [
-                      {
-                          id: '4',
-                          text: 'Shadow from adjacent tress',
-                          diamond: false,
-                      }
-                  ]
+                id: '4',
+                text: 'Shadow from adjacent tress',
+                diamond: false,
               }
-          ]
+            ]
+          }
+        ]
       }
     ]
+  }
+]
+
+
+
+export const graphData = [
+  {
+    name: "jan",
+    val: 10
+  },
+  {
+    name: "feb",
+    val: 4
+  },
+  {
+    name: "mar",
+    val: 4
+  },
+  {
+    name: "april",
+    val: 15
+  },
+  {
+    name: "may",
+    val: 7
+  },
+  {
+    name: "jun",
+    val: 15
+  },
+  {
+    name: "july",
+    val: 12
+  },
+  {
+    name: "aug",
+    val: 15
+  },
+  {
+    name: "sept",
+    val: 9
+  },
+  {
+    name: "oct",
+    val: 8
+  },
+  {
+    name: "nov",
+    val: 5
+  },
+  {
+    name: "dec",
+    val: 8
+  }
+]
+
+export const graphData2 = [
+  {
+    name: "jan",
+    val: 10,
+    val2: 15
+  },
+  {
+    name: "feb",
+    val: 4,
+    val2: 19
+
+  },
+  {
+    name: "mar",
+    val: 4,
+    val2: 8
+
+  },
+  {
+    name: "april",
+    val: 15,
+    val2: 3
+
+  },
+  {
+    name: "may",
+    val: 7,
+    val2: 9
+
+  },
+  {
+    name: "jun",
+    val: 15,
+    val2: 11
+
+  },
+  {
+    name: "july",
+    val: 12,
+    val2: 10
+
+  },
+  {
+    name: "aug",
+    val: 15,
+    val2: 4
+
+  },
+  {
+    name: "sept",
+    val: 9,
+    val2: 15
+
+  },
+  {
+    name: "oct",
+    val: 8,
+    val2: 10
+
+  },
+  {
+    name: "nov",
+    val: 5,
+    val2: 15
+
+  },
+  {
+    name: "dec",
+    val: 8,
+    val2: 2
+  }
+]
+
+export const graphData3 = [
+  {
+    name: "jan",
+    val: 10,
+    val2: 15,
+    val3: 2
+  },
+  {
+    name: "feb",
+    val: 4,
+    val2: 19,
+    val3: 10
+
+  },
+  {
+    name: "mar",
+    val: 4,
+    val2: 8,
+    val3: 9
+
+  },
+  {
+    name: "april",
+    val: 15,
+    val2: 3,
+    val3: 13
+
+  },
+  {
+    name: "may",
+    val: 7,
+    val2: 9,
+    val3: 19
+
+  },
+  {
+    name: "jun",
+    val: 15,
+    val2: 11,
+    val3: 5
+
+  },
+  {
+    name: "july",
+    val: 12,
+    val2: 10,
+    val3: 5
+
+  },
+  {
+    name: "aug",
+    val: 15,
+    val2: 4,
+    val3: 8
+
+  },
+  {
+    name: "sept",
+    val: 9,
+    val2: 15,
+    val3: 10
+
+  },
+  {
+    name: "oct",
+    val: 8,
+    val2: 10,
+    val3: 6
+
+  },
+  {
+    name: "nov",
+    val: 5,
+    val2: 15,
+    val3: 10
+
+  },
+  {
+    name: "dec",
+    val: 8,
+    val2: 2,
+    val3: 12
   }
 ]

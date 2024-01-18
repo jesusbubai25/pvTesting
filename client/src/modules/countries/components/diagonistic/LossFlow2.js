@@ -37,7 +37,6 @@ const LossFlow2 = () => {
         Overheating: false,
     });
 
-    console.log(showCheckBox)
 
     return (
         <Grid container spacing={2} minHeight={650}>
@@ -77,37 +76,34 @@ const LossFlow2 = () => {
               <h2>PV: {value || 0}</h2>
               <h2>Rate: {percentage || 0}%</h2>
             </div>
-
-
           </div>
         </div> */}
                 <div style={{ display: "flex", flexDirection: "column", height: "90%", justifyContent: "space-between" }} >
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative", top: "1rem" }}>
                             <img style={{ height: "120px", width: "80px" }} src={trasmission_tower} title="Transmission Tower" />
                             <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700" }}>Transmission Tower</span>
                         </div>
                         <ArrowBackIcon sx={{ width: "100px", fontSize: "4rem" }} />
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative", top: "1rem" }}>
                             <img style={{ height: "50px", width: "50px" }} src={amrMeter} title="Ammeter" />
                             <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700", position: "relative", top: "20px" }}>Ammeter</span>
                         </div>
                         <ArrowBackIcon sx={{ width: "100px", fontSize: "4rem" }} />
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                             <img style={{ height: "170px", width: "150px" }} src={transformer} title="Transformer" />
-
-                            <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700" }}>Transformer</span>
+                            <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700", position: "relative", bottom: "1rem" }}>Transformer</span>
                         </div>
-                        <ArrowBackIcon sx={{ width: "100px", fontSize: "4rem",visibility:"hidden" }} />
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center",position:"relative" }}>
+                        <ArrowBackIcon sx={{ width: "100px", fontSize: "4rem", visibility: "hidden" }} />
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
 
                             <img style={{ height: "110px", width: "120px" }} src={inverter2} title="Inverter" />
                             <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700", position: "relative", top: "10px" }}>Inverter</span>
-                            <div style={{position:"absolute",top:"4.8%",borderTop:"3px solid red",width:"108%",right:"100%"}}>
+                            <div style={{ position: "absolute", top: "5%", borderTop: "3px solid red", width: "108%", right: "100%" }}>
                             </div>
-                            <div style={{position:"absolute",top:"10%",borderTop:"3px solid yellow",width:"108%",right:"100%"}}>
+                            <div style={{ position: "absolute", top: "10%", borderTop: "3px solid yellow", width: "108%", right: "100%" }}>
                             </div>
-                            <div style={{position:"absolute",top:"15.5%",borderTop:"3px solid blue",width:"108%",right:"100%"}}>
+                            <div style={{ position: "absolute", top: "15.5%", borderTop: "3px solid blue", width: "108%", right: "100%" }}>
                             </div>
 
                         </div>
@@ -117,13 +113,13 @@ const LossFlow2 = () => {
                                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                     <img style={{ height: "120px", width: "150px" }} src={scada} title="SCADA" />
 
-                                    <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700",position:"relative",top:"10px" }}>SCADA</span>
+                                    <span style={{ fontSize: "0.9rem", width: "90px", textAlign: "center", fontWeight: "700", position: "relative", top: "10px" }}>SCADA</span>
 
 
 
                                 </div>
                             </div>
-                            <div style={{ position: "absolute", height: "54%", width: "8px", backgroundColor: "black", left: "50%",marginTop:"15px" }}>
+                            <div style={{ position: "absolute", height: "54%", width: "8px", backgroundColor: "black", left: "50%", marginTop: "15px" }}>
 
                                 <div style={{ position: "absolute", height: "8px", width: "10.5vw", backgroundColor: "black", right: "0", bottom: "0" }}>
                                     <div style={{ position: "absolute", height: "10vh", width: "8px", backgroundColor: "black", left: "0", bottom: "0" }}>
@@ -166,23 +162,20 @@ const LossFlow2 = () => {
                             SMB BOX
                             <div className="animate_cable" style={{
                                 width: "8px", height: "61%", position: "absolute", bottom: "100%",
-                                backgroundColor: showCheckBox.Overheating ? "blue" : "red",
+                                backgroundColor: showCheckBox.Overheating || showCheckBox.Resistance ? "blue" : "red",
                                 left: "50%", boxShadow: "none"
                             }}>
 
                                 <div className="animate_cable" style={{
                                     height: "8px",
                                     width: "21vw",
-                                    backgroundColor: showCheckBox.Overheating ? "blue" : "red",
+                                    backgroundColor: showCheckBox.Overheating || showCheckBox.Resistance ? "blue" : "red",
                                     position: "absolute",
                                     top: "0px"
-
-
-
                                 }}>
                                     <div className="animate_cable" style={{
                                         width: "8px", height: "10vh",
-                                        backgroundColor: showCheckBox.Overheating ? "blue" : "red",
+                                        backgroundColor: showCheckBox.Overheating || showCheckBox.Resistance ? "blue" : "red",
                                         position: "absolute", right: "0", bottom: "0"
                                     }}>
 
@@ -201,7 +194,7 @@ const LossFlow2 = () => {
 
                                 <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item3"> solar pannel</div>
                                 <div className="animate_div" style={{
-                                    height: "40%", position: "absolute", bottom: "100%",
+                                    height: "44%", position: "absolute", bottom: "100%",
                                     background: "none",
                                     borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                     left: "50%", boxShadow: "none"
@@ -209,7 +202,7 @@ const LossFlow2 = () => {
                                     <div className="animate_div2" style={{
                                         position: "absolute", bottom: "85%",
                                         background: "none",
-                                        width: "70%",
+                                        width: "71.5%",
                                         left: "0",
                                         borderTop: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                         boxShadow: "none"
@@ -218,18 +211,18 @@ const LossFlow2 = () => {
 
                                     <div style={{
                                         position: "absolute",
-                                        bottom: "80%", left: "67%",
+                                        bottom: "75%", left: "67%",
                                         fontSize: "2rem",
                                         transform: "rotate(180deg)"
                                     }}>
-                                        <i  className="fa-solid fa-y y_connector" 
-                                        style={{
-                                            color:showCheckBox.Resistance?"red":"black"
-                                        }}
+                                        <i className="fa-solid fa-y y_connector"
+                                            style={{
+                                                color: showCheckBox.Resistance ? "red" : "black"
+                                            }}
                                         ></i>
 
                                         <div className="animate_div" style={{
-                                            position: "absolute", top: "100%",left:"35%",
+                                            position: "absolute", top: "100%", left: "35%",
                                             background: "none",
                                             height: "107%",
                                             borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
@@ -248,7 +241,7 @@ const LossFlow2 = () => {
                                     solar pannel
                                 </div>
                                 <div className="animate_div" style={{
-                                    height: "40%", position: "absolute", bottom: "100%",
+                                    height: "43%", position: "absolute", bottom: "100%",
                                     background: "none",
                                     borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                     left: "50%", boxShadow: "none"
@@ -258,7 +251,7 @@ const LossFlow2 = () => {
                                     <div className="animate_div2 special_animate" style={{
                                         position: "absolute", bottom: "85%",
                                         background: "none",
-                                        width:showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling? "72.7%":"70%",
+                                        width: "74%",
                                         right: "100%",
                                         borderTop: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                         boxShadow: "none"
@@ -273,7 +266,7 @@ const LossFlow2 = () => {
 
                                 <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item3">solar pannel</div>
                                 <div className="animate_div" style={{
-                                    height: "40%", position: "absolute", bottom: "100%",
+                                    height: "44%", position: "absolute", bottom: "100%",
                                     background: "none",
                                     borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                     left: "50%", boxShadow: "none"
@@ -281,7 +274,7 @@ const LossFlow2 = () => {
                                     <div className="animate_div2" style={{
                                         position: "absolute", bottom: "85%",
                                         background: "none",
-                                        width: "70%",
+                                        width: "71.5%",
                                         left: "0",
                                         borderTop: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                         boxShadow: "none"
@@ -290,19 +283,19 @@ const LossFlow2 = () => {
 
                                     <div style={{
                                         position: "absolute",
-                                        bottom: "80%", left: "67%",
+                                        bottom: "75%", left: "67%",
                                         fontSize: "2rem",
                                         transform: "rotate(180deg)",
 
                                     }}>
                                         <i className="fa-solid fa-y y_connector"
-                                         style={{
-                                            color:showCheckBox.Resistance?"red":"black"
-                                        }}
+                                            style={{
+                                                color: showCheckBox.Resistance ? "red" : "black"
+                                            }}
                                         ></i>
 
                                         <div className="animate_div" style={{
-                                            position: "absolute", top: "100%",left:"35%",
+                                            position: "absolute", top: "100%", left: "35%",
                                             background: "none",
                                             height: "107%",
                                             borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
@@ -319,7 +312,7 @@ const LossFlow2 = () => {
 
                                 <div style={{ border: showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling ? "5px solid red" : "2px solid rgb(67, 176, 239)" }} className="solar_pannel_item3">solar pannel</div>
                                 <div className="animate_div" style={{
-                                    height:showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling? "41%":"40%", position: "absolute", bottom: "100%",
+                                    height: "43%", position: "absolute", bottom: "100%",
                                     background: "none",
                                     borderLeft: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                     left: "50%", boxShadow: "none"
@@ -327,8 +320,8 @@ const LossFlow2 = () => {
                                     <div className="animate_div2 special_animate" style={{
                                         position: "absolute", bottom: "85%",
                                         background: "none",
-                                        width:showCheckBox.Module || showCheckBox.Shadow || showCheckBox.Soiling? "72.7%":"70%",
-                                        right:  "100%",
+                                        width: "74%",
+                                        right: "100%",
                                         borderTop: showCheckBox.Resistance ? "5px dashed red" : "5px dashed black",
                                         boxShadow: "none"
                                     }}></div>
@@ -347,7 +340,7 @@ const LossFlow2 = () => {
                     display: "flex", flexDirection: "column", alignItems: "center",
                     justifyContent: "center", width: "100%", padding: "0 1rem"
                 }}>
-                    <span style={{fontSize:"1.5rem",fontWeight:"600"}}>Loss Flow Table</span>
+                    <span style={{ fontSize: "1.5rem", fontWeight: "600" }}>Loss Flow Table</span>
 
                     {/* <Grid
                         item
@@ -370,21 +363,18 @@ const LossFlow2 = () => {
                             }}
                         > */}
                     <table
-                      className="loss_flow_table"
+                        className="loss_flow_table"
                         style={{
                             height: "98%",
-                            border: "3px solid black",  
+                            border: "3px solid black",
                         }}
-                        
                     >
                         <tr style={{ backgroundColor: "#edeafb", padding: "0.5rem 0" }}>
                             <th></th>
                             <th>Losses</th>
-
-                            <th>Input from Green Enco</th>
+                            <th>Description</th>
                             <th>Loss (%)</th>
                         </tr>
-
                         <tr style={{ padding: "1rem 0" }}>
                             <td>
                                 <Checkbox

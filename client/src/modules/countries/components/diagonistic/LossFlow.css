@@ -13,10 +13,12 @@
 .solar_box {
     display: flex;
     gap: 3rem;
-    position: relative;
+    /* position: relative; */
     align-items: center;
     justify-content: center;
     margin-right: 0.8rem;
+    color: rgb(50, 169, 32);
+    color: rgb(22, 154, 2);
 }
 
 .solar_pannel_box {
@@ -24,13 +26,14 @@
 }
 
 .solar_pannel_box>div {
+    box-sizing: border-box;
     height: 80px;
     width: 80px;
     /* background-color: rgb(67, 176, 239); */
     /* background: linear-gradient(to right, #2E3192 , #1BFFFF); */
-    background: linear-gradient(to right, #19196c ,#2B3B92 ,#3859AC,#4677C7) ;
-    
-    
+    background: linear-gradient(to right, #19196c, #2B3B92, #3859AC, #4677C7);
+
+
     box-shadow: 1px 1px 2px black;
 }
 
@@ -62,7 +65,7 @@
 .solar_pannel_item2,
 .solar_pannel_item3 {
     /* border: 5px solid red; */
-    animation: blink .8s infinite;
+    animation: blink 1s ease-in-out infinite;
 
 
     /* background-image: radial-gradient(
@@ -89,20 +92,22 @@
 }
 
 .animate_div {
-    animation: blink2 .2s infinite;
+    animation: blink2 .5s infinite;
 
 }
+
 .animate_div2 {
-    animation: blink22 .2s infinite;
+    animation: blink22 .5s infinite;
 
 }
 
 .animate_cable {
-    animation: blink3 .2s infinite;
+    animation: blink3 .5s infinite;
 
 }
+
 .y_connector {
-    animation: y_connector .2s infinite;
+    animation: y_connector .5s infinite;
 
 }
 
@@ -112,18 +117,17 @@
 
 } */
 
-.loss_flow_table td{
+.loss_flow_table td {
     padding: 0 10px;
 }
-.loss_flow_table{
 
-}
+.loss_flow_table {}
 
 @keyframes s_animate {
     /* 50%{
         right: 100%;
     } */
-    
+
 }
 
 @keyframes blink {
@@ -139,6 +143,7 @@
 
     }
 }
+
 @keyframes blink22 {
     50% {
         border-top: 5px dashed black;
@@ -152,6 +157,7 @@
 
     }
 }
+
 @keyframes y_connector {
     50% {
         color: black;

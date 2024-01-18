@@ -14,11 +14,15 @@ import Printer from "./Printer";
 import html2canvas from "html2canvas";
 import { saveAs } from 'file-saver';
 import { CSVLink } from "react-csv";
+import { Button } from "@mui/material";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 
 export default function LineBarChart(props) {
   const storeElem = useRef(null)
-  const csvRef=useRef(null)
+  const csvRef = useRef(null)
+
+  //Jpg download
   const jpgDownload = () => {
     setTimeout(async () => {
       const canvas = await html2canvas(storeElem.current);
@@ -27,19 +31,39 @@ export default function LineBarChart(props) {
     }, 100);
   }
 
-  const csv_Download=()=>{
+  //   const jpgDownload = async () => {
+  //   let chartSVG = ReactDOM.findDOMNode(storeElement).children[0]
+  //   // let chartSVG =document.getElementsByClassName("recharts-wrapper")[0]
+  //     console.log("value is ",chartSVG)
+  //   const pngData = await svgToJpg(chartSVG, props?.width, props?.height)
+  //   saveAs(pngData, 'graph.jpg')
+  // }
+
+  //Csv download
+  const csv_Download = () => {
     csvRef.current.link.click()
   }
 
+  //Svg download
+
+  const svgDownload = async () => {
+    let chartSVG = document.getElementsByClassName("recharts-wrapper")[props?.position];
+    console.log(chartSVG)
+    const svgData = await saveToSvg(chartSVG, props?.width, props?.height)
+    console.log("svg data is ", svgData)
+    saveAs(svgData, 'graph.svg')
+
+  }
+
   const CSV_Data = () => {
-    let newarr=[];
-    let str="dataKey"
-    let i=1;
-    while (props && props[str+`${i}`]) {
-      newarr.push(str+`${i}`);
+    let newarr = [];
+    let str = "dataKey"
+    let i = 1;
+    while (props && props[str + `${i}`]) {
+      newarr.push(str + `${i}`);
       i++;
     }
-   return props.data?.reduce((acc, curr) => {
+    return props.data?.reduce((acc, curr) => {
       return (
         [...acc, {
           month: curr.name,
@@ -51,19 +75,21 @@ export default function LineBarChart(props) {
 
     }, [])
   }
-
-  // return data.reduce((acc, curr) => {
-  //   if (val1 === 1 && val2 === 2) {
-  //     return (
-  //       [...acc, {
-  //         month: curr.month, net_energy: curr.net_energy,
-  //         contructual_energy: curr.contructual_energy
-  //       }]
-  //     )
-  //   }
-
-
-
+  const options = {
+    plugins: {
+      datalabels: {
+        display: true,
+        color: "black",
+        formatter: Math.round,
+        anchor: "end",
+        offset: -20,
+        align: "start"
+      }
+    },
+    legend: {
+      display: false
+    }
+  };
 
   if (!props?.data) return null;
   return (
@@ -76,8 +102,8 @@ export default function LineBarChart(props) {
       ref={storeElem}
     >
       {!props.hidePrintIcon &&
-        <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px",top:"20px" }}>
-          <Printer jpgDownload={jpgDownload} clickhandler={csv_Download} />
+        <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
+          <Printer jpgDownload={jpgDownload} clickhandler={csv_Download} svgDownload={svgDownload} />
         </div>
       }
       <CSVLink
@@ -102,17 +128,19 @@ export default function LineBarChart(props) {
           left: 20,
         }}
 
+        plugins={[ChartDataLabels]} options={options}
       >
         <CartesianGrid stroke="#f5f5f5" />
-        <XAxis
+        <XAxis 
           dataKey="name"
-          fontSize={12} fontWeight={600}
+          fontSize={10} fontWeight={600}
         // label={{ value: "Pages", position: "insideBottomRight", offset: 0 }}
         // scale="band"
         />
 
-        <YAxis yAxisId="left-axis" label={{ value: `${props?.y_axis_label_value1 || ""}`, angle: -90, position: "insideBottomLeft" }} />
+        <YAxis tickFormatter={(v)=>v>=1000?parseFloat(v/1000)+"k":v} yAxisId="left-axis" label={{ value: `${props?.y_axis_label_value1 || ""}`, angle: -90, position: "insideBottomLeft"  }} />
         <YAxis
+        
           yAxisId="right-axis"
           orientation="right"
           label={{
@@ -121,23 +149,61 @@ export default function LineBarChart(props) {
             position: "insideTopRight",
             color: "yellow"
           }}
-        />
 
+        />
+        {/* anchor: "end",
+offset: -20,
+align: "start" */}
         <Tooltip />
-        <Legend />
+        {/* <Tooltip content={({ payload }) => {
+        return (
+          <Button
+           size="small"
+           >
+          </Button>
+        );
+      }} /> */}
+
+
+        {/* data.map(
+         (item, index) => ({
+             id: item.name,
+              type: "square",
+              value: `${item.name} (${item.value}%)`,
+             color: colors[index % colors.length]
+             })
+          ) */}
+
+          { props?.legendValues ? <Legend
+            payload={
+              props?.legendValues?.map((e, i) => {
+
+                 return{
+                  type:"square",
+                  value:e
+                 }
+              })
+
+            }
+          /> :
+
+            <Legend />}
         {props?.value1 && (
           <Bar
             dataKey={props?.dataKey1}
-            barSize={20}
+            barSize={props?.barsize || 20}
             // fill="#122b4f"
             fill={`${colors3[0]}`}
             yAxisId="left-axis"
+
+
           />
         )}
         {props?.value2 && (
           <Bar
+
             dataKey={props?.dataKey2}
-            barSize={20}
+            barSize={props?.barsize || 20}
             // fill="#ed7d31"
             fill={`${colors3[1]}`}
             yAxisId="left-axis"
@@ -157,6 +223,48 @@ export default function LineBarChart(props) {
     </div>
   );
 }
+
+
+//Save To Jpg
+
+const svgToJpg = (svg, width, height) => {
+  return new Promise((resolve, reject) => {
+    let canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    let ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, width, height);
+
+    let xml = new XMLSerializer().serializeToString(svg);
+    let dataUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(xml);
+    let img = new Image(width, height);
+
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+      let imageData = canvas.toDataURL('image/jpg', 1.0);
+      resolve(imageData)
+    }
+    img.onerror = () => reject();
+    img.src = dataUrl;
+  });
+};
+
+
+const saveToSvg = (svg, width, height) => {
+  return new Promise((resolve, reject) => {
+    let canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    let ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, width, height);
+
+    let xml = new XMLSerializer().serializeToString(svg);
+    let dataUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(xml);
+    resolve(dataUrl)
+  });
+};
 
 //colors1- Index - [3,2,4]
 //colors2- Index - [1,2,3]

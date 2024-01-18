@@ -19,6 +19,7 @@ function App() {
   useEffect(() => {
     dispatch(getUser())
   }, [dispatch])
+  const path = location.pathname;
 
   return (
     <>
@@ -34,35 +35,103 @@ function App() {
 
 
           <Route element={<ProtectedRoute />}>
-            <Route path={PageURL.COUNTRYDEFAULT} element={<CountryModule />}>
-              <Route path={PageURL.INDIA_GEN_SUMMARY} element={<CountryModule />} />
-              <Route path={PageURL.INDIA_PRES_MODEL_Loss_Flow} element={<CountryModule />} />
-              <Route path={PageURL.INDIA_PRES_MODEL_Fault_Tree} element={<CountryModule />} />
-              <Route path={PageURL.PROJECT_DETAILS} element={<CountryModule />} />
+
+
+            <Route path={PageURL.COUNTRYDEFAULT} element={<CountryModule />}> </Route>
+            <Route path={PageURL.INDIA_GEN_SUMMARY} element={<CountryModule />} />
+            <Route path={PageURL.INDIA_PRES_MODEL_Loss_Flow} element={<CountryModule />} />
+            <Route path={PageURL.INDIA_PRES_MODEL_Fault_Tree} element={<CountryModule />} />
+            <Route path={PageURL.PROJECT_DETAILS} element={<CountryModule />} />
+            <Route
+              path={PageURL.INDIA_PROJ_OVERVIEW}
+              element={<CountryModule />}
+            />
+            <Route path={PageURL.INDIA_DIAGONISTIC} element={<CountryModule />}></Route>
+            <Route
+              path={PageURL.INDIA_DIAGONISTIC_DETAILED}
+              element={<CountryModule />}
+            />
+            <Route path={PageURL.INDIA_LOSS_FLOW} element={<CountryModule />} />
+            <Route
+              path={PageURL.INDIA_INVERTER_EFFICIENCY}
+              element={<CountryModule />}
+            />
+            {
+              (
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB1 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB2 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB3 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB4 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB5 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB6 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB7 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB8 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB9 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB10 ||
+                location.pathname === PageURL.INDIA_INVERTER1_SCB_SMB11 ||
+
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB1 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB2 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB3 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB4 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB5 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB6 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB7 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB8 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB9 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB10 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB11 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB11 ||
+                location?.pathname == PageURL.INDIA_INVERTER2_SCB_SMB12 ||
+
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB1 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB2 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB3 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB4 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB5 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB6 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB7 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB8 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB9 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB10 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB11 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB11 ||
+                location?.pathname == PageURL.INDIA_INVERTER3_SCB_SMB12 ||
+
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB1 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB2 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB3 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB4 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB5 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB6 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB7 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB8 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB9 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB10 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB11 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB11 ||
+                location?.pathname == PageURL.INDIA_INVERTER4_SCB_SMB12||
+                location.pathname === PageURL.INDIA_INVERTER1_HEATMAP_DIAGRAM ||
+              location.pathname === PageURL.INDIA_INVERTER2_HEATMAP_DIAGRAM ||
+              location.pathname === PageURL.INDIA_INVERTER3_HEATMAP_DIAGRAM ||
+              location.pathname === PageURL.INDIA_INVERTER4_HEATMAP_DIAGRAM 
+
+              )
+              &&
               <Route
-                path={PageURL.INDIA_PROJ_OVERVIEW}
+                path={path}
                 element={<CountryModule />}
               />
-              <Route path={PageURL.INDIA_DIAGONISTIC} element={<CountryModule />}>
-                <Route
-                  path={PageURL.INDIA_DIAGONISTIC_DETAILED}
-                  element={<CountryModule />}
-                />
-                <Route path={PageURL.INDIA_LOSS_FLOW} element={<CountryModule />} />
-                <Route
-                  path={PageURL.INDIA_INVERTER_EFFICIENCY}
-                  element={<CountryModule />}
-                />
-                <Route
-                  path={PageURL.INDIA_INVERTER1_SCB_SMB1}
-                  element={<CountryModule />}
-                />
-                <Route
-                  path={PageURL.INDIA_INVERTER1_SCB_SMB2}
-                  element={<CountryModule />}
-                />
-              </Route>
-            </Route>
+            }
+
+            {/* <Route path={PageURL.INDIA_INVERTER1_SCB_SMB2} element={<CountryModule />} /> */}
+            {/* <Route path={PageURL.INDIA_INVERTER1_SCB_SMB2} element={<CountryModule />} />
+            <Route path={PageURL.INDIA_INVERTER1_SCB_SMB2} element={<CountryModule />} />
+            <Route path={PageURL.INDIA_INVERTER1_SCB_SMB2} element={<CountryModule />} />
+            <Route path={PageURL.INDIA_INVERTER1_SCB_SMB2} element={<CountryModule />} />
+            <Route path={PageURL.INDIA_INVERTER1_SCB_SMB2} element={<CountryModule />} /> */}
+
+
             <Route path="*" element={<Navigate to={PageURL.COUNTRYDEFAULT} />} />
           </Route>
           <Route path="*" element={<Navigate to={PageURL.BASE} />} />
