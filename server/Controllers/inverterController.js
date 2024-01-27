@@ -6,7 +6,10 @@ const pool = mysql.createPool({
     password: '9830pvAPM9831@@',
     database: 'u188495358_pvAPMDB',
     waitForConnections: true,
-    multipleStatements: true
+    multipleStatements: true,
+    keepAliveInitialDelay:10000,
+    enableKeepAlive:true
+    
 })
 
 const pool2 = mysql.createPool({
@@ -15,7 +18,9 @@ const pool2 = mysql.createPool({
     password: '9830pvAPM9831@@',
     database: 'u188495358_pvAPMDB1',
     waitForConnections: true,
-    multipleStatements: true
+    multipleStatements: true,
+    keepAliveInitialDelay:10000,
+    enableKeepAlive:true
 })
 
 const promisePool = pool.promise();

@@ -68,11 +68,11 @@ const Charts = (props) => {
       style={{
         height: "max-content",
         width: "max-content",
-        borderStyle: "solid",
+        // borderStyle: "solid",
         // borderColor: "#ed7d31",
-        borderColor: colours[3],
-        borderWidth: "3px",
-        borderRadius: "5px",
+        // borderColor: colours[3],
+        // borderWidth: "3px",
+        // borderRadius: "5px",
         // padding: "0.8rem 0"
         paddingBottom:"0.8rem"
 
@@ -138,7 +138,7 @@ const Charts = (props) => {
           {keys?.length > 0 && keys?.map((item, index) => {
             if (item === "Inverter1") {
               if (props?.m_checkBoxChecked?.m_Inverter1) {
-                return <Bar key={index} dataKey={item} fill={getColourPicker(index)} />;
+                return <Bar key={index}  dataKey={item} fill={getColourPicker(index)} />;
               }
             }
             else if (item === "Inverter2") {
@@ -174,7 +174,7 @@ const Charts = (props) => {
             }
             else {
               if (item != "fill") {
-                return <Bar key={index} dataKey={item}
+                return <Bar key={index}  dataKey={item}
 
                   fill={getColourPicker(index)}
                 />;
@@ -206,11 +206,11 @@ const getRandomLetter = () => {
     console.log(error);
   }
 };
-const getColourPicker = (index) => {
+export const getColourPicker = (index) => {
   const hexColourLength = 6;
   let colourCode = "#";
   try {
-    if (index < colours.length) return colors3[index];
+    if (index < colors3.length) return colors3[index];
     else {
       for (let i = 0; i < hexColourLength; i++) {
         const isLetter = Math.round(Math.random());

@@ -10,7 +10,7 @@
 .detail_overview_container {
     background: linear-gradient(to right, whitesmoke, white);
     background: linear-gradient(to right, rgb(120, 118, 118), rgb(119, 100, 100));
-  background: linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172));
+    background: linear-gradient(to bottom, rgb(3, 99, 125), rgb(4, 128, 162), rgb(4, 135, 172));
 
     display: flex;
     align-items: center;
@@ -22,37 +22,36 @@
 .detail_overview_container>:first-child {
     display: flex;
     align-items: center;
-    /* justify-content: center; */
+    justify-content: center;
     box-sizing: border-box;
     width: 36%;
-    border: 1px solid black;
     height: 250px;
     border-radius: 12px;
     background-color: white;
     box-sizing: border-box;
     justify-content: space-between;
-    gap: 1.5rem;
-    padding: 0rem 2rem 0 1rem;
+    gap: 2rem;
+    padding: 0 1.5rem;
+
 
 }
 
 .detail_overview_container>:nth-child(2) {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
     box-sizing: border-box;
-    width: 45%;
-    border: 1px solid black;
+    width: 36%;
     height: 250px;
     border-radius: 12px;
     background-color: white;
     box-sizing: border-box;
-    padding: 0rem 2rem 0 1rem;
+    gap: 2rem;
+    padding: 0 1.5rem;
 }
 
 .detail_overview_container>:nth-child(3) {
-    width: 17%;
-    border: 1px solid black;
+    width: 25%;
     height: 250px;
     border-radius: 12px;
     background-color: white;
@@ -69,7 +68,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1.2rem;
 }
 
 
@@ -80,31 +79,31 @@
     width: 230px;
 } */
 
-.detail_overview_1>:first-child>div{
+.detail_overview_1>:first-child>div {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
-  }
-  
-  .detail_overview_1>:first-child>div>:first-child>progress {
+}
+
+.detail_overview_1>:first-child>div>:first-child>progress {
     box-sizing: border-box;
     -webkit-appearance: none;
     appearance: none;
     height: 15px;
     width: 230px;
-  }
-  
-  .progress_1[value]::-webkit-progress-bar,
-  .progress_2[value]::-webkit-progress-bar,
-  .progress_3[value]::-webkit-progress-bar {
+}
+
+.progress_1[value]::-webkit-progress-bar,
+.progress_2[value]::-webkit-progress-bar,
+.progress_3[value]::-webkit-progress-bar {
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
     border-radius: 18px;
     box-sizing: border-box;
-  
-  
-  }
+
+
+}
 
 .progress_1[value]::-webkit-progress-value,
 .progress_2[value]::-webkit-progress-value,
@@ -127,7 +126,6 @@
     box-sizing: border-box;
     font-size: 0.8rem;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    /* font-weight: 600; */
     padding: 0 0.2rem;
     display: flex;
     justify-content: space-between;
@@ -147,7 +145,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 0.5rem 1rem;
+
 }
 
 .detail_overview_container>:first-child>:last-child>div,
@@ -163,20 +161,23 @@
 }
 
 
-.detail_overview_container>:first-child>:last-child>div>:first-child,.detail_overview_container>:nth-child(2)>:last-child>div>:first-child {
+.detail_overview_container>:first-child>:last-child>div>:first-child,
+.detail_overview_container>:nth-child(2)>:last-child>div>:first-child {
     font-size: 1.5rem;
     box-sizing: border-box;
 
 }
 
-.detail_overview_container>:first-child>:last-child>div>:nth-child(2),.detail_overview_container>:nth-child(2)>:last-child>div>:nth-child(2) {
+.detail_overview_container>:first-child>:last-child>div>:nth-child(2),
+.detail_overview_container>:nth-child(2)>:last-child>div>:nth-child(2) {
     box-sizing: border-box;
     text-align: center;
     font-size: 0.8rem;
 
 }
 
-.detail_overview_container>:first-child>:last-child>div>:last-child,.detail_overview_container>:nth-child(2)>:last-child>div>:last-child {
+.detail_overview_container>:first-child>:last-child>div>:last-child,
+.detail_overview_container>:nth-child(2)>:last-child>div>:last-child {
     box-sizing: border-box;
     padding: 0.5rem 1.5rem;
     border-radius: 18px;
@@ -187,17 +188,17 @@
 
 .progress_button_1 {
     background: linear-gradient(to right, rgb(1, 185, 127), rgb(150, 249, 227));
-  
-  }
-  
-  .progress_button_2 {
+
+}
+
+.progress_button_2 {
     background: linear-gradient(to right, rgb(245, 28, 28), rgb(238, 122, 122));
-  
-  }
-  
-  .progress_button_3 {
+
+}
+
+.progress_button_3 {
     background: linear-gradient(to right, rgb(112, 26, 233), rgb(151, 140, 239))
-  }
+}
 
 
 
@@ -274,6 +275,7 @@
     border-radius: 20px;
     border: 3px solid rgb(21, 249, 199);
 }
+
 
 .detail_overview_3>:last-child {
     display: flex;

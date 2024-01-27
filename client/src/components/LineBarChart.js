@@ -16,6 +16,8 @@ import { saveAs } from 'file-saver';
 import { CSVLink } from "react-csv";
 import { Button } from "@mui/material";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import CustomizeTootip from "./CustomizeTootip";
+import CustomizeLegend from "./CustomizeLegend";
 
 
 export default function LineBarChart(props) {
@@ -131,16 +133,16 @@ export default function LineBarChart(props) {
         plugins={[ChartDataLabels]} options={options}
       >
         <CartesianGrid stroke="#f5f5f5" />
-        <XAxis 
+        <XAxis
           dataKey="name"
           fontSize={10} fontWeight={600}
         // label={{ value: "Pages", position: "insideBottomRight", offset: 0 }}
         // scale="band"
         />
 
-        <YAxis tickFormatter={(v)=>v>=1000?parseFloat(v/1000)+"k":v} yAxisId="left-axis" label={{ value: `${props?.y_axis_label_value1 || ""}`, angle: -90, position: "insideBottomLeft"  }} />
+        <YAxis tickFormatter={(v) => v >= 1000 ? parseFloat(v / 1000) + "k" : v} yAxisId="left-axis" label={{ value: `${props?.y_axis_label_value1 || ""}`, angle: -90, position: "insideBottomLeft" }} />
         <YAxis
-        
+
           yAxisId="right-axis"
           orientation="right"
           label={{
@@ -154,7 +156,9 @@ export default function LineBarChart(props) {
         {/* anchor: "end",
 offset: -20,
 align: "start" */}
-        <Tooltip />
+        {props?.TooltipValues ?
+          <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={props?.TooltipValues} />} /> :
+          <Tooltip />}
         {/* <Tooltip content={({ payload }) => {
         return (
           <Button
@@ -174,20 +178,14 @@ align: "start" */}
              })
           ) */}
 
-          { props?.legendValues ? <Legend
-            payload={
-              props?.legendValues?.map((e, i) => {
+        {props?.LegendValues ? <Legend
+        
+          content={<CustomizeLegend active={false} payload={[]} LegendValues={props?.LegendValues}
+          
+           />}
+        /> :
 
-                 return{
-                  type:"square",
-                  value:e
-                 }
-              })
-
-            }
-          /> :
-
-            <Legend />}
+          <Legend />}
         {props?.value1 && (
           <Bar
             dataKey={props?.dataKey1}

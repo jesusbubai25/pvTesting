@@ -7,7 +7,9 @@ const pool = mysql.createPool({
   password: '9830pvAPM9831@@',
   database: 'u188495358_pvAPMDB',
   waitForConnections: true,
-  multipleStatements: true
+  multipleStatements: true,
+  keepAliveInitialDelay:10000,
+  enableKeepAlive:true
 })
 
 const pool2 = mysql.createPool({
@@ -16,7 +18,9 @@ const pool2 = mysql.createPool({
   password: '9830pvAPM9831@@',
   database: 'u188495358_pvAPMDB1',
   waitForConnections: true,
-  multipleStatements: true
+  multipleStatements: true,
+  keepAliveInitialDelay:10000,
+  enableKeepAlive:true
 })
 
 const promisePool = pool.promise();
@@ -26,9 +30,9 @@ const promisePool2 = pool2.promise();
 exports.Test2 = async (req, res) => {
   let connection;
   try {
-    connection = await promisePool2.getConnection()
+    connection = await promisePool.getConnection()
     await connection.beginTransaction();
-    const [result, fields] = await connection.query("select * from smb1_1_4Inverter1LossDetails")
+    const [result, fields] = await connection.query("select * from normalizedEnergyDetailsTbl")
     await connection.commit();
     return res.status(200).json({ result: result, sucess: true });
 
@@ -37,7 +41,8 @@ exports.Test2 = async (req, res) => {
     return res.status(400).json({ error: error.message, sucess: false });
 
   } finally {
-    connection?.release();
+    return connection?.release();
+
   }
   // getConnectiontring(req, res, () => {
   //   const pool = req.pool;
@@ -72,7 +77,8 @@ exports.Test3 = async (req, res) => {
     return res.status(400).json({ error: error.message, sucess: false });
   }
   finally {
-    connection?.release();
+    return connection?.release();
+
   }
 }
 
@@ -100,7 +106,8 @@ exports.InverterEfficiency = async (req, res) => {
     return res.status(400).json({ error: error.message, sucess: false });
   }
   finally {
-    connection?.release();
+    return connection?.release();
+
   }
 
 };
@@ -114,17 +121,16 @@ exports.InverterEfficiencyMonthly = async (req, res) => {
     connection = await promisePool.getConnection()
     const [result, fields] = await connection.query("SELECT * from InverterMonthlyEfficiencyDetails")
     await connection.commit();
-    let newresult = [];
-    for (let i = 0; i < result.length; i++) {
-      let obj = {};
-      obj.name = result[i].Month.slice(0, 3) + " " + result[i].Year.toString().slice(2)
-      obj.Inverter1 = result[i].MonthlyInv1Efficiency
-      obj.Inverter2 = result[i].MonthlyInv2Efficiency
-      obj.Inverter3 = result[i].MonthlyInv3Efficiency
-      obj.Inverter4 = result[i].MonthlyInv4Efficiency
-      newresult.push(obj);
-    }
-
+    let newresult = result?.reduce((acc, curr) => {
+      acc.push({
+        name: curr.Month.slice(0, 3) + " " + curr.Year.toString().slice(2),
+        Inverter1: curr.MonthlyInv1Efficiency,
+        Inverter2: curr.MonthlyInv2Efficiency,
+        Inverter3: curr.MonthlyInv3Efficiency,
+        Inverter4: curr.MonthlyInv4Efficiency,
+      })
+      return acc;
+    }, []);
     return res.status(200).json({ newresult, sucess: true })
   } catch (error) {
     console.log(error.message);
@@ -132,7 +138,7 @@ exports.InverterEfficiencyMonthly = async (req, res) => {
     return res.status(400).json({ error: error.message, sucess: false });
   }
   finally {
-    connection?.release();
+    return connection?.release();
   }
 }
 
@@ -146,56 +152,66 @@ exports.NormalizedEnergyDetails = async (req, res) => {
   try {
     connection = await promisePool.getConnection()
     const [result, fields] = await connection.query(`SELECT month_year,Net_Energy,contructual_Energy,ExcessORShortfall_kwh,ExcessORShortfall_Percentage,
-    Normalized_Energy_kwh,AC_Loss,ExcessORShortfallNormalised_Percentage,pvsyst_Energy from normalizedEnergyDetailsTbl;
-    select ((Actual_Inverter_Energy_kwh/(Actual_GTI * 10600)) * 100) as Monthly_PR from normalizedEnergyDetailsTbl
+    Normalized_Energy_kwh,AC_Loss,ExcessORShortfallNormalised_Percentage,pvsyst_Energy,T_Cell_Avg_Degree_C,PVsystModuleTempAvg,plantAvailability,
+    ((Actual_Inverter_Energy_kwh/(Actual_GTI * 10600)) * 100) as Monthly_PR from normalizedEnergyDetailsTbl;
     `)
     await connection.commit();
-    let data1 = [], data2 = [], data3 = [];
+    let data1 = [], data2 = [], data3 = [], data4 = [];
     data1.push(
       {
         month: "Yearly",
-        net_energy: result[0].reduce((a, b) => { return a + b.Net_Energy }, 0),
-        contructual_energy: result[0].reduce((a, b) => { return a + b.contructual_Energy }, 0),
-        ExcessORShortfall_kwh: result[0].reduce((a, b) => { return a + b.ExcessORShortfall_kwh }, 0),
-        ExcessORShortfall_Percentage: parseFloat(result[0].reduce((a, b) => { return a + b.ExcessORShortfall_Percentage }, 0)/12).toFixed(2),
-        AC_Loss: parseFloat((Math.floor((result[0].reduce((a, b) => { return a + b.AC_Loss }, 0)/12) * 100) / 100).toFixed(2)),
-        Actual_pr: parseFloat((Math.floor((result[1].reduce((a, b) => { return a + b.Monthly_PR }, 0)/12) * 100) / 100).toFixed(2))
+        net_energy: result.reduce((a, b) => { return a + b.Net_Energy }, 0),
+        contractual_energy: result.reduce((a, b) => { return a + b.contructual_Energy }, 0),
+        ExcessORShortfall_kwh: result.reduce((a, b) => { return a + b.ExcessORShortfall_kwh }, 0),
+        ExcessORShortfall_Percentage: parseFloat(result.reduce((a, b) => { return a + b.ExcessORShortfall_Percentage }, 0) / 12).toFixed(2),
+        AC_Loss: parseFloat((Math.floor((result.reduce((a, b) => { return a + b.AC_Loss }, 0) / 12) * 100) / 100).toFixed(2)),
+        Actual_pr: parseFloat((Math.floor((result.reduce((a, b) => { return a + b.Monthly_PR }, 0) / 12) * 100) / 100).toFixed(2))
       }
     )
-    for (let i = 0; i < result[0].length; i++) {
-      let obj = {}, obj1 = {}, obj2 = {};
-      obj.month = result[0][i].month_year.split("-")[0];
-      obj.net_energy = result[0][i].Net_Energy
-      obj.contructual_energy = result[0][i].contructual_Energy
-      obj.ExcessORShortfall_kwh = result[0][i].ExcessORShortfall_kwh
-      obj.ExcessORShortfall_Percentage = result[0][i].ExcessORShortfall_Percentage
-      obj.AC_Loss = result[0][i].AC_Loss
-      obj.Actual_pr = parseFloat((Math.floor((result[1][i].Monthly_PR * 100)) / 100).toFixed(2))
+    for (let i = 0; i < result.length; i++) {
 
+      let obj = {}, obj1 = {}, obj2 = {}, obj3 = {};
+      obj.month = result[i].month_year.split("-")[0];
+      obj.net_energy = result[i].Net_Energy
+      obj.contractual_energy = result[i].contructual_Energy
+      obj.ExcessORShortfall_kwh = result[i].ExcessORShortfall_kwh
+      obj.ExcessORShortfall_Percentage = result[i].ExcessORShortfall_Percentage
+      obj.AC_Loss = result[i].AC_Loss
+      obj.Actual_pr = parseFloat((Math.floor((result[i].Monthly_PR * 100)) / 100).toFixed(2))
       data1.push(obj);
 
-      obj1.name = result[0][i].month_year.split("-")[0].slice(0, 3) + "-" + result[0][i].month_year.split("-")[1].toString().slice(2);
-      obj1.contructualEnergy = result[0][i].contructual_Energy;
-      obj1.netEnergy = result[0][i].Net_Energy
-      obj1.shortfall = result[0][i].ExcessORShortfallNormalised_Percentage
+      obj1.name = result[i].month_year.split("-")[0].slice(0, 3) + "-" + result[i].month_year.split("-")[1].toString().slice(2);
+      obj1.contractualEnergy = result[i].contructual_Energy;
+      obj1.netEnergy = result[i].Net_Energy
+      obj1.shortfall = result[i].ExcessORShortfallNormalised_Percentage
+      obj1.normalisedEnergy = result[i].Normalized_Energy_kwh
+
       data2.push(obj1)
+
       obj2.name = obj1.name
-      obj2.netEnergy = result[0][i].Net_Energy
-      obj2.contructual_energy = result[0][i].contructual_Energy
-      obj2.Actual_pr = parseFloat((Math.floor((result[1][i].Monthly_PR * 100)) / 100).toFixed(2))
-      obj2.ExcessORShortfallNormalised_Percentage = result[0][i].ExcessORShortfall_Percentage
-      obj2.pvsyst_Energy = result[0][i].pvsyst_Energy
+      obj2.netEnergy = result[i].Net_Energy
+      obj2.contractual_energy = result[i].contructual_Energy
+      obj2.Actual_pr = parseFloat((Math.floor((result[i].Monthly_PR * 100)) / 100).toFixed(2))
+      obj2.ExcessORShortfallNormalised_Percentage = result[i].ExcessORShortfall_Percentage
+      obj2.pvsyst_Energy = result[i].pvsyst_Energy
 
       data3.push(obj2);
+
+      obj3.name = obj1.name;
+      obj3.pvsyst_module_temp = result[i]?.PVsystModuleTempAvg
+      obj3.actual_module_temp = result[i]?.T_Cell_Avg_Degree_C
+      obj3.plant_availability = result[i]?.plantAvailability
+
+      data4.push(obj3)
     }
-    return res.status(200).json({ data1, data2, data3, sucess: true });
+    return res.status(200).json({ data1, data2, data3, data4, sucess: true });
   } catch (error) {
     console.log(error.message);
     await connection?.rollback();
     return res.status(400).json({ error: error.message, sucess: false });
   }
   finally {
-    connection?.release();
+    return connection?.release();
   }
 };
 
@@ -209,42 +225,21 @@ exports.GHI_GTI_Data = async (req, res) => {
     Actual_GHI,pvsyst_GTI_vs_Actual_GTI,pvsyst_GHI_vs_Actual_GHI from normalizedEnergyDetailsTbl
     `)
     await connection.commit();
-    let pvsyst_actual_GHI = [], pvsyst_actual_GTI = [];
-    let data = [];
-    for (let i = 0; i < result?.length; i++) {
-      let obj = {}, obj1 = {};
-      obj.name = result[i].month_year.split("-")[0].slice(0, 3) + "-" + result[i].month_year.split("-")[1].toString().slice(2);
-      // obj1.name = obj.name;
-      obj.pvsyst_GHI = result[i].pvsyst_GHI
-      obj.pvsyst_GTI = result[i].pvsyst_GTI
-      obj.Actual_GHI = result[i].Actual_GHI
-      obj.Actual_GTI = result[i].Actual_GTI
-      obj.pvsyst_GTI_vs_Actual_GTI = result[i].pvsyst_GTI_vs_Actual_GTI
-      obj.pvsyst_GHI_vs_Actual_GHI = result[i].pvsyst_GHI_vs_Actual_GHI
-      // pvsyst_actual_GHI.push(obj); pvsyst_actual_GTI.push(obj1)
-      data.push(obj);
-    }
+
+    let data = result?.reduce((acc, curr) => {
+      acc.push({
+        name: curr.month_year.split("-")[0].slice(0, 3) + "-" + curr.month_year.split("-")[1].toString().slice(2),
+        pvsyst_GHI: curr.pvsyst_GHI,
+        pvsyst_GTI: curr.pvsyst_GTI,
+        Actual_GHI: curr.Actual_GHI,
+        Actual_GTI: curr.Actual_GTI,
+        pvsyst_GTI_vs_Actual_GTI: curr.pvsyst_GTI_vs_Actual_GTI,
+        pvsyst_GHI_vs_Actual_GHI: curr.pvsyst_GHI_vs_Actual_GHI
+      })
+      return acc;
+    }, []);
+
     return res.status(200).json({ data, sucess: true });
-
-
-
-    // let data1 = [], data2 = [], data3 = [];
-    // for (let i = 0; i < result?.length; i++) {
-    //   let obj = {}, obj1 = {}, obj2 = {};
-    //   obj.name = result[i].month_year.split("-")[0].slice(0, 3) + "-" + result[i].month_year.split("-")[1].toString().slice(2);
-    //   obj1.name = obj.name;
-    //   obj2.name = obj.name;
-    //   obj2.pvsyst_GTI_vs_Actual_GTI = result[i].pvsyst_GTI_vs_Actual_GTI
-    //   obj2.pvsyst_GHI_vs_Actual_GHI = result[i].pvsyst_GHI_vs_Actual_GHI
-    //   obj.pvsyst_GHI = result[i].pvsyst_GHI
-    //   obj1.pvsyst_GTI = result[i].pvsyst_GTI
-    //   obj.Actual_GHI = result[i].Actual_GHI
-    //   obj1.Actual_GTI = result[i].Actual_GTI
-
-    //   // pvsyst_actual_GHI.push(obj); pvsyst_actual_GTI.push(obj1)
-    //   data1.push(obj); data2.push(obj1), data3.push(obj2);
-    // }
-    // return res.status(200).json({ data1, data2, data3, sucess: true });
 
   } catch (error) {
     console.log(error.message);
@@ -252,7 +247,7 @@ exports.GHI_GTI_Data = async (req, res) => {
     return res.status(400).json({ error: error.message, sucess: false });
   }
   finally {
-    connection?.release();
+    return connection?.release();
   }
 };
 
@@ -264,13 +259,12 @@ exports.powerPlantTableDetails = async (req, res) => {
     connection2 = await promisePool2.getConnection();
     await connection.beginTransaction();
     await connection2.beginTransaction();
-    const [rows, fields] = await connection.query("select * from powerPlantDetailsTbl")
+    const [rows, fields] = await connection.query("select * from powerPlantDetailsTbl;select * from inverterDetails")
     const [rows2, fields2] = await connection2.query("select * from solarPowerPlantDetails")
-    const [rows3, fields3] = await connection.query("select * from inverterDetails")
 
     await connection.commit();
     await connection2.commit();
-    return res.status(200).json({ result: rows, result2: rows2[0], result3: rows3, sucess: true });
+    return res.status(200).json({ result: rows[0], result2: rows2[0], result3: rows[1], sucess: true });
   } catch (error) {
     console.log(error.message);
     await connection.rollback()

@@ -50,34 +50,16 @@ const ProjOverView = () => {
 
 
   return (
-    // .country-header {
-    //   height: 10vh;
-    //   width: 100vw;
-    //   margin-bottom: 10px;
-    // }
 
-    // .country-header-no-margin {
-    //   height: 10vh;
-    //   width: 100vw;
-    // }
-
-    // .country-body {
-    //   width: 100vw;
-    //   height: 90vh;
-    //   overflow: hidden;
-    //   display: flex;
-    // }
     <div >
-      {/* <div className="country-header-no-margin"> */}
-      {/* <CountryHeader /> */}
-      {/* <ProjectDetailsHeader /> */}
-      {/* <CountryHeader2/> */}
-      {/* </div> */}
       {loading ?
         <SpinLoader /> :
-        <div ref={refReset} >
+        <div ref={refReset}  >
           <Grid container spacing={2} >
-            <Grid item lg={12} marginBottom={4} >
+
+
+
+            <Grid item lg={12} marginBottom={2} >
               <div
                 style={{
                   height: "40vh",
@@ -92,187 +74,329 @@ const ProjOverView = () => {
                 />
               </div>
             </Grid>
-            <Grid
-              item
-              lg={3}
-              md={12}
-              xs={12}
+            <Grid item lg={11.7} marginLeft={"28px"} boxSizing={"border-box"} marginBottom={"1rem"}
               style={{
-                display: "flex",
-                justifyContent: "center",
-                height: "40vh",
+                // background: "linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172))",
+                // borderRadius: "14px",
+                boxSizing:"border-box"
+
               }}
             >
-              <SmallCard
-                heading="General Details"
-                body={[
-                  `Location: ${plantDetail?.data2.plantName}`,
-                  `Capacity DC [MWp]: ${plantDetail?.data2.dcCapacity}`,
-                  `Capacity AC [MW]: ${plantDetail?.data2.acCapacity}`
-                ]}
-                data={plantDetail?.data2}
-                onClick={() => {
 
-                  setShowDetails({
-                    ...showDetails,
-                    showInverterDetails: false,
-                    showSMB: false,
-                    showAsbuiltDetails: false,
-                    showGeneralDetails: !showDetails?.showGeneralDetails,
-                  });
+              <Grid container lg={11.7}
+                style={{
+                  backgroundColor: "white",
+                  boxSizing: "border-box",
+                  margin: "1rem auto",
+                  borderRadius: "14px",
+                  padding: "1rem 0rem",
+                  // background: "linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172))",
+
+
 
                 }}
+              >
 
-                showExpanded={showDetails?.showGeneralDetails}
-              />
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              md={12}
-              xs={12}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <SmallCard
-                heading="As-built Diagram"
-                body={[
-                  `Modules: ${plantDetail?.data2.moduleType}`,
-                  `Guaranteed Generation: ${plantDetail?.data2.guaranteedGenereation}`,
-                  `Tilt: ${plantDetail?.data2.tiltAngle}`
-                ]}
-                data={plantDetail?.data2}
-                onClick={() => {
-                  setShowDetails({
-                    ...showDetails,
-                    showGeneralDetails: false,
-                    showInverterDetails: false,
-                    showSMB: false,
-                    showAsbuiltDetails: !showDetails?.showAsbuiltDetails,
-                  });
-                }}
-                showExpanded={showDetails?.showAsbuiltDetails}
-              />
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              md={12}
-              xs={12}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <SmallCard
-                heading="Inverters"
-                body={[
-                  `Number of Inverters: ${plantDetail?.data2.numberOfInverter}`,
-                  `Specifications: ${plantDetail?.data2.inverterDetails}`,
-                  `Inverter Type: ${plantDetail?.data2.inverterType
-                  }`
-                ]}
-                data={plantDetail?.data2}
-                onClick={() => {
-                  setShowDetails({
-                    ...showDetails,
-                    showGeneralDetails: false,
-                    showSMB: false,
-                    showAsbuiltDetails: false,
-                    showInverterDetails: !showDetails?.showInverterDetails,
-                  });
-                }}
-                showExpanded={showDetails?.showInverterDetails}
-              />
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              md={12}
-              xs={12}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <SmallCard
-                bgColor="#ed7d31"
-                heading="SMB & String"
-                body={[
-                  // "Number of SMB: 47",
-                  // "Number of String: 1106",
-                  // "String Type: Y Connector",
-                  `Number of SMB: ${plantDetail?.data2.smbNo}`,
-                  `Number of string: ${plantDetail?.data2.stringNo}`,
-                  `String Type: ${plantDetail?.data2.typeOfString}`
-                ]}
-                data={plantDetail?.data2}
-                onClick={() => {
-                  setShowDetails({
-                    ...showDetails,
-                    showGeneralDetails: false,
-                    showInverterDetails: false,
-                    showAsbuiltDetails: false,
-                    showSMB: !showDetails?.showSMB,
-                  });
-                }}
-                showExpanded={showDetails?.showSMB}
-              />
+
+                <Grid
+                  item
+                  lg={3}
+                  md={12}
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <SmallCard
+                    heading="General Details"
+                    body={[
+                      `Location: ${plantDetail?.data2.plantName}`,
+                      `Capacity DC [MWp]: ${plantDetail?.data2.dcCapacity}`,
+                      `Capacity AC [MW]: ${plantDetail?.data2.acCapacity}`
+                    ]}
+                    data={plantDetail?.data2}
+                    onClick={() => {
+
+                      setShowDetails({
+                        ...showDetails,
+                        showInverterDetails: false,
+                        showSMB: false,
+                        showAsbuiltDetails: false,
+                        showGeneralDetails: !showDetails?.showGeneralDetails,
+                      });
+
+                    }}
+
+                    showExpanded={showDetails?.showGeneralDetails}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  lg={3}
+                  md={12}
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <SmallCard
+                    heading="As-built Details"
+                    body={[
+                      // `Modules: ${plantDetail?.data2.moduleType}`,
+                      // `Guaranteed Generation: ${plantDetail?.data2.guaranteedGenereation}`,
+                      // `Tilt: ${plantDetail?.data2.tiltAngle}`
+                      `Datasheet: Modules, Inverter, Transformer`,
+                      `Cabel: Cabel Details`,
+                      `SLD: DC SLD and AC SLD`
+                    ]}
+                    data={plantDetail?.data2}
+                    onClick={() => {
+                      setShowDetails({
+                        ...showDetails,
+                        showGeneralDetails: false,
+                        showInverterDetails: false,
+                        showSMB: false,
+                        showAsbuiltDetails: !showDetails?.showAsbuiltDetails,
+                      });
+                    }}
+                    showExpanded={showDetails?.showAsbuiltDetails}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  lg={3}
+                  md={12}
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <SmallCard
+                    heading="Inverters"
+                    body={[
+                      `Number of Inverters: ${plantDetail?.data2.numberOfInverter}`,
+                      `Specifications: ${plantDetail?.data2.inverterDetails}`,
+                      `Inverter Type: ${plantDetail?.data2.inverterType
+                      }`
+                    ]}
+                    data={plantDetail?.data2}
+                    onClick={() => {
+                      setShowDetails({
+                        ...showDetails,
+                        showGeneralDetails: false,
+                        showSMB: false,
+                        showAsbuiltDetails: false,
+                        showInverterDetails: !showDetails?.showInverterDetails,
+                      });
+                    }}
+                    showExpanded={showDetails?.showInverterDetails}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  lg={3}
+                  md={12}
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <SmallCard
+                    bgColor="#ed7d31"
+                    heading="SMB & String"
+                    body={[
+                      // "Number of SMB: 47",
+                      // "Number of String: 1106",
+                      // "String Type: Y Connector",
+                      `Number of SMB: ${plantDetail?.data2.smbNo}`,
+                      `Number of string: ${plantDetail?.data2.stringNo}`,
+                      `String Type: ${plantDetail?.data2.typeOfString}`
+                    ]}
+                    data={plantDetail?.data2}
+                    onClick={() => {
+                      setShowDetails({
+                        ...showDetails,
+                        showGeneralDetails: false,
+                        showInverterDetails: false,
+                        showAsbuiltDetails: false,
+                        showSMB: !showDetails?.showSMB,
+                      });
+                    }}
+                    showExpanded={showDetails?.showSMB}
+                  />
+                </Grid>
+              </Grid>
+
+
             </Grid>
             {showDetails?.showGeneralDetails && (
 
-              <Grid
-                item
-                lg={12}
-                md={12}
-                xs={12}
+              <Grid item lg={11.7} marginLeft={"28px"} boxSizing={"border-box"} marginBottom={"1rem"}
                 style={{
-                  margin: "auto"
-                }}
-                ref={refForGeneralDetails}
+                  background: "linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172))",
+                  // borderRadius: "14px",
 
+                }}
               >
-                <GeneralDetails />
+
+                <Grid container lg={11.7}
+                  style={{
+                    backgroundColor: "white",
+                    boxSizing: "border-box",
+                    margin: "1.3rem 1rem 1.3rem 0.6rem",
+                    borderRadius: "14px",
+                    // padding: "1rem 0.5rem",
+                    
+
+
+                  }}
+                >
+
+                  <Grid
+                    item
+                    lg={12}
+                    md={12}
+                    xs={12}
+                    style={{
+                      margin: "auto",
+                    }}
+                    ref={refForGeneralDetails}
+
+                  >
+                    <GeneralDetails />
+                  </Grid>
+
+                </Grid>
+
               </Grid>
+
+
             )}
             {showDetails?.showInverterDetails &&
-              <Grid
-                item
-                lg={12}
-                md={12}
-                xs={12}
-                style={{ display: "flex", justifyContent: "center" }}
-                ref={refInverterDetails}
-              >
-                <InverterDetails />
-              </Grid>}
+              (
+
+                <Grid item lg={11.7} marginLeft={"28px"} boxSizing={"border-box"} marginBottom={"1rem"}
+                  style={{
+                    background: "linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172))",
+                    // borderRadius: "14px",
+
+                  }}
+                >
+
+                  <Grid container lg={11.7}
+                    style={{
+                      backgroundColor: "white",
+                      boxSizing: "border-box",
+                      margin: "2rem 1rem 2rem 0.6rem",
+
+                      borderRadius: "14px",
+                      // padding: "1rem 0.5rem",
+
+
+                    }}
+                  > <Grid
+                    item
+                    lg={12}
+                    md={12}
+                    xs={12}
+                    style={{ display: "flex", justifyContent: "center" }}
+                    ref={refInverterDetails}
+                  >
+                      <InverterDetails />
+                    </Grid>
+
+                  </Grid>
+                </Grid>
+
+
+
+
+              )
+            }
             {showDetails?.showSMB &&
-              <Grid
-                item
-                lg={12}
-                md={12}
-                xs={12}
-                style={{ display: "flex", justifyContent: "center" }}
-                ref={refsmb}
-              >
-                <SmbDetails />
-              </Grid>}
-              {showDetails?.showAsbuiltDetails &&
-              <Grid
-                item
-                lg={12}
-                md={12}
-                xs={12}
-                boxSizing={"border-box"}
-                marginTop={10}
-                marginBottom={5}
-                style={{ display: "flex", justifyContent: "center" }}
-                ref={refAsbuiltDiagram}
-              >
-                <AsBuiltDiagram />
-              </Grid>}
+
+              (
+
+
+                <Grid item lg={11.7} marginLeft={"28px"} boxSizing={"border-box"} marginBottom={"1rem"}
+                  style={{
+                    background: "linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172))",
+                    // borderRadius: "14px",
+
+                  }}
+                >
+
+                  <Grid container lg={11.7}
+                    style={{
+                      backgroundColor: "white",
+                      boxSizing: "border-box",
+                      margin: "2rem 1rem 2rem 0.6rem",
+                      borderRadius: "14px",
+                      // padding: "1rem 0.5rem",
+
+
+                    }}
+                  ><Grid
+                    item
+                    lg={12}
+                    md={12}
+                    xs={12}
+                    style={{ display: "flex", justifyContent: "center" }}
+                    ref={refsmb}
+                  >
+                      <SmbDetails />
+                    </Grid>
+
+                  </Grid>
+                </Grid>
+              )
+            }
+            {showDetails?.showAsbuiltDetails &&
+
+              (
+
+                <Grid item lg={11.7} marginLeft={"28px"} boxSizing={"border-box"} marginBottom={"1rem"}
+                  style={{
+                    background: "linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172))",
+                    // borderRadius: "14px",
+
+                  }}
+                >
+
+                  <Grid container lg={11.7}
+                    style={{
+                      backgroundColor: "white",
+                      boxSizing: "border-box",
+                      margin: "2rem 1rem 2rem 0.6rem",
+                      borderRadius: "14px",
+                      // padding: "1rem 0.5rem",
+
+
+                    }}
+                  >
+
+                    <Grid
+                      item
+                      lg={12}
+                      md={12}
+                      xs={12}
+                      boxSizing={"border-box"}
+                      // marginTop={10}
+                      marginBottom={5}
+                      style={{ display: "flex", justifyContent: "center" }}
+                      ref={refAsbuiltDiagram}
+                    >
+                      <AsBuiltDiagram />
+                    </Grid>
+                  </Grid></Grid>
+
+
+              )
+            }
           </Grid>
         </div>
       }

@@ -1,31 +1,24 @@
-import { Checkbox, FormControlLabel, FormGroup, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import Charts from "../../../../components/Charts";
-import LineChartComp from "../../../../components/LineChartComp";
 import { useDispatch, useSelector } from 'react-redux'
 import { GHI_GTI_data_action, normalizedEnergyDetails } from "../../../../actions/inverterActions";
 import SpinLoader from "../../../../components/SpinLoader";
 import Printer from "../../../../components/Printer";
-import { Bar, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis, Area, AreaChart, BarChart } from "recharts";
-
-import LineBarChart from "../../../../components/LineBarChart";
+import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis, Area, AreaChart, BarChart } from "recharts";
 import html2canvas from "html2canvas";
 import { saveAs } from 'file-saver'
 import { CSVLink } from "react-csv";
-import GaugeChartComp from "../generationOverView/GaugeChartComp";
-import { graphData, graphData2, graphData3 } from "../../../../constants/Data";
 import "./Detailed.css";
+import CustomizeTootip from "../../../../components/CustomizeTootip";
+import { colors1, colors3 } from "../../../../colors/color";
+import CustomizeLegend from "../../../../components/CustomizeLegend";
+import { exportComponentAsJPEG } from "react-component-export-image";
 
 
 
 const Detailed3 = () => {
-  const dispatch = useDispatch();
   const { GHI_GTI_data, loading, error } = useSelector(state => state.GHI_GTI_data)
   const { energy } = useSelector(state => state.energy)
-  const ref = useRef(null)
-  const csvref = useRef(null);
-
-
 
   const [progressValue, setProgressValue] = useState({
     progress_1: false,
@@ -33,68 +26,55 @@ const Detailed3 = () => {
     progress_3: false
   })
 
+  const [showPVsystContractualData, setShowPVsystContractualData] = useState({
+    pvsystEnergy: true,
+    contractualEnergy: true,
+    all: true
+
+  })
+  const [showNetNormalisedShortfallData, setShowNetNormalisedShortfallData] = useState({
+    netEnergy: true,
+    normalisedEnergy: true,
+    shortfall: true,
+    all: true
+
+  })
+  const [showPvsystActualGTI, setShowPvsystActualGTI] = useState({
+    PvsystGTI: true,
+    ActualGTI: true,
+    PvsystVsActualGTI: true,
+    all: true
+
+  })
+
+  const [showPvsystActualGHI, setShowPvsystActualGHI] = useState({
+    PvsystGHI: true,
+    ActualGHI: true,
+    PvsystVsActualGHI: true,
+    all: true
+
+  })
+
+  const ref = useRef(null)
+  const downloadRef1 = useRef(null);
+  const downloadRef2 = useRef(null);
+  const downloadRef3 = useRef(null);
+  const downloadRef4 = useRef(null);
+
+  const graphRef1 = useRef(null);
+  const graphRef2 = useRef(null);
+  const graphRef3 = useRef(null);
+  const graphRef4 = useRef(null);
+
+  const dispatch = useDispatch();
 
   //jpgDownload
-
   const jpgDownload = () => {
     setTimeout(async () => {
       const canvas = await html2canvas(ref.current);
       const data = canvas.toDataURL();
       saveAs(data, 'graph.jpg')
     }, 100);
-  }
-
-
-  const [Ghi_Gti_data, setGHI_GTI_data] = useState({
-    pvsyst_GHI: true,
-    pvsyst_GTI: true,
-    actual_GHI: true,
-    actual_GTI: true,
-    pvsyst_GTI_vs_Actual_GTI: true,
-    pvsyst_GHI_vs_Actual_GHI: true,
-    NetEnergy: true,
-    NormalisedEnergy: true,
-    ShortFall: true
-
-  })
-  const [showNormalisedData, setShowNormalizedData] = useState({
-    NetEnergy: true,
-    contractual_energy: true,
-    ShortFall: true
-  })
-
-  const [Actual_pr, setActual_pr] = useState(true)
-  const [checkBox, setcheckBox] = useState({
-    pvsyst_Energy: true,
-    contractual_energy: true
-  })
-
-  useEffect(() => {
-    dispatch(GHI_GTI_data_action())
-    if (!energy) {
-      dispatch(normalizedEnergyDetails())
-    }
-  }, [dispatch])
-
-
-  const csvData = (array) => {
-    return array.reduce((acc, curr) => {
-      return (
-        [...acc, {
-          month: curr.name,
-          pvsyst_Energy: curr.pvsyst_Energy,
-          contructual_energy: curr.contructual_energy,
-          Actual_pr: curr.Actual_pr
-        }]
-      )
-
-    }, [])
-  }
-
-  //Csv Download
-
-  const csvDownload = () => {
-    csvref.current.link.click();
   }
 
   // SVG Download
@@ -106,8 +86,16 @@ const Detailed3 = () => {
     const svgData2 = await saveToSvg(chartSVG2, 1000, 500)
     saveAs(svgData, 'graph.svg')
     saveAs(svgData2, 'graph.svg')
-
   }
+
+
+  useEffect(() => {
+    dispatch(GHI_GTI_data_action())
+    if (!energy) {
+      dispatch(normalizedEnergyDetails())
+    }
+  }, [dispatch])
+
 
 
   return (
@@ -115,7 +103,7 @@ const Detailed3 = () => {
       {
         loading ? <SpinLoader /> :
           GHI_GTI_data?.data &&
-          <Grid container paddingBottom={3} boxSizing={"border-box"} >
+          <Grid container paddingBottom={1} boxSizing={"border-box"} >
 
             <Grid
               sx={{ boxShadow: 2 }}
@@ -139,7 +127,7 @@ const Detailed3 = () => {
             >
               <div className="detail_overview_1">
 
-                <div style={{ gap: "3rem" }}>
+                <div >
 
                   <div>
                     <div>
@@ -147,7 +135,7 @@ const Detailed3 = () => {
 
                     </div>
                     <div>
-                      <span>PVsyst GTI</span>
+                      <span>PVsyst GTI (kWh/m^2)</span>
                       <span
                         style={{
                           position: "absolute",
@@ -157,8 +145,6 @@ const Detailed3 = () => {
                       ><i class="fa-solid fa-caret-up"></i></span>
 
                       <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2) || 0}</span>
-
-
                     </div>
 
                   </div>
@@ -169,9 +155,8 @@ const Detailed3 = () => {
                       } max="2000" />
                     </div>
 
-
                     <div>
-                      <span>Actual GTI</span>
+                      <span>Actual GTI (kWh/m^2)</span>
                       <span
                         style={{
                           position: "absolute",
@@ -181,12 +166,38 @@ const Detailed3 = () => {
                       ><i class="fa-solid fa-caret-up"></i></span>
 
                       <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2) || 0}</span>
-
-
                     </div>
                   </div>
 
+                  <div>
+                    <div>
+                      <progress className="progress_3" style={{ accentColor: "green" }} value={
 
+                        parseFloat((parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2) -
+                          parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2)) * 100 /
+                          parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2)).toFixed(2) || 0
+                      } max="100" />
+
+                    </div>
+                    <div>
+                      <span>Excess/Shortfall (%)</span>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: `${(parseFloat((parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2) -
+                            parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2)) * 100 /
+                            parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2)).toFixed(2) || 0)
+
+                            - 3}%`,
+                          bottom: "60%"
+                        }}
+                      ><i class="fa-solid fa-caret-up"></i></span>
+
+                      <span>{parseFloat((parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2) -
+                        parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2)) * 100 /
+                        parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2)).toFixed(2) || 0}</span>
+                    </div>
+                  </div>
 
                 </div>
                 <div>
@@ -194,45 +205,42 @@ const Detailed3 = () => {
                   <div>
 
                     <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GTI, 0)).toFixed(2)}</span>
-                    <span>PVsyst GTI  </span>
+                    <span>PVsyst GTI  (kWh/m^2) </span>
                     <div>
                       <BarChart width={100} height={40} data={GHI_GTI_data?.data || []} >
                         <XAxis dataKey="name" hide />
-                        <Tooltip contentStyle={{ fontSize: "0.8rem" }} />
+                        <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["PVsyst GTI"]} />} />
                         <Bar barSize={4} radius={14} dataKey="pvsyst_GTI" fill="#8884d8" />
                       </BarChart>
                     </div>
-                    <span className="progress_button_1">button</span>
+                    <span className="progress_button_1">View</span>
 
                   </div>
                   <div>
                     <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GTI, 0)).toFixed(2)}</span>
-                    <span>Actual GTI</span>
+                    <span>Actual GTI (kWh/m^2) </span>
                     <div><BarChart width={100} height={40} data={GHI_GTI_data?.data || []} >
                       <XAxis dataKey="name" hide />
-                      <Tooltip contentStyle={{ fontSize: "0.7rem" }} />
+                      <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["Actual GTI"]} />} />
                       <Bar barSize={4} radius={14} dataKey="Actual_GTI" fill="#8884d8" />
                     </BarChart></div>
-                    <span onMouseOver={() => setProgressValue({ ...progressValue, progress_2: true })} onMouseOut={() => setProgressValue({ ...progressValue, progress_2: false })} className="progress_button_2">button</span>
+                    <span onMouseOver={() => setProgressValue({ ...progressValue, progress_2: true })} onMouseOut={() => setProgressValue({ ...progressValue, progress_2: false })} className="progress_button_2">View</span>
 
                   </div>
-
-
                 </div>
 
               </div>
               <div className="detail_overview_1">
 
                 <div >
-
                   <div>
                     <div>
-                      <progress className="progress_1" style={{ accentColor: "green" }} 
-                      value={parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)} max="2000" />
+                      <progress className="progress_1" style={{ accentColor: "green" }}
+                        value={parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)} max="2000" />
 
                     </div>
                     <div>
-                      <span>PVsyst GHI</span>
+                      <span>PVsyst GHI (kWh/m^2)</span>
                       <span
                         style={{
                           position: "absolute",
@@ -242,20 +250,18 @@ const Detailed3 = () => {
                       ><i class="fa-solid fa-caret-up"></i></span>
 
                       <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)}</span>
-
-
                     </div>
 
                   </div>
                   <div>
                     <div>
-                      <progress className="progress_2" style={{ accentColor: progressValue.progress_2 ? "grey" : "red" }} 
-                      value={parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2) || 0} max="2000" />
+                      <progress className="progress_2" style={{ accentColor: progressValue.progress_2 ? "grey" : "red" }}
+                        value={parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2) || 0} max="2000" />
                     </div>
 
 
                     <div>
-                      <span>Actual GHI</span>
+                      <span>Actual GHI (kWh/m^2)</span>
                       {/* <span style={{fontSize:"1.2rem"}}><ArrowDropUpIcon  /></span> */}
                       <span
                         style={{
@@ -267,32 +273,40 @@ const Detailed3 = () => {
 
                       <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2) || 0}</span>
 
-
                     </div>
                   </div>
                   <div>
                     <div>
-                      <progress className="progress_3" style={{ accentColor: "blue" }} value="1570" max="2000" />
+                      <progress className="progress_3" style={{ accentColor: "blue" }} value={
+
+                        parseFloat((parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2) -
+                          parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2)) * 100 /
+                          parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)).toFixed(2) || 0
+
+                      } max="100" />
                     </div>
 
 
                     <div>
-                      <span>Excess/ShortFall</span>
+                      <span>Excess/ShortFall (%)</span>
                       {/* <span style={{fontSize:"1.2rem"}}><ArrowDropUpIcon  /></span> */}
                       <span
                         style={{
                           position: "absolute",
-                          left: `${1570 * 100 / 2000 - 2}%`,
+                          left: `${parseFloat((parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2) -
+                            parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2)) * 100 /
+                            parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)).toFixed(2) - 3
+
+                            }%`,
                           bottom: "60%"
                         }}
                       ><i class="fa-solid fa-caret-up"></i></span>
 
-                      <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.ShortFall, 0)).toFixed(2)}</span>
-
-
+                      <span>{parseFloat((parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2) -
+                        parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2)) * 100 /
+                        parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)).toFixed(2) || 0}</span>
                     </div>
                   </div>
-
 
                 </div>
                 <div>
@@ -300,684 +314,660 @@ const Detailed3 = () => {
                   <div>
 
                     <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2) || 0}</span>
-                    <span>PVSYST GHI </span>
+                    <span>PVSYST GHI (kWh/m^2)</span>
                     <div>
-                      <BarChart width={100} height={40} data={graphData} >
-                        {/* <CartesianGrid /> */}
+                      <BarChart width={100} height={40} data={GHI_GTI_data?.data || []} >
                         <XAxis dataKey="name" hide />
-                        {/* <YAxis /> */}
-                        <Tooltip contentStyle={{ fontSize: "0.7rem" }} />
-                        {/* <Legend /> */}
-                        <Bar barSize={4} dataKey="val" fill="#8884d8" />
+                        <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["PVsyst GHI"]} />} />
+                        <Bar barSize={4} radius={14} dataKey="pvsyst_GHI" fill="#8884d8" />
                       </BarChart>
                     </div>
-                    <span className="progress_button_1">button</span>
+                    <span className="progress_button_1">View</span>
 
                   </div>
                   <div>
                     <span>{parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2) || 0}</span>
-                    <span>Actual GHI</span>
-                    <div><BarChart width={100} height={40} data={graphData} >
-                      {/* <CartesianGrid /> */}
+                    <span>Actual GHI (kWh/m^2) </span>
+                    <div><BarChart width={100} height={40} data={GHI_GTI_data?.data || []} >
                       <XAxis dataKey="name" hide />
-                      {/* <YAxis /> */}
-                      <Tooltip />
-                      {/* <Legend /> */}
-                      <Bar barSize={4} dataKey="val" fill="#8884d8" />
+                      <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["Actual GHI"]} />} />
+                      <Bar barSize={4} radius={14} dataKey="Actual_GHI" fill="#8884d8" />
                     </BarChart></div>
-                    <span onMouseOver={() => setProgressValue({ ...progressValue, progress_2: true })} onMouseOut={() => setProgressValue({ ...progressValue, progress_2: false })} className="progress_button_2">button</span>
+                    <span onMouseOver={() => setProgressValue({ ...progressValue, progress_2: true })} onMouseOut={() => setProgressValue({ ...progressValue, progress_2: false })} className="progress_button_2">View</span>
 
                   </div>
+
+                  {/* <div>
+                  <span>{parseFloat((parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2) -
+                    parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.Actual_GHI, 0)).toFixed(2)) * 100 /
+                    parseFloat(GHI_GTI_data?.data?.reduce((acc, curr) => acc + curr.pvsyst_GHI, 0)).toFixed(2)).toFixed(2) || 0}</span>
+                  <span>Excess/ShortFall (%)</span>
+                  <div><BarChart width={100} height={40} data={
+
+                    GHI_GTI_data?.data?.reduce((acc, curr) => {
+
+                      acc.push({
+                        name: curr.name,
+                        shortfall: parseFloat((curr.pvsyst_GHI - curr.Actual_GHI) * 100 / curr.pvsyst_GHI).toFixed(2)
+                      })
+                      return acc;
+
+                    }, []) ||
+                    []} >
+                    <XAxis dataKey="name" hide />
+                    <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["Excess/Shortfall"]} />} />
+                    <Bar barSize={4} radius={14} dataKey="shortfall" fill="#8884d8" />
+                  </BarChart></div>
+                  <span className="progress_button_3">View</span>
+
+                </div> */}
+
+
+                </div>
+
+              </div>
+              <div className="gen_overview_2">
+
+                <div>
+                  <AreaChart
+                    width={402}
+                    height={140}
+                    data={energy?.data4 || []}
+
+                    margin={{
+                      top: 20, right: 20, bottom: 20, left: 20,
+                    }}
+                  >
+                    <XAxis dataKey="name" hide />
+                    <YAxis type="number" hide
+                      dataKey={() => Math.ceil(energy?.data4?.reduce((acc, curr, index) => Math.max(curr.pvsyst_module_temp, curr.actual_module_temp, acc), -Infinity))}
+                      domain={[Math.floor(energy?.data4?.reduce((acc, curr, index) => Math.min(curr.pvsyst_module_temp, curr.actual_module_temp, acc), Infinity)), 'dataMax']}
+                    />
+
+                    <Area dataKey="pvsyst_module_temp" stroke="rgb(11, 165, 119)" strokeWidth={0.2} fill="rgb(20, 213, 149)" />
+                    <Area dataKey="actual_module_temp" stroke="rgb(11, 165, 119)" strokeWidth={0.2} fill="rgb(91, 248, 201)" />
+                    <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["PVsyst Module Temp", "Actual Module Temp"]} />} />
+                  </AreaChart>
+
+                </div>
+
+                <div>
 
                   <div>
-                    <span>100000</span>
-                    <span>Excess/ShortFall</span>
-                    <div><BarChart width={100} height={40} data={graphData} >
-                      {/* <CartesianGrid /> */}
-                      <XAxis dataKey="name" hide />
-                      {/* <YAxis /> */}
-                      <Tooltip />
-                      {/* <Legend /> */}
-                      <Bar barSize={4} dataKey="val" fill="#8884d8" />
-                    </BarChart></div>
-                    <span className="progress_button_3">button</span>
+                    <span>{parseFloat(energy?.data4?.reduce((acc, curr) => acc + curr.pvsyst_module_temp, 0) / 12).toFixed(2) || 0}</span>
+                    <span style={{ fontSize: "0.6rem" }}>PVsyst Module Temp (℃)</span>
 
                   </div>
+                  <span style={{ width: "2px", background: "rgb(166, 176, 173)", height: "90%" }}></span>
 
+                  <div>
+                    <span>{parseFloat(energy?.data4?.reduce((acc, curr) => acc + curr.actual_module_temp, 0) / 12).toFixed(2) || 0}</span>
 
-                </div>
-
-              </div>
-              <div className="gen_overview_3">
-
-                <div>
-                  <span>Value1</span>
-                  {/* <span>Value2</span> */}
-
-                </div>
-
-                <div>
-                  <BarChart width={230} height={150} data={graphData3} >
-                    {/* <CartesianGrid /> */}
-                    <XAxis dataKey="name" hide />
-                    {/* <YAxis /> */}
-                    <Tooltip contentStyle={{ fontSize: "0.7rem" }} />
-                    {/* <Legend /> */}
-                    <Bar barSize={6} dataKey="val" fill="#8884d8" />
-                    {/* <Bar barSize={6} dataKey="val2" fill="#8884d8" /> */}
-                    {/* <Bar barSize={4} dataKey="val3" fill="#8884d8" /> */}
-                  </BarChart>
-
+                    <span style={{ fontSize: "0.6rem" }}>Actual Module Temp (℃)</span>
+                  </div>
                 </div>
 
               </div>
 
 
             </Grid>
-            <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
-              <Grid
-                item
-                lg={10}
-                border={3}
-                paddingTop={4}
-                paddingBottom={4}
-                borderColor={"#ed7d31"}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-                position={"relative"}
-              // border={3}
-              // borderColor={"#ed7d31"}
-              >
-                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
-                  <Printer />
-                </div> */}
-                {/* <CSVLink
-                    data={energy?.data2}
-                    filename='data.csv'
-                    className='hidden'
-                    ref={downloadRef4}
-                    target='_blank'
-                  /> */}
-                <LineBarChart
-                  data={GHI_GTI_data?.data}
-                  height={300}
-                  width={1000}
-                  value1={Ghi_Gti_data?.pvsyst_GTI}
-                  value2={Ghi_Gti_data.actual_GTI}
-                  value3={Ghi_Gti_data.pvsyst_GTI_vs_Actual_GTI}
-                  dataKey1="pvsyst_GTI"
-                  dataKey2="Actual_GTI"
-                  dataKey3="pvsyst_GTI_vs_Actual_GTI"
-                  y_axis_label_value1="Pvsyst GTI & Acutal GTI"
-                  y_axis_label_value2="Pvsyst GTI vs Acutal GTI"
-                  position={0}
-                />
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingBottom: "0.7rem",
-                    paddingTop: "0.5rem"
-                  }}
+            <Grid item lg={11.7}
+              borderRadius={"14px"}
+              boxSizing={"border-box"}
+              style={{
+                background: "linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172))",
+                margin: "auto",
+                marginLeft: "1.2rem",
+                marginBottom: "1rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "1.2rem"
+              }}>
+
+              <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} gap={"1rem"}  >
+                <Grid
+                  item
+                  lg={5.9}
+                  // border={3}
+                  // borderColor={"#ed7d31"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  flexDirection={"column"}
+                  position={"relative"}
+                  bgcolor={"white"}
+                  borderRadius={"14px"}
+                  padding={"1rem 0"}
                 >
+
                   <div
                     style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
+                      height: "max-content",
+                      width: "max-content",
+                      boxSizing: "border-box",
+                      // position:"relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                      // border:"2px solid black"
                     }}
                   >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                pvsyst_GTI: !Ghi_Gti_data.pvsyst_GTI
-                              })
-                            }}
-                          />
+                    <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
+                      <Printer clickhandler={() => downloadRef1.current.link.click()}
+                        jpgDownload={() =>
+                          setTimeout(async () => {
+                            exportComponentAsJPEG(graphRef1, { fileName: "graph" })
+                          }, 100)
                         }
-                        label="Pvyst GTI"
+                        svgDownload={async () => {
+                          const svgData = await saveToSvg(graphRef1.current.container)
+                          saveAs(svgData, 'graph.svg')
+                        }}
                       />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
+                    </div>
+                    <CSVLink
+                      data={GHI_GTI_data?.data?.reduce((acc, curr) => {
+                        acc.push({
+                          Month: curr.name,
+                          PVsystGTI: curr.pvsyst_GTI,
+                          ActualGTI: curr.Actual_GTI,
+                          PVsystGTIvsActualGTI: curr.pvsyst_GTI_vs_Actual_GTI
 
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                actual_GTI: !Ghi_Gti_data.actual_GTI
-                              })
-                            }}
-                          />
-                        }
-                        label="Actual GTI"
+                        })
+                        return acc;
+                      }, []) || []}
+                      filename='data.csv'
+                      className='hidden'
+                      target='_blank'
+                      ref={downloadRef1}
+                    />
+
+                    <h5 style={{ textAlign: "center", boxSizing: "border-box" }}>
+                      PVsyst GTI (kWh/m^2) vs Actual GTI (kWh/m^2) vs PVsyst Vs Actual GTI (kWh/m^2)
+                    </h5>
+                    <ComposedChart
+                      width={650}
+                      height={300}
+                      data={GHI_GTI_data?.data || []}
+                      margin={{
+                        top: 20,
+                        right: 10,
+                        bottom: 20,
+                        left: 20,
+                      }}
+                      ref={graphRef1}
+
+
+                    >
+                      {/* <CartesianGrid stroke="#f5f5f5" /> */}
+                      <CartesianGrid stroke="grey" strokeWidth={0.2} />
+
+                      <XAxis
+                        dataKey="name"
+                        fontSize={10} fontWeight={600}
+                        tickLine={false} axisLine={false} tickMargin={8}
+                        interval={0}
                       />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                pvsyst_GTI_vs_Actual_GTI: !Ghi_Gti_data.pvsyst_GTI_vs_Actual_GTI
-                              })
-                            }}
-                          />
-                        }
-                        label="Pvsyst GTI vs Actual_GTI"
+
+                      <YAxis
+                        tickFormatter={(v) => v >= 1000 ? parseFloat(v / 1000).toFixed(0) + "k" : v}
+                        yAxisId="left-axis"
+                        //  label={{ value: "Energy", angle: -90,x:20, position: "insideLeft"}} 
+                        label={<AxisLabel axisType='yAxis' x={-25} y={-7}>PVsyst GTI & Actual GTI</AxisLabel>}
+
+                        dataKey={() => Math.ceil(GHI_GTI_data?.data?.reduce((acc, curr, index) => Math.max(curr.pvsyst_GTI, curr.Actual_GTI, acc), -Infinity)) + 10}
+                        domain={[Math.floor(GHI_GTI_data?.data?.reduce((acc, curr, index) => Math.min(curr.pvsyst_GTI, curr.Actual_GTI, acc), Infinity)) - 10, 'dataMax']}
+                        tickLine={false} tickMargin={8}
                       />
-                    </FormGroup>
+                      <YAxis
+
+                        yAxisId="right-axis"
+                        orientation="right"
+                        label={<AxisLabel axisType='yAxis' x={27} y={285}>PVsyst Vs Actual GTI</AxisLabel>}
+                        tickLine={false} tickMargin={8}
+
+                      />
+                      <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["PVsyst GTI", "Actual GTI", "PVsyst GTI vs Actual GTI"]} />} />
+                      <Legend
+                        content={<CustomizeLegend active={false} payload={[]} LegendValues={["PVsyst GTI", "Actual GTI", "PVsyst GTI vs Actual GTI"]} data={showPvsystActualGTI} setData={setShowPvsystActualGTI} />}
+                      />
+                      <Bar
+                        hide={showPvsystActualGTI.PvsystGTI ? false : true}
+                        dataKey="pvsyst_GTI"
+                        barSize={12}
+                        // fill="#122b4f"
+                        fill={`${colors3[0]}`}
+                        yAxisId="left-axis"
+                      />
+                      <Bar
+                        hide={showPvsystActualGTI.ActualGTI ? false : true}
+                        dataKey="Actual_GTI"
+                        barSize={12}
+                        // fill="#ed7d31"
+                        fill={`${colors3[1]}`}
+                        yAxisId="left-axis"
+                      />
+                      <Line
+                        hide={showPvsystActualGTI.PvsystVsActualGTI ? false : true}
+
+                        type="monotone"
+                        dataKey="pvsyst_GTI_vs_Actual_GTI"
+                        strokeWidth={3}
+                        stroke={`${colors1[4]}`}
+                        yAxisId="right-axis"
+                      />
+                    </ComposedChart>
                   </div>
-                </div>
 
+
+                </Grid>
+
+
+                <Grid
+                  item
+                  lg={5.9}
+                  // border={3}
+                  // borderColor={"#ed7d31"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  flexDirection={"column"}
+                  position={"relative"}
+                  bgcolor={"white"}
+                  borderRadius={"14px"}
+                  padding={"1rem 0"}
+
+                >
+
+                  <div
+                    style={{
+                      height: "max-content",
+                      width: "max-content",
+                      boxSizing: "border-box",
+                      // position:"relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                      // border:"2px solid black"
+                    }}
+                  >
+                    <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
+                      <Printer clickhandler={() => downloadRef2.current.link.click()}
+                       jpgDownload={() =>
+                        setTimeout(async () => {
+                          exportComponentAsJPEG(graphRef2, { fileName: "graph" })
+                        }, 100)
+                      }
+                        svgDownload={async () => {
+                          const svgData = await saveToSvg(graphRef2.current.container)
+                          saveAs(svgData, 'graph.svg')
+                        }}
+                      />
+                    </div>
+                    <CSVLink
+                      data={GHI_GTI_data?.data?.reduce((acc, curr) => {
+                        acc.push({
+                          Month: curr.name,
+                          PVsystGHI: curr.pvsyst_GHI,
+                          ActualGHI: curr.Actual_GHI,
+                          PVsystGHIvsActualGHI: curr.pvsyst_GHI_vs_Actual_GHI
+
+                        })
+                        return acc;
+                      }, []) || []}
+                      filename='data.csv'
+                      className='hidden'
+                      target='_blank'
+                      ref={downloadRef2}
+                    />
+
+                    <h5 style={{ textAlign: "center", boxSizing: "border-box" }}>
+                      PVsyst GHI (kWh/m^2) vs Actual GHI (kWh/m^2) vs PVsyst Vs Actual GHI (kWh/m^2)
+                    </h5>
+                    <ComposedChart
+                      width={650}
+                      height={300}
+                      data={GHI_GTI_data?.data || []}
+                      margin={{
+                        top: 20,
+                        right: 10,
+                        bottom: 20,
+                        left: 20,
+                      }}
+                      ref={graphRef2}
+
+
+                    >
+                      {/* <CartesianGrid stroke="#f5f5f5" /> */}
+                      <CartesianGrid stroke="grey" strokeWidth={0.2} />
+
+                      <XAxis
+                        dataKey="name"
+                        fontSize={10} fontWeight={600}
+                        tickLine={false} axisLine={false} tickMargin={8}
+                        interval={0}
+                      />
+
+                      <YAxis
+                        tickFormatter={(v) => v >= 1000 ? parseFloat(v / 1000).toFixed(0) + "k" : v}
+                        yAxisId="left-axis"
+                        //  label={{ value: "Energy", angle: -90,x:20, position: "insideLeft"}} 
+                        label={<AxisLabel axisType='yAxis' x={-25} y={-7}>PVsyst GHI & Actual GHI</AxisLabel>}
+
+                        dataKey={() => Math.ceil(GHI_GTI_data?.data?.reduce((acc, curr, index) => Math.max(curr.pvsyst_GHI, curr.Actual_GHI, acc), -Infinity)) + 10}
+                        domain={[Math.floor(GHI_GTI_data?.data?.reduce((acc, curr, index) => Math.min(curr.pvsyst_GHI, curr.Actual_GHI, acc), Infinity)) - 10, 'dataMax']}
+                        tickLine={false} tickMargin={8}
+                      />
+                      <YAxis
+
+                        yAxisId="right-axis"
+                        orientation="right"
+                        label={<AxisLabel axisType='yAxis' x={33} y={282}>PVsyst Vs Actual GHI</AxisLabel>}
+                        tickLine={false} tickMargin={8}
+
+                      />
+                      <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["PVsyst GHI", "Actual GHI", "PVsyst GHI vs Actual GHI"]} />} />
+                      <Legend
+                        content={<CustomizeLegend active={false} payload={[]} LegendValues={["PVsyst GHI", "Actual GHI", "PVsyst GHI vs Actual GHI"]} data={showPvsystActualGHI} setData={setShowPvsystActualGHI} />}
+                      />
+                      <Bar
+                        hide={showPvsystActualGHI.PvsystGHI ? false : true}
+                        dataKey="pvsyst_GHI"
+                        barSize={12}
+                        // fill="#122b4f"
+                        fill={`${colors3[0]}`}
+                        yAxisId="left-axis"
+                      />
+                      <Bar
+                        hide={showPvsystActualGHI.ActualGHI ? false : true}
+                        dataKey="Actual_GHI"
+                        barSize={12}
+                        // fill="#ed7d31"
+                        fill={`${colors3[1]}`}
+                        yAxisId="left-axis"
+                      />
+
+                      <Line
+                        hide={showPvsystActualGHI.PvsystVsActualGHI ? false : true}
+
+                        type="monotone"
+                        dataKey="pvsyst_GHI_vs_Actual_GHI"
+                        strokeWidth={3}
+                        stroke={`${colors1[4]}`}
+                        yAxisId="right-axis"
+                      />
+                    </ComposedChart>
+                  </div>
+
+
+                </Grid>
               </Grid>
-
             </Grid>
-            <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
-              <Grid
-                item
-                lg={10}
-                paddingBottom={4}
-                paddingTop={4}
-                border={3}
-                borderColor={"#ed7d31"}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-                position={"relative"}
-              // border={3}
-              // borderColor={"#ed7d31"}
-              >
-                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
-                  <Printer />
-                </div> */}
-                <LineBarChart
-                  data={GHI_GTI_data?.data}
-                  height={300}
-                  width={1000}
-                  value1={Ghi_Gti_data?.pvsyst_GHI}
-                  value2={Ghi_Gti_data.actual_GHI}
-                  value3={Ghi_Gti_data.pvsyst_GHI_vs_Actual_GHI}
-                  dataKey1="pvsyst_GHI"
-                  dataKey2="Actual_GHI"
-                  dataKey3="pvsyst_GHI_vs_Actual_GHI"
-                  y_axis_label_value1="Pvsyst_GHI & Acutal_GHI"
-                  y_axis_label_value2="Pvsyst GHI vs Acutal_GHI"
-                  position={1}
+            <Grid item lg={11.7}
+              borderRadius={"14px"}
+              boxSizing={"border-box"}
+              style={{
+                background: "linear-gradient(to bottom, rgb(3, 99, 125),rgb(4, 128, 162),rgb(4, 135, 172))",
+                margin: "auto",
+                marginLeft: "1.2rem",
+                marginBottom: "1rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "1.2rem"
+              }}>
 
-                />
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingBottom: "0.7rem",
-                    paddingTop: "0.5rem"
-                  }}
+              <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} gap={"1rem"}  >
+                <Grid
+                  item
+                  lg={5.9}
+                  // border={3}
+                  // borderColor={"#ed7d31"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  flexDirection={"column"}
+                  position={"relative"}
+                  bgcolor={"white"}
+                  borderRadius={"14px"}
+                  padding={"1rem 0"}
+
+                >
+
+                  <div
+                    style={{
+                      height: "max-content",
+                      width: "max-content",
+                      boxSizing: "border-box",
+                      // position:"relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                      // border:"2px solid black"
+                    }}
+                  >
+                    <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
+                      <Printer clickhandler={() => downloadRef3.current.link.click()}
+                        jpgDownload={() =>
+                          setTimeout(async () => {
+                            exportComponentAsJPEG(graphRef3, { fileName: "graph" })
+                          }, 100)
+                        }
+                        svgDownload={async () => {
+                          const svgData = await saveToSvg(graphRef3.current.container)
+                          saveAs(svgData, 'graph.svg')
+                        }}
+
+                      />
+                    </div>
+                    <CSVLink
+                      data={energy?.data2?.reduce((acc, curr) => {
+                        acc.push({
+                          Month: curr.name,
+                          NetEnergy: curr.netEnergy,
+                          NormalisedEnergy: curr.normalisedEnergy,
+                          ExcessShortfall: curr.shortfall
+
+                        })
+                        return acc;
+                      }, []) || []}
+                      filename='data.csv'
+                      className='hidden'
+                      target='_blank'
+                      ref={downloadRef3}
+                    />
+
+                    <h4 style={{ textAlign: "center", boxSizing: "border-box" }}>
+                      Net Energy (KWh) vs Normalised Energy (KWh) vs Shortfall (%)
+                    </h4>
+                    <ComposedChart
+                      width={650}
+                      height={300}
+                      data={energy?.data2 || []}
+                      margin={{
+                        top: 20,
+                        right: 10,
+                        bottom: 20,
+                        left: 20,
+                      }}
+
+                      ref={graphRef3}
+
+
+                    >
+                      {/* <CartesianGrid stroke="#f5f5f5" /> */}
+                      <CartesianGrid stroke="grey" strokeWidth={0.2} />
+
+                      <XAxis
+                        dataKey="name"
+                        fontSize={10} fontWeight={600}
+                        tickLine={false} axisLine={false} tickMargin={8}
+                        interval={0}
+                      />
+
+                      <YAxis tickFormatter={(v) => v >= 1000 ? parseFloat(v / 1000).toFixed(0) + "k" : v} yAxisId="left-axis"
+                        //  label={{ value: "Energy", angle: -90,x:20, position: "insideLeft"}} 
+                        label={<AxisLabel axisType='yAxis' x={-25} y={-7}>Energy</AxisLabel>}
+
+                        dataKey={() => Math.ceil(energy?.data2?.reduce((acc, curr, index) => Math.max(curr.netEnergy, curr.normalisedEnergy, acc), -Infinity)) + 100000}
+                        domain={[Math.floor(energy?.data2?.reduce((acc, curr, index) => Math.min(curr.netEnergy, curr.normalisedEnergy, acc), Infinity)) - 100000, 'dataMax']}
+                        tickLine={false} tickMargin={8}
+                      />
+                      <YAxis
+                        yAxisId="right-axis"
+                        orientation="right"
+                        label={<AxisLabel axisType='yAxis' x={33} y={282}>Excess/Shortfall</AxisLabel>}
+                        tickLine={false} tickMargin={8}
+
+                      />
+                      <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["Net Energy", "Normalised Energy", "Shortfall"]} />} />
+                      <Legend
+                        content={<CustomizeLegend active={false} payload={[]} LegendValues={["Net Energy", "Normalised Energy", "Shortfall"]} data={showNetNormalisedShortfallData} setData={setShowNetNormalisedShortfallData} />}
+                      />
+                      <Bar
+                        hide={showNetNormalisedShortfallData.netEnergy ? false : true}
+                        dataKey="netEnergy"
+                        barSize={12}
+                        // fill="#122b4f"
+                        fill={`${colors3[0]}`}
+                        yAxisId="left-axis"
+                      />
+                      <Bar
+                        hide={showNetNormalisedShortfallData.normalisedEnergy ? false : true}
+                        dataKey="normalisedEnergy"
+                        barSize={12}
+                        // fill="#ed7d31"
+                        fill={`${colors3[1]}`}
+                        yAxisId="left-axis"
+                      />
+                      <Line
+                        hide={showNetNormalisedShortfallData.shortfall ? false : true}
+
+                        type="monotone"
+                        dataKey="shortfall"
+                        strokeWidth={3}
+                        stroke={`${colors1[4]}`}
+                        yAxisId="right-axis"
+                      />
+                    </ComposedChart>
+                  </div>
+
+                </Grid>
+                <Grid
+                  item
+                  lg={5.9}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  flexDirection={"column"}
+                  position={"relative"}
+                  bgcolor={"white"}
+                  borderRadius={"14px"}
+                  padding={"1rem 0"}
                 >
                   <div
                     style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
+                      height: "max-content",
+                      width: "max-content",
+                      boxSizing: "border-box",
+                      // position:"relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                      // border:"2px solid black"
                     }}
                   >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                pvsyst_GHI: !Ghi_Gti_data.pvsyst_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Pvyst GHI"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
+                    <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
+                      <Printer clickhandler={() => downloadRef4.current.link.click()}
+                       jpgDownload={() =>
+                        setTimeout(async () => {
+                          exportComponentAsJPEG(graphRef4, { fileName: "graph" })
+                        }, 100)
+                      }
+                        svgDownload={async () => {
+                          const svgData = await saveToSvg(graphRef4.current.container)
+                          saveAs(svgData, 'graph.svg')
+                        }}
 
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                actual_GHI: !Ghi_Gti_data.actual_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Actual GHI"
                       />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                pvsyst_GHI_vs_Actual_GHI: !Ghi_Gti_data.pvsyst_GHI_vs_Actual_GHI
-                              })
-                            }}
-                          />
-                        }
-                        label="Pvsyst GHI vs Actual GHI"
+                    </div>
+                    <CSVLink
+                      data={energy?.data3?.reduce((acc, curr) => {
+                        acc.push({
+                          Month: curr.name,
+                          PVsystEnergy: curr.pvsyst_Energy,
+                          ContractualEnergy: curr.contractual_energy,
+
+                        })
+                        return acc;
+                      }, []) || []}
+                      filename='data.csv'
+                      className='hidden'
+                      target='_blank'
+                      ref={downloadRef4}
+                    />
+                    <h4 style={{ textAlign: "center", boxSizing: "border-box" }}>
+                      PVsyst Energy (KWh) vs Contratual Energy (KWh)
+                    </h4>
+                    <ComposedChart
+                      width={600}
+                      height={300}
+                      data={energy?.data3 || []}
+                      margin={{
+                        top: 20,
+                        right: 10,
+                        bottom: 20,
+                        left: 20,
+                      }}
+                      ref={graphRef4}
+                    >
+                      {/* <CartesianGrid stroke="#f5f5f5" /> */}
+                      <CartesianGrid stroke="grey" strokeWidth={0.2} />
+
+                      <XAxis
+                        dataKey="name"
+                        fontSize={10} fontWeight={600}
+                        tickLine={false} axisLine={false} tickMargin={8}
                       />
-                    </FormGroup>
+
+                      <YAxis tickFormatter={(v) => v >= 1000 ? parseFloat(v / 1000).toFixed(0) + "k" : v} yAxisId="left-axis"
+                        //  label={{ value: "Energy", angle: -90,x:20, position: "insideLeft"}} 
+                        // label={<AxisLabel axisType='yAxis' x={-17} y={-7}>Energy</AxisLabel>}
+
+                        dataKey={() => Math.ceil(energy?.data3?.reduce((acc, curr, index) => Math.max(curr.pvsyst_Energy, curr.contractual_energy, acc), -Infinity)) + 100000}
+                        domain={[Math.floor(energy?.data3?.reduce((acc, curr, index) => Math.min(curr.pvsyst_Energy, curr.contractual_energy, acc), Infinity)) - 100000, 'dataMax']}
+                        tickLine={false} tickMargin={8}
+                      />
+                      <Tooltip content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["PVsyst Energy", "Contractual Energy"]} />} />
+                      <Legend
+                        content={<CustomizeLegend active={false} payload={[]} LegendValues={["PVsyst Energy", "Contractual Energy"]} data={showPVsystContractualData} setData={setShowPVsystContractualData} />}
+                      />
+                      <Bar
+                        hide={showPVsystContractualData.pvsystEnergy ? false : true}
+                        dataKey="pvsyst_Energy"
+                        barSize={12}
+                        // fill="#122b4f"
+                        fill={`${colors3[0]}`}
+                        yAxisId="left-axis"
+                      />
+                      <Bar
+                        hide={showPVsystContractualData.contractualEnergy ? false : true}
+
+
+                        dataKey="contractual_energy"
+                        barSize={12}
+                        // fill="#ed7d31"
+                        fill={`${colors3[1]}`}
+                        yAxisId="left-axis"
+                      />
+                    </ComposedChart>
                   </div>
-                </div>
-
-              </Grid>
-
-            </Grid>
-
-
-            <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
-              <Grid
-                item
-                lg={10}
-                paddingBottom={4}
-                paddingTop={4}
-                border={3}
-                borderColor={"#ed7d31"}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-                position={"relative"}
-              // border={3}
-              // borderColor={"#ed7d31"}
-              >
-                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
-                  <Printer />
-                </div> */}
-                <LineBarChart
-                  data={energy?.data2}
-                  height={300}
-                  width={1000}
-                  value1={Ghi_Gti_data?.NetEnergy}
-                  value2={Ghi_Gti_data?.NormalisedEnergy}
-                  value3={Ghi_Gti_data?.ShortFall}
-                  dataKey1="netEnergy"
-                  dataKey2="normalisedEnergy"
-                  dataKey3="shortfall"
-                  y_axis_label_value1="Energy"
-                  y_axis_label_value2="Excess/Shortfall In %"
-                  position={2}
-
-                />
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingBottom: "0.7rem",
-                    paddingTop: "0.5rem"
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
-                    }}
-                  >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                NetEnergy: !Ghi_Gti_data.NetEnergy
-                              })
-                            }}
-                          />
-                        }
-                        label="Net Energy"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                NormalisedEnergy: !Ghi_Gti_data.NormalisedEnergy
-                              })
-                            }}
-                          />
-                        }
-                        label="Normalised Energy"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setGHI_GTI_data({
-                                ...Ghi_Gti_data,
-                                ShortFall: !Ghi_Gti_data.ShortFall
-                              })
-                            }}
-                          />
-                        }
-                        label="ShortFall"
-                      />
-                    </FormGroup>
-                  </div>
-                </div>
-
-              </Grid>
-
-            </Grid>
-
-
-            <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={6}>
-              <Grid
-                item
-                lg={10}
-                paddingBottom={4}
-                paddingTop={4}
-                border={3}
-                borderColor={"#ed7d31"}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                flexDirection={"column"}
-                position={"relative"}
-              // border={3}
-              // borderColor={"#ed7d31"}
-              >
-                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
-                  <Printer  />
-                </div> */}
-                <LineBarChart
-                  data={energy?.data3}
-                  height={300}
-                  width={1000}
-                  value1={showNormalisedData?.NetEnergy}
-                  value2={showNormalisedData?.contractual_energy}
-                  value3={showNormalisedData?.ShortFall}
-                  dataKey1="netEnergy"
-                  dataKey2="contructual_energy"
-                  dataKey3="ExcessORShortfallNormalised_Percentage"
-                  y_axis_label_value1="Energy"
-                  y_axis_label_value2="Excess/Shortfall In %"
-                  position={3}
-
-                />
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingBottom: "0.7rem",
-                    paddingTop: "0.5rem"
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
-                    }}
-                  >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setShowNormalizedData({
-                                ...showNormalisedData,
-                                NetEnergy: !showNormalisedData.NetEnergy
-                              })
-                            }}
-                          />
-                        }
-                        label="Net Energy"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-
-                            onChange={(e) => {
-                              setShowNormalizedData({
-                                ...showNormalisedData,
-                                contractual_energy: !showNormalisedData.contractual_energy
-                              })
-                            }}
-                          />
-                        }
-                        label="Contratual Energy"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setShowNormalizedData({
-                                ...showNormalisedData,
-                                ShortFall: !showNormalisedData.ShortFall
-                              })
-                            }}
-                          />
-                        }
-                        label="ShortFall"
-                      />
-                    </FormGroup>
-                  </div>
-                </div>
-
-              </Grid>
-
-            </Grid>
-
-
-            <Grid container
-              border={3}
-              borderColor={"#ed7d31"}
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"center"} lg={12}
-              margin={"auto"}
-              marginTop={5}
-              marginLeft={4}
-              ref={ref}
-
-            >
-              <Grid
-                item
-                lg={6}
-                position={"relative"}
-              >
-                {/* <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
-                  <Printer />
-                </div> */}
-                <LineBarChart
-                  data={energy?.data3}
-                  height={300}
-                  width={850}
-                  value1={checkBox?.pvsyst_Energy}
-                  value2={checkBox?.contractual_energy}
-                  dataKey1="pvsyst_Energy"
-                  dataKey2="contructual_energy"
-                  // dataKey3="Actual_pr"
-                  // y_axis_label_value1="Energy"
-                  // y_axis_label_value2="Excess/Shortfall"
-                  hidePrintIcon={{ show: false }}
-                  position={4}
-                />
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingBottom: "0.7rem",
-                    paddingTop: "0.5rem"
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
-                    }}
-                  >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setcheckBox({
-                                ...checkBox,
-                                pvsyst_Energy: !checkBox.pvsyst_Energy
-                              })
-                            }}
-                          />
-                        }
-                        label="Pvsyst Energy"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-
-                            onChange={(e) => {
-                              setcheckBox({
-                                ...checkBox,
-                                contractual_energy: !checkBox.contractual_energy
-                              })
-                            }}
-                          />
-                        }
-                        label="Contractual Energy"
-                      />
-
-                    </FormGroup>
-                  </div>
-                </div>
-
-
-              </Grid>
-              <Grid lg={6} marginTop={4.5} paddingLeft={3}>
-                <div style={{ width: "100%", textAlign: "end", position: "relative", bottom: "15px", right: "10px" }}>
-                  <Printer jpgDownload={jpgDownload} clickhandler={csvDownload} svgDownload={svgDownload} />
-                </div>
-                <CSVLink
-                  data={(energy?.data3 && csvData(energy?.data3)) || []}
-                  filename='data.csv'
-                  className='hidden'
-                  ref={csvref}
-                  target='_blank'
-                />
-                <LineChart
-                  width={680}
-                  height={280}
-                  margin={{
-                    bottom: 20
-                  }}
-                  data={energy?.data3}
-
-
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis interval={0} dataKey="name" fontSize={"0.8rem"} fontWeight={600} />
-                  <YAxis />
-                  <Tooltip
-
-                  />
-                  <Legend />
-                  {Actual_pr && <Line
-                    type="monotone"
-                    dataKey="Actual_pr"
-                    stroke="#8884d8"
-                    strokeWidth={3}
-                    activeDot={{ r: 8 }}
-                  />
-                  }
-                </LineChart>
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingBottom: "0.7rem",
-                    paddingTop: "0.5rem"
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#edeaea",
-                      borderStyle: "solid",
-                      borderColor: "#ed7d31",
-                      borderWidth: "3px",
-                      borderRadius: "5px",
-                      paddingLeft: "1rem"
-                    }}
-                  >
-                    <FormGroup style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            onChange={(e) => {
-                              setActual_pr(!Actual_pr)
-                            }}
-                          />
-                        }
-                        label="Actual Pr"
-                      />
-                    </FormGroup>
-                  </div>
-                </div>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -1000,6 +990,19 @@ const saveToSvg = (svg, width, height) => {
     let dataUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(xml);
     resolve(dataUrl)
   });
+};
+
+const AxisLabel = ({ axisType, x = 10, y = 90, width = 50, height = 50, stroke, children }) => {
+  console.log(axisType, x, y, width, height, stroke, children)
+  const isVert = axisType === 'yAxis';
+  const cx = isVert ? x : x + (width / 2);
+  const cy = isVert ? (height / 2) + y : y + height + 10;
+  const rot = isVert ? `270 ${cx} ${cy}` : 0;
+  return (
+    <text className="animation_label" style={{ boxSizing: "border-box" }} enableBackground={true} x={`${cx}%`} y={`${cy}%`} transform={`rotate(${rot})`} textAnchor="middle" stroke={stroke}>
+      {children}
+    </text>
+  );
 };
 
 export default Detailed3;

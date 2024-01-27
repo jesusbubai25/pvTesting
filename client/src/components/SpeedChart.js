@@ -6,10 +6,10 @@ const SpeedChart = (props) => {
   return (
     <div>
       <ReactSpeedometer
-        maxValue={props?.maxValue}
-        minValue={props?.minValue}
-        value={props?.value}
-        
+        maxValue={props?.maxValue || 0}
+        minValue={props?.minValue || 0}
+        value={props?.value || 0}
+        segments={props?.segments}
         segmentColors={["#00D2FC","#00E1ED","#22EED1","#78F6AD","#B9FA8A","#F9F871"]}
         // segmentColors={[colors3[0],colors3[1],colors3[2],colors3[3],colors3[4],colors3[5]]}
         // startColor={`${colors1[3]}`}

@@ -26,6 +26,7 @@
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
     "react-apexcharts": "^1.4.1",
+    "react-component-export-image": "^1.0.6",
     "react-csv": "^2.2.2",
     "react-d3-speedometer": "^1.1.0",
     "react-data-table-component": "^7.5.4",

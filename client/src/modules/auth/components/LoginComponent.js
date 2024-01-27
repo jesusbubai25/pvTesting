@@ -75,7 +75,7 @@ const LoginComponent = (props) => {
           }}
         />
       </div>
-      <div className="inputs">
+      <div className="inputs" style={{height:"8vh"}}>
         <input
           type={text ? "password" : "text"}
           placeholder="Password"

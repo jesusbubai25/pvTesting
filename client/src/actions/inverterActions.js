@@ -117,7 +117,8 @@ export const InverterSmbYearlyLoss = (inverter, smb) => async (dispatch) => {
         let minValue = Infinity, maxValue = -Infinity
         for (let i = smb * 12 - 12 + 1; i <= smb * 12; i++) {
             let obj = {};
-            obj.name = keys[i] || 0;
+            let name2 = keys[i]?.substring(0, 4) + `${inverter}` + keys[i]?.substring(5, keys[i].length);
+            obj.name = name2;
             obj.loss = values[i] || 0
             if (values[i] > maxValue) maxValue = values[i];
             if (values[i] < minValue) minValue = values[i];
@@ -182,10 +183,10 @@ export const HeatMapData = (inverter) => async (dispatch) => {
                     if (values[i] > mx) mx = values[i]
 
                     arr.push({
-                        x:convertToUppercase(keys[i]),
-                        y:values[i]
+                        x: convertToUppercase(keys[i]),
+                        y: values[i]
                     });
-                    
+
                 }
                 obj.data = arr;
 
@@ -199,27 +200,27 @@ export const HeatMapData = (inverter) => async (dispatch) => {
                     if (values[i] < mn) mn = values[i];
                     if (values[i] > mx) mx = values[i]
                     arr.push({
-                        x:convertToUppercase(keys[i]),
-                        y:values[i]
+                        x: convertToUppercase(keys[i]),
+                        y: values[i]
                     });
                 }
                 obj.data = arr;
             }
             finalResult.push(obj)
         }
-        dispatch({ type: heatmap_data_sucess, payload:{data:finalResult,minValue:mn,maxValue:mx}})
+        dispatch({ type: heatmap_data_sucess, payload: { data: finalResult, minValue: mn, maxValue: mx } })
     } catch (error) {
         dispatch({ type: heatmap_data_fail, payload: error.response.data.error })
     }
 }
 
 
-const convertToUppercase=(str)=>{
+const convertToUppercase = (str) => {
 
-    let newStr="";
-    for(let i=0;i<str?.length;i++){
-        if(str[i]>='a' && str[i]<='z')newStr+=str[i].toUpperCase()
-        else newStr+=str[i];
+    let newStr = "";
+    for (let i = 0; i < str?.length; i++) {
+        if (str[i] >= 'a' && str[i] <= 'z') newStr += str[i].toUpperCase()
+        else newStr += str[i];
     }
     return newStr;
 

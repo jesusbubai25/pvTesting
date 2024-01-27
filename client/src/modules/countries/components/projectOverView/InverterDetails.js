@@ -13,7 +13,7 @@ const InverterDetails = () => {
   const { plantDetail, error, loading } = useSelector(state => state.plantDetail)
 
   return (
-    <div style={{ width: "95%", paddingBottom: "1rem",marginTop:"2rem" }}>
+    <div style={{ width: "95%", paddingBottom: "1rem" }}>
       <TableContainer component={Paper}>
         <h1 style={{ textAlign: "center" }}>Inverter Details</h1>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

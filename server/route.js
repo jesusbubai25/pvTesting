@@ -5,7 +5,7 @@ const { InverterEfficiency,
 const { Inverter_Smb_Yearly_Loss, Inverter_Smb_Monthly_Loss } = require("./Controllers/inverterController");
 
 const { LoginHandler, SignupHandler, getRegisteredUsers,
-    getUser, allowRegistredUser, LogoutHandler, deleteRegistredUser, verifyOtpHandler, sendOtpHandler, reSendOtpHandler, deleteExistingUser } = require("./Controllers/userControllers");
+    getUser, allowRegistredUser, LogoutHandler, deleteRegistredUser, verifyOtpHandler, sendOtpHandler, reSendOtpHandler, deleteExistingUser, greenEncoRegisteredUsers, deleteGreenEncoRegistredUser } = require("./Controllers/userControllers");
 const { isAuth, isAdmin } = require("./utils/isAuth");
 const { userRegistrationValidation, userLoginValidation } = require("./utils/user.validation");
 
@@ -23,10 +23,15 @@ router.route("/getuser").get(isAuth,getUser)
 
 
 // Admin Routes 
-router.route("/admin/delete-existing-user/:email_ID").delete(isAuth,isAdmin,deleteExistingUser)
+router.route("/admin/registered-users").get(isAuth,isAdmin,getRegisteredUsers)
+router.route("/greenenco/admin/registered-users").get(isAuth,isAdmin,greenEncoRegisteredUsers)
+
 router.route("/admin/allow-user").post(isAuth,isAdmin,allowRegistredUser)
 router.route("/admin/delete-user/:email_ID").delete(isAuth,isAdmin,deleteRegistredUser)
-router.route("/admin/registered-users").get(isAuth,isAdmin,getRegisteredUsers)
+router.route("/admin/delete-existing-user/:email_ID").delete(isAuth,isAdmin,deleteExistingUser)
+router.route("/greenenco/admin/delete-user/:email_ID").delete(isAuth,isAdmin,deleteGreenEncoRegistredUser)
+
+
 
 
 

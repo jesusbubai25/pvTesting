@@ -79,18 +79,18 @@ export const monthly_inverter_efficiency = (state = { monthly_inverter_efficienc
         case all_inverter_efficiency_request:
             return {
                 ...state,
-                loading: true
+                loading2: true
             };
         case all_inverter_efficiency_sucess:
             return {
                 ...state,
-                loading: false,
+                loading2: false,
                 monthly_inverter_efficiency: action.payload
             };
         case all_inverter_efficiency_fail:
             return {
                 ...state,
-                loading: false,
+                loading2: false,
                 error: action.payload
             };
         default:

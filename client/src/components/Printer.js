@@ -9,9 +9,10 @@ const Printer = ({ clickhandler, jpgDownload,svgDownload }) => {
         <div style={{ textAlign: "end", paddingRight: "0.9rem", position: "relative" }} >
             <div style={{ position: "absolute", right: "10px", display: "flex" }} >
                 <div onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className='links_div' style={{
-                   width:open&&"150px",
-                   padding:open&&"0.9rem 0rem",
-                   boxSizing:"border-box"
+                   boxSizing:"border-box",
+                   height:open?"auto":"0",
+                   padding:open?"0.5rem 0.9rem":"0",
+                   flexDirection:"column"
                 }} >
                     {/* <Link><i className="fa-solid fa-download"></i> In JPG</Link>
                     <Link><i className="fa-solid fa-download"></i> In png</Link>

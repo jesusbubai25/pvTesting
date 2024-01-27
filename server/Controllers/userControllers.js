@@ -12,7 +12,9 @@ const pool = mysql.createPool({
   password: '9830pvAPM9831@@',
   database: 'u188495358_pvAPMDB',
   waitForConnections: true,
-  multipleStatements: true
+  multipleStatements: true,
+  keepAliveInitialDelay:10000,
+  enableKeepAlive:true
 })
 
 const promisePool = pool.promise();
@@ -337,6 +339,8 @@ exports.getUser = async (req, res) => {
 }
 
 
+
+
 // Get Registered Users (Admin)
 exports.getRegisteredUsers = async (req, res) => {
   let connection;
@@ -377,6 +381,59 @@ exports.deleteRegistredUser = async (req, res) => {
       email: email_ID,
       subject: "Regarding your Greenenco-Pvamp-Dashboard registration",
       message: "You are not allowed to access our dashboard"
+    }
+    await sendEmail(options)
+    return res.json({ error: "user deleted Successfully and an mail reagarding this sent to the user", sucess: true })
+  } catch (error) {
+    await connection?.rollback();
+    console.log(error.message);
+    return res.status(400).json({ error: error.message, sucess: false });
+  } finally {
+    connection?.release();
+  }
+}
+
+
+
+// Get Greenenco Users (Admin)
+exports.greenEncoRegisteredUsers = async (req, res) => {
+  let connection;
+  try {
+    connection = await promisePool.getConnection();
+    const [rows, fields] = await connection.query("select * from registrationGreenEnco")
+    await connection.commit();
+    return res.status(200).json({ users: rows, sucess: true });
+
+  } catch (error) {
+    await connection?.rollback();
+    console.log(error.message);
+    return res.status(400).json({ error: error.message, sucess: false });
+  } finally {
+    connection?.release();
+  }
+
+}
+
+// Delete GreenEnco User (Admin)
+exports.deleteGreenEncoRegistredUser = async (req, res) => {
+  let connection;
+  try {
+    const { email_ID } = req.params;
+    connection = await promisePool.getConnection();
+    await connection.beginTransaction();
+    const [rows, fields] = await connection.query(`select * from registrationGreenEnco where email_ID=?`, [email_ID])
+    await connection.commit();
+    if (rows.length === 0) {
+      console.log("user not found")
+      return res.status(401).json({ error: "User not found" })
+    }
+
+    await connection.query(`DELETE FROM registrationGreenEnco WHERE email_ID LIKE ?`, [email_ID])
+    await connection.commit();
+    const options = {
+      email: email_ID,
+      subject: "Regarding your Greenenco-Pvamp-Dashboard",
+      message: "You account has been deleted sucessfully!"
     }
     await sendEmail(options)
     return res.json({ error: "user deleted Successfully and an mail reagarding this sent to the user", sucess: true })

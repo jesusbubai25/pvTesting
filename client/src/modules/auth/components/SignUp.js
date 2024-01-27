@@ -41,8 +41,6 @@ const SignUp = (props) => {
         return;
       }
       dispatch(userSignup(form))
-      console.log(form)
-
 
     } catch (error) {
       console.log(error);
@@ -53,7 +51,6 @@ const SignUp = (props) => {
       toast.success("Signed up successfully! you will get a response from our team shortly")
       navigate(PageURL.COUNTRYDEFAULT);
       dispatch({ type: user_signup_reset });
-      props?.setIsLoginSelected();
     }
     if (error) {
       toast.error(error)
@@ -148,7 +145,7 @@ const SignUp = (props) => {
         />
       </div>
 
-      <div className="inputs">
+      <div className="inputs" style={{height:"7vh"}}>
         <select
           name="level"
           id="level"
