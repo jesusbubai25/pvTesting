@@ -12,12 +12,13 @@ import Printer from "../../../../components/Printer";
 import { CSVLink } from "react-csv";
 import html2canvas from "html2canvas";
 import { saveAs } from 'file-saver'
+import { exportComponentAsJPEG } from "react-component-export-image";
 
 
 const InverterEfficiency = () => {
   const dispatch = useDispatch();
   const { efficiencies, loading } = useSelector(state => state.efficiency)
-  const { monthly_inverter_efficiency,loading2 } = useSelector(state => state.monthly_inverter_efficiency)
+  const { monthly_inverter_efficiency, loading2 } = useSelector(state => state.monthly_inverter_efficiency)
   const [InverterData, setInverterData] = useState(null)
   const [InverterMonthlyData, setInverterMonthlyData] = useState(null)
   const [showEfficiency, setShowEfficiency] = useState({ efficiency: true, all: true })
@@ -58,8 +59,6 @@ const InverterEfficiency = () => {
                   paddingBottom: "1rem"
                 }}
               >
-
-
                 <Grid item lg={11.8}
                   borderRadius={"14px"}
                   boxSizing={"border-box"}
@@ -99,15 +98,16 @@ const InverterEfficiency = () => {
                       }}
                     >
                       <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
-                        <Printer clickhandler={() => downloadRef1.current.link.click()} jpgDownload={() => {
-                          setTimeout(async () => {
-                            const canvas = await html2canvas(graphRef1.current.container);
-                            const dataURL = canvas.toDataURL('image/jpg');
-                            saveAs(dataURL, 'graph.jpg')
-                          }, 100);
+                        <Printer clickhandler={() => downloadRef1.current.link.click()}
+                         jpgDownload={() => {
+                          document.getElementsByClassName("cpy_right")[0].style.display = "block";
+                          exportComponentAsJPEG(graphRef1, { fileName: "graph" })
+                          document.getElementsByClassName("cpy_right")[0].style.display = "none";
                         }}
                           svgDownload={async () => {
+                          document.getElementsByClassName("cpy_right")[0].style.display = "block";
                             const svgData = await saveToSvg(graphRef1.current.container)
+                          document.getElementsByClassName("cpy_right")[0].style.display = "none";
                             saveAs(svgData, 'graph.svg')
                           }}
                         />
@@ -116,7 +116,7 @@ const InverterEfficiency = () => {
                         data={efficiencies?.reduce((acc, curr) => {
                           acc.push({
                             Month: curr.name,
-                            Efficiency:curr.Efficiency
+                            Efficiency: curr.Efficiency
                           })
                           return acc;
                         }, []) || []}
@@ -297,15 +297,17 @@ const InverterEfficiency = () => {
                       }}
                     >
                       <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
-                      <Printer clickhandler={() => downloadRef2.current.link.click()} jpgDownload={() => {
-                          setTimeout(async () => {
-                            const canvas = await html2canvas(graphRef2.current.container);
-                            const dataURL = canvas.toDataURL('image/jpg');
-                            saveAs(dataURL, 'graph.jpg')
-                          }, 100);
+                        <Printer clickhandler={() => downloadRef2.current.link.click()} 
+                        jpgDownload={() => {
+                          document.getElementsByClassName("cpy_right")[1].style.display = "block";
+                          exportComponentAsJPEG(graphRef2, { fileName: "graph" })
+                          document.getElementsByClassName("cpy_right")[1].style.display = "none";
                         }}
                           svgDownload={async () => {
+                          document.getElementsByClassName("cpy_right")[1].style.display = "block";
                             const svgData = await saveToSvg(graphRef2.current.container)
+                          document.getElementsByClassName("cpy_right")[1].style.display = "none";
+
                             saveAs(svgData, 'graph.svg')
                           }}
                         />
@@ -314,10 +316,10 @@ const InverterEfficiency = () => {
                         data={monthly_inverter_efficiency?.reduce((acc, curr) => {
                           acc.push({
                             Month: curr.name,
-                            Inveter1:curr.Inverter1,
-                            Inveter2:curr.Inverter2,
-                            Inveter3:curr.Inverter3,
-                            Inveter4:curr.Inverter4
+                            Inveter1: curr.Inverter1,
+                            Inveter2: curr.Inverter2,
+                            Inveter3: curr.Inverter3,
+                            Inveter4: curr.Inverter4
                           })
                           return acc;
                         }, []) || []}
@@ -341,7 +343,7 @@ const InverterEfficiency = () => {
                           bottom: 20,
                           left: 20,
                         }}
-ref={graphRef2}
+                        ref={graphRef2}
 
 
                       >

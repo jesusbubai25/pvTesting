@@ -133,7 +133,7 @@ exports.LoginHandler = async (req, res) => {
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       httpOnly: true
     }
-    return res.status(200).cookie("auth_token", jwt_token, options).json({ user: rows[0], sucess: true });
+    return res.status(200).json({ user: rows[0],auth_token:jwt_token, sucess: true });
 
   } catch (error) {
     console.log(error.message);

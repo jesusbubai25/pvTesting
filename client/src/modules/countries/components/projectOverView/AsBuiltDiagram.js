@@ -239,7 +239,8 @@ const AsBuiltDiagram = () => {
                                         <span>Document Type :</span>
                                         <span> {documentName.type}</span>
                                         <span>Document Name :  </span>
-                                        <span>{documentName.name}</span>
+                                        {/* <span>{documentName.name}</span> */}
+                                        <span style={{wordBreak:"break-word",boxSizing:"border-box", textAlign: "center",fontSize:"0.8rem",padding:"0 0.5rem" }}>{getDocumentName(el)}</span>
                                     </div>
 
                                     <div id={path === "Cables" && i == 0 ? "excel_button" : ""} style={{ background: path === "Cables" && i == 0 ? "#05c059" : "rgb(248, 95, 65)" }} onClick={() => downloadPdf(el)}>
@@ -258,3 +259,9 @@ const AsBuiltDiagram = () => {
 }
 
 export default AsBuiltDiagram
+
+const getDocumentName =(value)=>{
+    let arr=value?.split("/");
+    return arr[arr.length -1];
+
+}

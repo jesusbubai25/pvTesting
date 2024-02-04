@@ -11,15 +11,17 @@ import { clear_errors, user_login_reset } from "../../../constants/dataConstants
 import Loader from "../../../components/Loader";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Cookies from 'universal-cookie';
 
 const LoginComponent = (props) => {
+  
   const navigate = useNavigate();
   const [form, setForm] = useState({ userName: "", password: "" });
   const dispatch = useDispatch();
   const [openEye, setopenEye] = useState(false)
   const [text, setText] = useState(true)
-  const { user, error, loading, isLogin } = useSelector(state => state.user)
-
+  const { user, error, loading, isLogin,auth_token } = useSelector(state => state.user)
+  const cookie=new Cookies()
   const handleLogin = async () => {
 
     if (form.userName.trim() === "" || form.password.trim() === "") {
@@ -40,6 +42,10 @@ const LoginComponent = (props) => {
       dispatch({ type: clear_errors })
     }
     if (isLogin) {
+      // document.cookie=`auth_token=${auth_token}`
+      // document.cookie.
+      cookie.set("auth_token",auth_token,{path:"/"})
+      // localStorage.setItem("auth_token",auth_token)
       toast.success("Logged In Successfully!")
       dispatch(getUser())
       dispatch({ type: user_login_reset })

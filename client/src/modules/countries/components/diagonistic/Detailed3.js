@@ -81,7 +81,6 @@ const Detailed3 = () => {
   const svgDownload = async () => {
     let chartSVG = document.getElementsByClassName("recharts-wrapper")[4];
     let chartSVG2 = document.getElementsByClassName("recharts-wrapper")[5];
-    console.log(chartSVG)
     const svgData = await saveToSvg(chartSVG, 1000, 500)
     const svgData2 = await saveToSvg(chartSVG2, 1000, 500)
     saveAs(svgData, 'graph.svg')
@@ -458,11 +457,17 @@ const Detailed3 = () => {
                       <Printer clickhandler={() => downloadRef1.current.link.click()}
                         jpgDownload={() =>
                           setTimeout(async () => {
+                            document.getElementsByClassName("cpy_right")[0].style.display = "block";
                             exportComponentAsJPEG(graphRef1, { fileName: "graph" })
+                            document.getElementsByClassName("cpy_right")[0].style.display = "none";
+
                           }, 100)
                         }
                         svgDownload={async () => {
+                          document.getElementsByClassName("cpy_right")[0].style.display = "block";
                           const svgData = await saveToSvg(graphRef1.current.container)
+                          document.getElementsByClassName("cpy_right")[0].style.display = "none";
+
                           saveAs(svgData, 'graph.svg')
                         }}
                       />
@@ -598,11 +603,16 @@ const Detailed3 = () => {
                       <Printer clickhandler={() => downloadRef2.current.link.click()}
                        jpgDownload={() =>
                         setTimeout(async () => {
+                          document.getElementsByClassName("cpy_right")[1].style.display = "block";
                           exportComponentAsJPEG(graphRef2, { fileName: "graph" })
+                          document.getElementsByClassName("cpy_right")[1].style.display = "none";
+
                         }, 100)
                       }
                         svgDownload={async () => {
+                          document.getElementsByClassName("cpy_right")[1].style.display = "block";
                           const svgData = await saveToSvg(graphRef2.current.container)
+                          document.getElementsByClassName("cpy_right")[1].style.display = "none";
                           saveAs(svgData, 'graph.svg')
                         }}
                       />
@@ -754,11 +764,16 @@ const Detailed3 = () => {
                       <Printer clickhandler={() => downloadRef3.current.link.click()}
                         jpgDownload={() =>
                           setTimeout(async () => {
+                          document.getElementsByClassName("cpy_right")[2].style.display = "block";
                             exportComponentAsJPEG(graphRef3, { fileName: "graph" })
+                          document.getElementsByClassName("cpy_right")[2].style.display = "none";
+
                           }, 100)
                         }
                         svgDownload={async () => {
+                          document.getElementsByClassName("cpy_right")[2].style.display = "block";
                           const svgData = await saveToSvg(graphRef3.current.container)
+                          document.getElementsByClassName("cpy_right")[2].style.display = "none";
                           saveAs(svgData, 'graph.svg')
                         }}
 
@@ -886,11 +901,15 @@ const Detailed3 = () => {
                       <Printer clickhandler={() => downloadRef4.current.link.click()}
                        jpgDownload={() =>
                         setTimeout(async () => {
+                          document.getElementsByClassName("cpy_right")[3].style.display = "block";
                           exportComponentAsJPEG(graphRef4, { fileName: "graph" })
+                          document.getElementsByClassName("cpy_right")[3].style.display = "none";
                         }, 100)
                       }
                         svgDownload={async () => {
+                          document.getElementsByClassName("cpy_right")[3].style.display = "block";
                           const svgData = await saveToSvg(graphRef4.current.container)
+                          document.getElementsByClassName("cpy_right")[3].style.display = "none";
                           saveAs(svgData, 'graph.svg')
                         }}
 
@@ -976,7 +995,6 @@ const Detailed3 = () => {
   );
 };
 
-
 const saveToSvg = (svg, width, height) => {
   return new Promise((resolve, reject) => {
     let canvas = document.createElement('canvas');
@@ -993,7 +1011,6 @@ const saveToSvg = (svg, width, height) => {
 };
 
 const AxisLabel = ({ axisType, x = 10, y = 90, width = 50, height = 50, stroke, children }) => {
-  console.log(axisType, x, y, width, height, stroke, children)
   const isVert = axisType === 'yAxis';
   const cx = isVert ? x : x + (width / 2);
   const cy = isVert ? (height / 2) + y : y + height + 10;

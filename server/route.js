@@ -19,7 +19,7 @@ router.route("/sign-up").post(userRegistrationValidation, SignupHandler)
 router.route("/send-otp").post( sendOtpHandler)
 router.route("/resend-otp").post( reSendOtpHandler)
 router.route("/verify-otp").post( verifyOtpHandler)
-router.route("/getuser").get(isAuth,getUser)
+router.route("/getuser").post(isAuth,getUser)
 
 
 // Admin Routes 

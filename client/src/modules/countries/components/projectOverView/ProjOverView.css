@@ -139,7 +139,6 @@ background: linear-gradient(to right, #e8f8f4, #c6d5cf);
   align-items: center;
   gap: 0.5rem;
 
-
 }
 
 .asbuilt_div>:last-child>:last-child>div>div {
@@ -151,6 +150,7 @@ background: linear-gradient(to right, #e8f8f4, #c6d5cf);
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
+
 
 }
 
@@ -168,6 +168,7 @@ background: linear-gradient(to right, #e8f8f4, #c6d5cf);
   font-size: 1.2rem;
   font-weight: 600;
   opacity: 1.7;
+
 }
 /* .asbuilt_div>:last-child>:last-child>div>div>:first-child>:first-child{
   font-size: 1.5rem;

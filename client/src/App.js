@@ -32,11 +32,7 @@ function App() {
           <Route path={PageURL.SIGN_UP} element={<AuthModule />}></Route>
           <Route path={PageURL.FORGOT_PASSWORD} element={<AuthModule />}></Route>
           <Route path={PageURL.OTP_VERIFICATION} element={<AuthModule />}></Route>
-
-
           <Route element={<ProtectedRoute />}>
-
-
             <Route path={PageURL.COUNTRYDEFAULT} element={<CountryModule />}> </Route>
             <Route path={PageURL.INDIA_GEN_SUMMARY} element={<CountryModule />} />
             <Route path={PageURL.INDIA_PRES_MODEL_Loss_Flow} element={<CountryModule />} />
@@ -131,11 +127,9 @@ function App() {
             <Route path={PageURL.INDIA_INVERTER1_SCB_SMB2} element={<CountryModule />} />
             <Route path={PageURL.INDIA_INVERTER1_SCB_SMB2} element={<CountryModule />} /> */}
 
-
             <Route path="*" element={<Navigate to={PageURL.COUNTRYDEFAULT} />} />
           </Route>
           <Route path="*" element={<Navigate to={PageURL.BASE} />} />
-
         </Routes>
       </div>
     </>

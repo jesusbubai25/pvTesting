@@ -15,6 +15,8 @@ import CustomizeTootip from "../../../../components/CustomizeTootip";
 import CustomizeLegend from "../../../../components/CustomizeLegend";
 import { colors1, colors3 } from "../../../../colors/color";
 import { exportComponentAsJPEG } from 'react-component-export-image'
+import Chart from 'react-apexcharts'
+
 
 
 const GenOverView2 = () => {
@@ -141,6 +143,8 @@ const GenOverView2 = () => {
     return arr.join("")
   }
 
+
+
   useEffect(() => {
     dispatch(normalizedEnergyDetails())
 
@@ -149,7 +153,8 @@ const GenOverView2 = () => {
   return (
 
     <>
-      {loading ? <SpinLoader /> :
+      {
+        // loading ? <SpinLoader /> :
         <>
           {energy?.data1 && energy?.data2 &&
             <div >
@@ -454,15 +459,21 @@ const GenOverView2 = () => {
                     <Printer clickhandler={() => downloadRef1.current.link.click()}
                       jpgDownload={() =>
                         setTimeout(async () => {
-                          exportComponentAsJPEG(speedometerRef1,{fileName:"gaugemeter"})
+                          exportComponentAsJPEG(speedometerRef1, document.getElementById("greenenco").style.display = "block")
+                          document.getElementById("greenenco").style.display = "none"
                         }, 100)
+
                       }
 
                       svgDownload={async () => {
-                        setTimeout(async () => {
-                          const svgData = await saveToSvg(speedometerRef1.current)
-                          saveAs(svgData, 'gaugemeter.svg')
-                        }, 100)
+                        document.getElementById("hide_content").style.display = "none"
+                        const svgData = await saveToSvg(speedometerRef1.current,
+                          document.getElementById("greenenco").style.display = "block",
+                        )
+                        document.getElementById("greenenco").style.display = "none"
+                        document.getElementById("hide_content").style.display = "flex"
+
+                        saveAs(svgData, 'gaugemeter.svg')
                       }}
                     />
                     <CSVLink
@@ -543,9 +554,14 @@ const GenOverView2 = () => {
                         value={initialMonthEnergy.contractual_energy}
                       />
                     </div>
+                    <div id="greenenco" style={{ position: "relative", display: "none" }}>
+                      <div style={{ position: "absolute", bottom: "0", right: "0", padding: "0 0.5rem 0.5rem 0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ fontSize: "1.2rem" }}>&#169;</span>
+                        <span>GreenEnco</span>
+                      </div>
+                    </div>
                   </Grid>
                 </Grid>
-
                 <Grid item lg={11.7}
                   borderRadius={"14px"}
                   boxSizing={"border-box"}
@@ -573,20 +589,29 @@ const GenOverView2 = () => {
                       paddingTop: "1rem"
                     }}
                     ref={speedometerRef2}
-
                   >
                     <Printer clickhandler={() => downloadRef2.current.link.click()}
                       jpgDownload={() =>
                         setTimeout(async () => {
-                          exportComponentAsJPEG(speedometerRef2,{fileName:"gaugemeter"})
+                          exportComponentAsJPEG(speedometerRef2, document.getElementById("greenenco2").style.display = "block")
+                          document.getElementById("greenenco2").style.display = "none"
                         }, 100)
+
                       }
                       svgDownload={async () => {
-                        const svgData = await saveToSvg(speedometerRef2.current)
+                        document.getElementsByClassName("links_div")[1].style.display = "none"
+                        const svgData = await saveToSvg(speedometerRef2.current,
+                          document.getElementById("greenenco2").style.display = "block")
+                        document.getElementById("greenenco2").style.display = "none"
+                        document.getElementsByClassName("links_div")[1].style.display = "flex"
+
+
                         saveAs(svgData, 'gaugemeter.svg')
                       }}
 
                     />
+
+
                     <CSVLink
                       data={energy?.data1?.reduce((acc, curr) => {
                         acc.push({
@@ -661,6 +686,12 @@ const GenOverView2 = () => {
                         value={initialMonthEnergy.excess_shortfall_percentage}
                       />
                     </div>
+                    <div id="greenenco2" style={{ position: "relative", display: "none" }}>
+                      <div style={{ position: "absolute", bottom: "0", right: "0", padding: "0 0.5rem 0.5rem 0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ fontSize: "1.2rem" }}>&#169;</span>
+                        <span>GreenEnco</span>
+                      </div>
+                    </div>
                   </Grid>
                 </Grid>
 
@@ -693,17 +724,21 @@ const GenOverView2 = () => {
                     ref={speedometerRef3}
                   >
                     <Printer clickhandler={() => downloadRef3.current.link.click()}
-                      jpgDownload={() => 
+                      jpgDownload={() =>
                         setTimeout(async () => {
-                        exportComponentAsJPEG(speedometerRef3,{fileName:"gaugemeter"})
-                        },100)
+                          exportComponentAsJPEG(speedometerRef3, document.getElementById("greenenco3").style.display = "block")
+                          document.getElementById("greenenco3").style.display = "none"
+                        }, 100)
                       }
                       svgDownload={async () => {
                         setTimeout(async () => {
-                          const svgData = await saveToSvg(speedometerRef3.current)
+                          document.getElementsByClassName("links_div")[2].style.display = "none"
+                          const svgData = await saveToSvg(speedometerRef3.current,
+                            document.getElementById("greenenco3").style.display = "block")
+                          document.getElementById("greenenco3").style.display = "none"
+                          document.getElementsByClassName("links_div")[2].style.display = "flex"
                           saveAs(svgData, 'gaugemeter.svg')
                         }, 100)
-
 
                       }}
                     />
@@ -776,6 +811,12 @@ const GenOverView2 = () => {
                         value={initialMonthEnergy.ac_loss}
                       />
                     </div>
+                    <div id="greenenco3" style={{ position: "relative", display: "none" }}>
+                      <div style={{ position: "absolute", bottom: "0", right: "0", padding: "0 0.5rem 0.5rem 0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ fontSize: "1.2rem" }}>&#169;</span>
+                        <span>GreenEnco</span>
+                      </div>
+                    </div>
                   </Grid>
                 </Grid>
 
@@ -796,8 +837,6 @@ const GenOverView2 = () => {
 
                   <Grid container display={"flex"} alignItems={"center"} justifyContent={"center"} gap={"1rem"}  >
 
-
-
                     <Grid
                       item
                       lg={5.9}
@@ -813,26 +852,6 @@ const GenOverView2 = () => {
                       paddingTop={"1.5rem"}
                     >
 
-
-                      {/* <LineBarChart
-                            data={energy?.data2}
-                            height={263}
-                            width={650}
-                            title="Net Energy (KWh) vs Contratual Energy (KWh) vs Excess/Shortfall (%)"
-                            value1={checkBoxChecked?.NetEnergy}
-                            value2={checkBoxChecked?.ContractualEnergy}
-                            value3={checkBoxChecked?.ShortFall}
-                            dataKey1="netEnergy"
-                            dataKey2="contractualEnergy"
-                            dataKey3="shortfall"
-                            y_axis_label_value1="Energy"
-                            y_axis_label_value2="Excess/Shortfall"
-                            position={0}
-                            barsize={10}
-                            TooltipValues={["Net Energy", "Contractual Energy", "Excess/Shortfall"]}
-                            LegendValues={["Net Energy", "Contractual Energy", "Excess/Shortfall"]}
-                          /> */}
-
                       <div
                         style={{
                           height: "max-content",
@@ -843,9 +862,17 @@ const GenOverView2 = () => {
                         <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
                           <Printer
                             clickhandler={() => downloadRef4.current.link.click()}
-                            jpgDownload={() => exportComponentAsJPEG(graphRef1,{fileName:"graph"})}
+                            jpgDownload={() => {
+                              document.getElementsByClassName("cpy_right")[0].style.display = "block";
+                              exportComponentAsJPEG(graphRef1, { fileName: "graph" })
+                              document.getElementsByClassName("cpy_right")[0].style.display = "none";
+
+                            }
+                            }
                             svgDownload={async () => {
+                              document.getElementsByClassName("cpy_right")[0].style.display = "block";
                               const svgData = await saveToSvg(graphRef1.current.container)
+                              document.getElementsByClassName("cpy_right")[0].style.display = "none";
                               saveAs(svgData, 'graph.svg')
                             }}
                           />
@@ -911,6 +938,18 @@ const GenOverView2 = () => {
                             label={<AxisLabel axisType='yAxis' x={42} y={347}>Excess/Shortfall</AxisLabel>}
                             tickLine={false} tickMargin={8} minTickGap={2}
                           />
+                          <XAxis
+
+                            orientation="right"
+                          // label={{
+                          //   value: `Excess/Shortfall`,
+                          //   angle: -90,
+                          //   position: "insideTopRight",
+                          //   color: "yellow"
+                          // }}
+                          // label={<AxisLabel axisType='yAxis' x={40} y={347}>@greenenco</AxisLabel>}
+                          // tickLine={false} tickMargin={8} minTickGap={2}
+                          />
                           <Tooltip cursor={{ fill: "none" }} content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["Net Energy", "Contractual Energy", "Excess/Shortfall"]} />} />
                           <Legend
                             content={<CustomizeLegend active={false} payload={[]} LegendValues={["Net Energy", "Contractual Energy", "Excess/Shortfall"]} data={showEnergyData} setData={setShowEnergyData} />}
@@ -943,12 +982,9 @@ const GenOverView2 = () => {
                             yAxisId="right-axis"
                           />
                         </ComposedChart>
+
                       </div>
                     </Grid>
-
-
-
-
                     <Grid
                       item
                       lg={5.9}
@@ -963,85 +999,101 @@ const GenOverView2 = () => {
                       borderRadius={"14px"}
                       padding={"1rem 0"}
                     >
-                      <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
-                        <Printer clickhandler={() => downloadRef5.current.link.click()}
-                          jpgDownload={() => exportComponentAsJPEG(graphRef2,{fileName:"graph"})}
-                          svgDownload={async () => {
-                            const svgData = await saveToSvg(graphRef2.current.container)
-                            saveAs(svgData, 'graph.svg')
-                          }} />
-                      </div>
-                      <CSVLink
-                        data={energy?.data3?.reduce((acc, curr) => {
-                          acc.push({
-                            Month: curr.name,
-                            ActualPR: curr.Actual_pr
-                          })
-                          return acc;
-                        }, []) || []}
-                        filename='data.csv'
-                        className='hidden'
-                        target='_blank'
-                        ref={downloadRef5}
-                      />
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxSizing: "border-box", paddingTop: "1rem" }}>
+
+
+                      <div
+                        style={{
+                          height: "max-content",
+                          width: "max-content",
+                          // position:"relative"
+                        }}
+                      >
+                        <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "10px", top: "20px" }}>
+                          <Printer clickhandler={() => downloadRef5.current.link.click()}
+                            jpgDownload={() => {
+                              document.getElementsByClassName("cpy_right")[1].style.display = "block";
+                              exportComponentAsJPEG(graphRef2, { fileName: "graph" })
+                              document.getElementsByClassName("cpy_right")[1].style.display = "none";
+                            }
+                            }
+                            svgDownload={async () => {
+                              document.getElementsByClassName("cpy_right")[1].style.display = "block";
+                              const svgData = await saveToSvg(graphRef2.current.container)
+                              document.getElementsByClassName("cpy_right")[1].style.display = "none";
+
+                              saveAs(svgData, 'graph.svg')
+                            }} />
+                        </div>
+                        <CSVLink
+                          data={energy?.data3?.reduce((acc, curr) => {
+                            acc.push({
+                              Month: curr.name,
+                              ActualPR: curr.Actual_pr
+                            })
+                            return acc;
+                          }, []) || []}
+                          filename='data.csv'
+                          className='hidden'
+                          target='_blank'
+                          ref={downloadRef5}
+                        />
 
                         <h4 style={{ textAlign: "center" }}>
                           Actual PR (%)
                         </h4>
+                        <ComposedChart
 
-                        <div style={{ boxSizing: "border-box" }}>
+                          ref={graphRef2}
+                          width={650}
+                          height={255}
+                          data={energy?.data3 || []}
+                          margin={{
+                            top: 20,
+                            right: 10,
+                            bottom: 20,
+                            left: 20,
+                          }}
 
-                          <BarChart ref={graphRef2} width={600} height={240} data={energy?.data3 || []}>
+                        >
+                          <XAxis fontSize={12} interval={0} dataKey="name" tickLine={false} axisLine={false} tickMargin={5}
 
-                            <XAxis fontSize={12} interval={0} dataKey="name" tickLine={false} axisLine={false} tickMargin={5}
-
-                            />
-                            {/* <CartesianGrid stroke="#f5f5f5" strokeDasharray="3 3" /> */}
-                            <CartesianGrid stroke="grey" strokeWidth={0.3} />
+                          />
+                          {/* <CartesianGrid stroke="#f5f5f5" strokeDasharray="3 3" /> */}
+                          <CartesianGrid stroke="grey" strokeWidth={0.3} />
 
 
-                            <YAxis type="number"
-                              dataKey={() => Math.ceil(energy?.data3?.reduce((acc, curr, index) => curr.Actual_pr > acc ? curr.Actual_pr : acc, -Infinity)) + 1}
-                              domain={[Math.floor(energy?.data3?.reduce((acc, curr, index) => curr.Actual_pr < acc ? curr.Actual_pr : acc, Infinity)) - 1, 'dataMax']}
-                              tickLine={false} tickMargin={8} tickCount={6}
-                            />
-                            {/* <defs>
-                              {energy?.data3?.map((color, index) => (
-                                <linearGradient id={`colorUv${index}`} x1='0' y1='0' x2='100%' y2='0' spreadMethod='reflect'>
-                                  <stop offset='0' stopColor='#1a1a1a' />
-                                  <stop offset='1' stopColor={colors3[0]} />
-                                </linearGradient>
-                               ))} 
-                            </defs> */}
-                            <Legend content={<CustomizeLegend active={false} payload={[]} label={""} LegendValues={["Actual PR"]} data={showPRData} setData={setShowPRData} />}
-                            />
-                            <Tooltip cursor={{ fill: "none" }} content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["Actual PR"]} />} contentStyle={{ fontSize: "0.7rem" }} />
+                          <YAxis type="number"
+                            dataKey={() => Math.ceil(energy?.data3?.reduce((acc, curr, index) => curr.Actual_pr > acc ? curr.Actual_pr : acc, -Infinity)) + 1}
+                            domain={[Math.floor(energy?.data3?.reduce((acc, curr, index) => curr.Actual_pr < acc ? curr.Actual_pr : acc, Infinity)) - 1, 'dataMax']}
+                            tickLine={false} tickMargin={8} tickCount={6}
+                          />
+                          {/* <defs>
+{energy?.data3?.map((color, index) => (
+  <linearGradient id={`colorUv${index}`} x1='0' y1='0' x2='100%' y2='0' spreadMethod='reflect'>
+    <stop offset='0' stopColor='#1a1a1a' />
+    <stop offset='1' stopColor={colors3[0]} />
+  </linearGradient>
+ ))} 
+</defs> */}
+                          <Legend content={<CustomizeLegend active={false} payload={[]} label={""} LegendValues={["Actual PR"]} data={showPRData} setData={setShowPRData} />}
+                          />
+                          <Tooltip cursor={{ fill: "none" }} content={<CustomizeTootip active={false} payload={[]} label={""} TooltipValues={["Actual PR"]} />} contentStyle={{ fontSize: "0.7rem" }} />
 
-                            {
-                              <Bar barSize={30} spacing={0.5} hide={showPRData.showPR ? false : true} dataKey="Actual_pr" fill={colors3[0]} onTransitionEnd={"1s all"} >
+                          {
+                            <Bar barSize={30} spacing={0.5} hide={showPRData.showPR ? false : true} dataKey="Actual_pr" fill={colors3[0]} onTransitionEnd={"1s all"} >
 
-                                {/* {energy?.data3?.map((entry, index) => (
-                                  <Cell key={`cell-${index}`} fill={`url(#colorUv${index})`} />
-                                ))} */}
-                                <LabelList style={{ zIndex: 6 }} dataKey="Actual_pr" position="top" fontSize={"0.65rem"} fontWeight={600} fontFamily="Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;" />
-                              </Bar>
-                            }
-
-                          </BarChart>
-                        </div>
+                              {/* {energy?.data3?.map((entry, index) => (
+    <Cell key={`cell-${index}`} fill={`url(#colorUv${index})`} />
+  ))} */}
+                              <LabelList style={{ zIndex: 6 }} dataKey="Actual_pr" position="top" fontSize={"0.65rem"} fontWeight={600} fontFamily="Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;" />
+                            </Bar>
+                          }
+                        </ComposedChart>
 
                       </div>
 
                     </Grid>
-
-
-
                   </Grid>
-
-
-
-
                   {/* <Grid
                     item
                     lg={11.5}

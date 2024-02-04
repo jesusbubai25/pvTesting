@@ -7,6 +7,7 @@ import {
 } from "../constants/dataConstants"
 import axios from "axios"
 
+
 axios.create({
     baseURL: "http://localhost:8000",
     withCredentials: true
@@ -150,7 +151,6 @@ export const InverterSmbMonthlyLoss = (inverter, smb) => async (dispatch) => {
             }
             finalResult.push(obj);
         }
-        console.log(finalResult)
 
         dispatch({ type: inverter_smb_monthly_loss_sucess, payload: { data: finalResult, minValue, maxValue } })
     } catch (error) {

@@ -16,6 +16,7 @@ import { CSVLink } from "react-csv";
 import { saveToSvg } from "../diagonistic/SCBSMB";
 import html2canvas from "html2canvas";
 import { saveAs } from 'file-saver'
+import { exportComponentAsJPEG } from "react-component-export-image";
 
 const data = [
   {
@@ -147,14 +148,14 @@ const PresCripModel = () => {
                 <Printer clickhandler={() => lossDownloadRef.current.link.click()}
 
                   jpgDownload={() => {
-                    setTimeout(async () => {
-                      const canvas = await html2canvas(downloadRef1.current.container);
-                      const dataURL = canvas.toDataURL('image/jpg');
-                      saveAs(dataURL, 'graph.jpg')
-                    }, 100);
+                    document.getElementsByClassName("cpy_right")[0].style.display = "block";
+                    exportComponentAsJPEG(downloadRef1, { fileName: "graph" })
+                    document.getElementsByClassName("cpy_right")[0].style.display = "none";
                   }}
                   svgDownload={async () => {
+                    document.getElementsByClassName("cpy_right")[0].style.display = "block";
                     const svgData = await saveToSvg(downloadRef1.current.container)
+                    document.getElementsByClassName("cpy_right")[0].style.display = "none";
                     saveAs(svgData, 'graph.svg')
                   }}
 

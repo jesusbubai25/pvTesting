@@ -101,8 +101,10 @@ export const user = (state = { user: null }, action) => {
                 return {
                     ...state,
                     loading: false,
-                    user:action.payload,
-                    isLogin:true
+                    user:action.payload?.user,
+                    isLogin:true,
+                    auth_token:action.payload?.auth_token
+
                 };
         case user_signup_fail:
         case user_login_fail:
@@ -129,7 +131,6 @@ export const user = (state = { user: null }, action) => {
                 loading:false,
                 sucess:false
             }
-
             case user_login_reset:
                 return{
                     ...state,

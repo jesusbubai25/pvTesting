@@ -9,18 +9,27 @@ import DropDown from "../../../components/DropDown";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../../actions/userActions";
 import { ToastContainer, toast } from "react-toastify";
+import { clear_errors } from "../../../constants/dataConstants";
 
 const CountryHeader = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const { user, isLogout } = useSelector(state => state.user);
+  const { user, isLogout,error } = useSelector(state => state.user);
 
   const logoutHandler = () => {
     dispatch(userLogout())
   }
   useEffect(() => {
+    if(error){
+      toast.error(error);
+      dispatch({type:clear_errors})
+      dispatch({ type: 'USER_LOGOUT' })
+      navigate(PageURL.BASE)
+
+
+    }
     if (isLogout) {
       toast.success("User Logged out sucessfully!")
       dispatch({ type: 'USER_LOGOUT' })

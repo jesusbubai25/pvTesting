@@ -46,7 +46,7 @@ export const userLogin = (data) => async (dispatch) => {
         const { data } = await axios.post(`/login`,
             { userName, password }, { withCredentials: true }
         );
-        dispatch({ type: user_login_sucess, payload: data.user })
+        dispatch({ type: user_login_sucess, payload: { user: data.user, auth_token: data.auth_token } })
 
     } catch (error) {
         dispatch({ type: user_login_fail, payload: error.response.data.error })
@@ -57,22 +57,33 @@ export const userLogin = (data) => async (dispatch) => {
 export const userLogout = () => async (dispatch) => {
     try {
         dispatch({ type: user_logout_request })
+        // const token = localStorage.getItem("auth_token")
+        // console.log("here",token)
+        // if (token) {
+            
+        //     localStorage.removeItem("auth_token")
+        //     dispatch({ type: user_logout_sucess, payload: true })
+
+        // } else   dispatch({ type: user_logout_fail, payload: "User not found" })
 
         const { data } = await axios.get(`/logout`);
         dispatch({ type: user_logout_sucess, payload: data.sucess })
 
     } catch (error) {
-        dispatch({ type: user_logout_fail, payload: error.response.data.error })
+        dispatch({ type: user_logout_fail, payload: error?.response?.data?.error || error.message })
     }
 }
 
 
 export const getUser = () => async (dispatch) => {
-    const token = Cookies.get("auth_token");
+
+    const token = localStorage.getItem("auth_token")
     try {
         dispatch({ type: get_user_request })
 
-        const { data } = await axios.get(`/getuser`);
+        const { data } = await axios.post(`/getuser`,
+            { auth_token: token },{withCredentials:true}
+        );
         dispatch({ type: get_user_sucess, payload: data.user })
 
     } catch (error) {

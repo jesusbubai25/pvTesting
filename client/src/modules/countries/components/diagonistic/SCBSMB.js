@@ -17,6 +17,7 @@ import Printer from "../../../../components/Printer";
 import { CSVLink } from "react-csv";
 import html2canvas from "html2canvas";
 import { saveAs } from 'file-saver'
+import { exportComponentAsJPEG } from "react-component-export-image";
 
 
 
@@ -65,7 +66,7 @@ const SCBSMB = () => {
     setSmb(SMB)
     dispatch(InverterSmbYearlyLoss(pathKeywords[4][pathKeywords[4]?.length - 1], SMB));
     dispatch(InverterSmbMonthlyLoss(pathKeywords[4][pathKeywords[4]?.length - 1], SMB));
-  }, [dispatch, location])
+  }, [dispatch,location.pathname])
 
   return (
     <>
@@ -101,15 +102,16 @@ const SCBSMB = () => {
               }}
             >
               <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "-10px", top: "8px" }}>
-                <Printer clickhandler={() => downloadRef1.current.link.click()} jpgDownload={() => {
-                  setTimeout(async () => {
-                    const canvas = await html2canvas(graphRef1.current.container);
-                    const dataURL = canvas.toDataURL('image/jpg');
-                    saveAs(dataURL, 'graph.jpg')
-                  }, 100);
+                <Printer clickhandler={() => downloadRef1.current.link.click()} 
+                jpgDownload={() => {
+                  document.getElementsByClassName("cpy_right")[0].style.display = "block";
+                  exportComponentAsJPEG(graphRef1, { fileName: "graph" })
+                  document.getElementsByClassName("cpy_right")[0].style.display = "none";
                 }}
                   svgDownload={async () => {
+                  document.getElementsByClassName("cpy_right")[0].style.display = "block";
                     const svgData = await saveToSvg(graphRef1.current.container)
+                  document.getElementsByClassName("cpy_right")[0].style.display = "none";
                     saveAs(svgData, 'graph.svg')
                   }}
                 />
@@ -229,15 +231,18 @@ const SCBSMB = () => {
               }}
             >
               <div style={{ width: "100%", textAlign: "end", position: "absolute", right: "-10px", top: "8px" }}>
-                <Printer clickhandler={() => downloadRef2.current.link.click()} jpgDownload={() => {
-                  setTimeout(async () => {
-                    const canvas = await html2canvas(graphRef2.current.container);
-                    const dataURL = canvas.toDataURL('image/jpg');
-                    saveAs(dataURL, 'graph.jpg')
-                  }, 100);
+                <Printer clickhandler={() => downloadRef2.current.link.click()}
+                 jpgDownload={() => {
+                             document.getElementsByClassName("cpy_right")[1].style.display = "block";
+                             exportComponentAsJPEG(graphRef2, { fileName: "graph" })
+                             document.getElementsByClassName("cpy_right")[1].style.display = "none";
                 }}
                   svgDownload={async () => {
+                    document.getElementsByClassName("cpy_right")[1].style.display = "block";
+
                     const svgData = await saveToSvg(graphRef2.current.container)
+                    document.getElementsByClassName("cpy_right")[1].style.display = "none";
+
                     saveAs(svgData, 'graph.svg')
                   }}
                 />
